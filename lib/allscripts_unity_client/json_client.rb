@@ -5,20 +5,18 @@ module AllscriptsUnityClient
 
     def setup!
       @json_base_url = "#{@base_unity_url}#{UNITY_JSON_ENDPOINT}"
-
-      # Setup Nori the same way Savon does so we can parse XML in the same way.
-      @nori_parser = Nori.new({ :convert_tags_to => lambda { |tag| tag.snakecase.to_sym }, :strip_namespaces => true })
       get_security_token!
     end
 
     def magic(parameters = {})
-      request_data = map_magic_request(parameters)
-      request = create_httpi_request("#{@json_base_url}/Magic", request_data)
+      request_data = UnityRequest.new(parameters, @timezone, @appname, @security_token)
+      request = create_httpi_request("#{@json_base_url}/Magic", request_data.to_hash)
       response = HTTPI.post(request)
 
       raise_if_response_error(response)
 
-      map_magic_response(@nori_parser.parse(response.body), parameters[:action])
+      response = JSONUnityResponse.new(response, @timezone)
+      response.to_hash
     end
 
     def get_security_token!(parameters = {})

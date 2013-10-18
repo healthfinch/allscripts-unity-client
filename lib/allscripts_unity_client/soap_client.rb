@@ -40,8 +40,9 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
+      request_data = UnityRequest.new(parameters, @timezone,  @appname, @security_token)
       call_data = {
-        :message => map_magic_request(parameters),
+        :message => request_data.to_hash,
         :soap_action => "#{UNITY_ENDPOINT_NAMESPACE}/Magic"
       }
 
@@ -51,7 +52,8 @@ module AllscriptsUnityClient
         raise APIError, e.message
       end
 
-      map_magic_response(response.body, parameters[:action])
+      response = UnityResponse.new(response.body, @timezone)
+      response.to_hash
     end
 
     def get_security_token!(parameters = {})

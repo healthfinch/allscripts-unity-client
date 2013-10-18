@@ -1,6 +1,6 @@
 module AllscriptsUnityClient
   class BaseClient
-    attr_accessor :username, :password, :appname, :base_unity_url, :proxy_url, :security_token
+    attr_accessor :username, :password, :appname, :base_unity_url, :proxy, :security_token, :timezone
 
     def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil)
       @base_unity_url = base_unity_url.gsub /\/$/, ""
@@ -10,17 +10,12 @@ module AllscriptsUnityClient
       @proxy = proxy
 
       unless timezone.nil?
-        @timezone = TZInfo::Timezone.get(timezone)
+        @timezone = Timezone.new(timezone)
       else
-        @timezone = TZInfo::Timezone.get("UTC")
+        @timezone = Timezone.new("UTC")
       end
 
       setup!
-    end
-
-    # Stub method that needs to be implemented by subclasses
-    def setup!
-      raise NotImplementedError, "create_client not implemented"
     end
 
     # Stub method that needs to be implemented by subclasses
@@ -597,274 +592,17 @@ module AllscriptsUnityClient
       raise NotImplementedError, "UpdateReferralOrderStatus magic action not implemented"
     end
 
-    protected
+    private
 
     def nokogiri_to_string(builder)
       builder.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
     end
 
-    # Use TZInfo to convert a given UTC datetime into
-    # a local
-    def local_to_utc(datetime)
-      if datetime.nil?
-        return nil
-      end
+    protected
 
-      is_date = datetime.instance_of?(Date)
-      is_time = datetime.instance_of?(Time)
-
-      if is_time || is_date
-        datetime = DateTime.parse(datetime.to_s)
-      end
-
-      if datetime.is_a?(String)
-        datetime = DateTime.parse(datetime)
-      end
-
-      if @timezone.nil?
-        return datetime
-      end
-
-      datetime = @timezone.local_to_utc(datetime)
-
-      if is_date
-        return datetime.to_date
-      end
-
-      # Return a DateTime with a UTC offset
-      datetime = DateTime.parse("#{datetime.strftime("%FT%T")}Z")
-
-      return datetime.to_time if is_time
-      return datetime.to_date if is_date
-      return datetime
-    end
-
-    def utc_to_local(datetime = nil)
-      if datetime.nil?
-        return nil
-      end
-
-      is_date = datetime.instance_of?(Date)
-      is_time = datetime.instance_of?(Time)
-
-      if is_time || is_date
-        datetime = DateTime.parse(datetime.to_s)
-      end
-
-      if datetime.is_a?(String)
-        datetime = DateTime.parse(datetime)
-      end
-
-      if @timezone.nil?
-        return datetime
-      end
-
-      datetime = @timezone.utc_to_local(datetime)
-
-      # Return a DateTime with the correct timezone offset
-      datetime = DateTime.parse(iso8601_with_offset(datetime))
-
-      return datetime.to_time if is_time
-      return datetime.to_date if is_date
-      return datetime
-    end
-
-    # TZInfo does not correctly update a DateTime's
-    # offset, so we manually format the ISO8601 with
-    # the correct format
-    def iso8601_with_offset(datetime)
-      if datetime.nil?
-        return nil
-      end
-
-      if @timezone.nil? || datetime.instance_of?(Date)
-        return datetime.iso8601
-      end
-
-      offset = @timezone.current_period.utc_offset
-      negative_offset = false
-      datetime_string = datetime.strftime("%FT%T")
-
-      if offset < 0
-        offset *= -1
-        negative_offset = true
-      end
-
-      if offset == 0
-        # ISO8601 allows Z to be used instead of +00:00 for
-        # UTC. Native Ruby Date#iso8601 uses +00:00. It doesn't
-        # really matter, both are valid.
-        offset_string = "Z"
-      else
-        offset_string = Time.at(offset).utc.strftime("%H:%M")
-        offset_string = "-" + offset_string if negative_offset
-      end
-
-      "#{datetime_string}#{offset_string}"
-    end
-
-    def strip_attributes(response)
-      # Base case: nil maps to nil
-      if response.nil?
-        return nil
-      end
-
-      # Recurse step: if the value is a hash then delete all
-      # keys that match the attribute pattern that Nori uses
-      if response.is_a?(Hash)
-        response.delete_if do |key, value|
-          is_attribute = key.to_s =~ /^@/
-
-          unless is_attribute
-            strip_attributes(value)
-          end
-
-          is_attribute
-        end
-
-        return response
-      end
-
-      # Recurse step: if the value is an array then delete all
-      # keys within hashes that match the attribute pattern that
-      # Nori uses
-      if response.is_a?(Array)
-        response.map do |value|
-          strip_attributes(value)
-        end
-
-        return response
-      end
-
-      # Base case: value doesn't need attributes stripped
-      response
-    end
-
-    def convert_dates_to_utc(response)
-      # Base case
-      if response.nil?
-        return nil
-      end
-
-      # Recurse step: if the value is an array then convert all
-      # Ruby date objects to UTC
-      if response.is_a?(Array)
-        return response.map do |value|
-          convert_dates_to_utc(value)
-        end
-      end
-
-      # Recurse step: if the value is a hash then convert all
-      # Ruby date object values to UTC
-      if response.is_a?(Hash)
-        result = response.map do |key, value|
-          { key => convert_dates_to_utc(value) }
-        end
-
-        # Trick to make Hash#map return a hash. Simply calls the merge method
-        # on each hash in the array to reduce to a single merged hash.
-        return result.reduce(:merge)
-      end
-
-      # Base case: convert date object to UTC
-      if response.instance_of?(Time) || response.instance_of?(DateTime) || response.instance_of?(Date)
-        return local_to_utc(response)
-      end
-
-      # Base case: value is not a date
-      response
-    end
-
-    def encode_data(data)
-      if data.nil?
-        return nil
-      end
-
-      if data.respond_to?(:bytes)
-        return data.bytes.pack("m")
-      elsif data.is_a?(Array)
-        return data.pack("m")
-      end
-    end
-
-    def encode_date(possible_date)
-      datetime_regex = /((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}))(T| )\d{1,2}:\d{1,2}( ?PM|AM|pm|am)?/
-      date_regex = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}))$/
-
-      if possible_date.nil?
-        return nil
-      end
-
-      # If the given object is an instance of one of the three core
-      # Ruby date types, then do timezone conversion format to a
-      # ISO8601 string.
-      if possible_date.instance_of?(Time) || possible_date.instance_of?(DateTime) || possible_date.instance_of?(Date)
-        possible_date = utc_to_local(possible_date)
-        return possible_date.iso8601
-      end
-
-      # If the given object is a string, then try to detect if it
-      # is a parsable timestamp using some quick and dirty regular
-      # expressions.
-      if possible_date.is_a?(String) && possible_date =~ datetime_regex
-        possible_date = utc_to_local(possible_date)
-        return possible_date.iso8601
-      end
-
-      if possible_date.is_a?(String) && possible_date =~ date_regex
-        possible_date = utc_to_local(Date.parse(possible_date))
-        return possible_date.iso8601
-      end
-
-      possible_date
-    end
-
-    def map_magic_request(parameters)
-      action = parameters[:action]
-      userid = parameters[:userid]
-      appname = parameters[:appname] || @appname
-      patientid = parameters[:patientid]
-      token = parameters[:token] || @security_token
-      parameter1 = encode_date(parameters[:parameter1])
-      parameter2 = encode_date(parameters[:parameter2])
-      parameter3 = encode_date(parameters[:parameter3])
-      parameter4 = encode_date(parameters[:parameter4])
-      parameter5 = encode_date(parameters[:parameter5])
-      parameter6 = encode_date(parameters[:parameter6])
-      data = encode_data(parameters[:data])
-
-      return {
-        "Action" => action,
-        "UserID" => userid,
-        "Appname" => appname,
-        "PatientID" => patientid,
-        "Token" => token,
-        "Parameter1" => parameter1,
-        "Parameter2" => parameter2,
-        "Parameter3" => parameter3,
-        "Parameter4" => parameter4,
-        "Parameter5" => parameter5,
-        "Parameter6" => parameter6,
-        "data" => data
-      }
-    end
-
-    def map_magic_response(response, action)
-      result = response[:magic_response][:magic_result][:diffgram]
-
-      # All magic responses wrap their result in an ActionResponse element
-      result = result[:"#{action.downcase}response"]
-
-      if result.nil? || result.blank?
-        return {}
-      end
-
-      # Often the first element in ActionResponse is an element
-      # called ActionInfo, but in some cases it has a different name
-      # so we just get the first element.
-      result = result.values.first
-      strip_attributes(result)
-      convert_dates_to_utc(result)
+    # Stub method that needs to be implemented by subclasses
+    def setup!
+      raise NotImplementedError, "create_client not implemented"
     end
   end
 end
