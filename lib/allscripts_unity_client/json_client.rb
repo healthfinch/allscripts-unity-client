@@ -9,8 +9,8 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
-      request_data = UnityRequest.new(parameters, @timezone, @appname, @security_token)
-      request = create_httpi_request("#{@json_base_url}/Magic", request_data.to_hash)
+      request_data = JSONUnityRequest.new(parameters, @timezone, @appname, @security_token)
+      request = create_httpi_request("#{@json_base_url}/MagicJson", request_data.to_hash)
       response = HTTPI.post(request)
 
       raise_if_response_error(response)

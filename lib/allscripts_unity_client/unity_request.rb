@@ -18,13 +18,13 @@ module AllscriptsUnityClient
       appname = @parameters[:appname] || @appname
       patientid = @parameters[:patientid]
       token = @parameters[:token] || @security_token
-      parameter1 = encode_date(@parameters[:parameter1])
-      parameter2 = encode_date(@parameters[:parameter2])
-      parameter3 = encode_date(@parameters[:parameter3])
-      parameter4 = encode_date(@parameters[:parameter4])
-      parameter5 = encode_date(@parameters[:parameter5])
-      parameter6 = encode_date(@parameters[:parameter6])
-      data = encode_data(@parameters[:data])
+      parameter1 = process_date(@parameters[:parameter1])
+      parameter2 = process_date(@parameters[:parameter2])
+      parameter3 = process_date(@parameters[:parameter3])
+      parameter4 = process_date(@parameters[:parameter4])
+      parameter5 = process_date(@parameters[:parameter5])
+      parameter6 = process_date(@parameters[:parameter6])
+      data = DataUtilities::encode_data(@parameters[:data])
 
       return {
         "Action" => action,
@@ -42,50 +42,20 @@ module AllscriptsUnityClient
       }
     end
 
-    private
+    protected
 
-    def encode_date(possible_date)
-      datetime_regex = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}))(T| )\d{1,2}:\d{1,2}( ?PM|AM|pm|am)?$/
-      date_regex = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}))$/
-
-      if possible_date.nil?
+    def process_date(value)
+      if value.nil?
         return nil
       end
 
-      # If the given object is an instance of one of the three core
-      # Ruby date types, then do timezone conversion format to a
-      # ISO8601 string.
-      if possible_date.instance_of?(Time) || possible_date.instance_of?(DateTime) || possible_date.instance_of?(Date)
-        possible_date = @timezone.utc_to_local(possible_date)
-        return possible_date.iso8601
+      result = DataUtilities::encode_date(value)
+
+      if result.instance_of?(Time) || result.instance_of?(Date) || result.instance_of?(DateTime)
+        return @timezone.utc_to_local(result)
       end
 
-      # If the given object is a string, then try to detect if it
-      # is a parsable timestamp using some quick and dirty regular
-      # expressions.
-      if possible_date.is_a?(String) && possible_date =~ datetime_regex
-        possible_date = @timezone.utc_to_local(possible_date)
-        return possible_date.iso8601
-      end
-
-      if possible_date.is_a?(String) && possible_date =~ date_regex
-        possible_date = @timezone.utc_to_local(Date.parse(possible_date))
-        return possible_date.iso8601
-      end
-
-      possible_date
-    end
-
-    def encode_data(data)
-      if data.nil?
-        return nil
-      end
-
-      if data.respond_to?(:bytes)
-        return data.bytes.pack("m")
-      elsif data.is_a?(Array)
-        return data.pack("m")
-      end
+      value
     end
   end
 end

@@ -10,15 +10,15 @@ module AllscriptsUnityClient
 
     def to_hash
       result = @response[:magic_response][:magic_result][:diffgram]
-      strip_attributes(result)
-      convert_dates_to_utc(result)
+      result = strip_attributes(result)
+      result = convert_dates_to_utc(result)
+
+      if result.nil?
+        return []
+      end
 
       # All magic responses wrap their result in an ActionResponse element
       result = result.values.first
-
-      if result.nil?
-        return {}
-      end
 
       # Often the first element in ActionResponse is an element
       # called ActionInfo, but in some cases it has a different name
@@ -26,7 +26,7 @@ module AllscriptsUnityClient
       result.values.first
     end
 
-    private
+    protected
 
     def strip_attributes(response)
       # Base case: nil maps to nil
@@ -90,6 +90,9 @@ module AllscriptsUnityClient
         # on each hash in the array to reduce to a single merged hash.
         return result.reduce(:merge)
       end
+
+      # Attempt to parse a Date or DateTime from a string
+      response = DataUtilities::encode_date(response)
 
       # Base case: convert date object to UTC
       if response.instance_of?(Time) || response.instance_of?(DateTime) || response.instance_of?(Date)
