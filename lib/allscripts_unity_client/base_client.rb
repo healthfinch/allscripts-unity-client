@@ -1,3 +1,5 @@
+require "nokogiri"
+
 module AllscriptsUnityClient
   class BaseClient
     attr_accessor :username, :password, :appname, :base_unity_url, :proxy, :security_token, :timezone

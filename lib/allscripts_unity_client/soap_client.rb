@@ -1,3 +1,5 @@
+require "savon"
+
 module AllscriptsUnityClient
   class SOAPClient < BaseClient
     UNITY_SOAP_ENDPOINT = "/Unity/UnityService.svc/unityservice"
@@ -32,8 +34,10 @@ module AllscriptsUnityClient
         # symbol keyed hashes.
         convert_request_keys_to :camelcase
 
-        # Enable gzip on HTTP responses
-        headers({ "Accept-Encoding" => "gzip, deflate" })
+        # Enable gzip on HTTP responses. Unity does not currently support this
+        # as of Born On 10/7/2013, but it doesn't hurt to future-proof. If gzip
+        # is ever enabled, this library will get a speed bump for free.
+        headers({ "Accept-Encoding" => "gzip,deflate" })
       end
 
       get_security_token!

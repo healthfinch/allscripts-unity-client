@@ -24,7 +24,7 @@ module AllscriptsUnityClient
       parameter4 = process_date(@parameters[:parameter4])
       parameter5 = process_date(@parameters[:parameter5])
       parameter6 = process_date(@parameters[:parameter6])
-      data = DataUtilities::encode_data(@parameters[:data])
+      data = Utilities::encode_data(@parameters[:data])
 
       return {
         "Action" => action,
@@ -49,7 +49,7 @@ module AllscriptsUnityClient
         return nil
       end
 
-      result = DataUtilities::encode_date(value)
+      result = Utilities::try_to_encode_as_date(value)
 
       if result.instance_of?(Time) || result.instance_of?(Date) || result.instance_of?(DateTime)
         return @timezone.utc_to_local(result)

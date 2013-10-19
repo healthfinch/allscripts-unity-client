@@ -1,3 +1,6 @@
+require "date"
+require "tzinfo"
+
 module AllscriptsUnityClient
   class Timezone
     def initialize(zone_identifier)
@@ -9,24 +12,17 @@ module AllscriptsUnityClient
     # Use TZInfo to convert a given UTC datetime into
     # a local
     def local_to_utc(datetime)
-      if datetime.nil?
-        return nil
-      end
-
-      is_date = datetime.instance_of?(Date)
-      is_time = datetime.instance_of?(Time)
-      datetime = DateTime.parse(datetime.to_s)
-      datetime = @tzinfo.local_to_utc(datetime)
-
-      # Return a DateTime with a UTC offset
-      datetime = DateTime.parse("#{datetime.strftime("%FT%T")}Z")
-
-      return datetime.to_time if is_time
-      return datetime.to_date if is_date
-      return datetime
+      convert_with_timezone(:local_to_utc, datetime)
     end
 
     def utc_to_local(datetime = nil)
+      convert_with_timezone(:utc_to_local, datetime)
+    end
+
+    private
+
+    # Direction can be :utc_to_local or :local_to_utc
+    def convert_with_timezone(direction, datetime = nil)
       if datetime.nil?
         return nil
       end
@@ -34,10 +30,20 @@ module AllscriptsUnityClient
       is_date = datetime.instance_of?(Date)
       is_time = datetime.instance_of?(Time)
       datetime = DateTime.parse(datetime.to_s)
-      datetime = @tzinfo.utc_to_local(datetime)
 
-      # Return a DateTime with the correct timezone offset
-      datetime = DateTime.parse(iso8601_with_offset(datetime))
+      if direction == :local_to_utc
+        datetime = @tzinfo.local_to_utc(datetime)
+
+        # Convert to a DateTime with a UTC offset
+        datetime = DateTime.parse("#{datetime.strftime("%FT%T")}Z")
+      end
+
+      if direction == :utc_to_local
+        datetime = @tzinfo.utc_to_local(datetime)
+
+        # Convert to a DateTime with the correct timezone offset
+        datetime = DateTime.parse(iso8601_with_offset(datetime))
+      end
 
       return datetime.to_time if is_time
       return datetime.to_date if is_date

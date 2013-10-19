@@ -1,3 +1,7 @@
+require "json"
+require "nokogiri"
+require "httpi"
+
 module AllscriptsUnityClient
   class JSONClient < BaseClient
     attr_accessor :json_base_url
@@ -59,7 +63,7 @@ module AllscriptsUnityClient
       request = HTTPI::Request.new
       request.url = url
       request.headers = {
-        "Accept-Encoding" => "gzip, deflate",
+        "Accept-Encoding" => "gzip,deflate",
         "Content-type" => "application/json;charset=utf-8"
       }
       request.body = JSON.generate(data)

@@ -1,3 +1,5 @@
+require "date"
+
 module AllscriptsUnityClient
   class UnityResponse
     def initialize(response, timezone)
@@ -92,7 +94,7 @@ module AllscriptsUnityClient
       end
 
       # Attempt to parse a Date or DateTime from a string
-      response = DataUtilities::encode_date(response)
+      response = Utilities::try_to_encode_as_date(response)
 
       # Base case: convert date object to UTC
       if response.instance_of?(Time) || response.instance_of?(DateTime) || response.instance_of?(Date)

@@ -1,9 +1,11 @@
+require "date"
+
 module AllscriptsUnityClient
-  class DataUtilities
+  class Utilities
     DATETIME_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}))(T| )\d{1,2}:\d{2}(:\d{2})?(\.\d+)?( ?PM|AM|pm|am)?((-|\+)\d{2}:?\d{2})?Z?$/
     DATE_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}))$/
 
-    def self.encode_date(possible_date)
+    def self.try_to_encode_as_date(possible_date)
       if possible_date.nil?
         return nil
       end
@@ -29,6 +31,36 @@ module AllscriptsUnityClient
       elsif data.is_a?(Array)
         return data.pack("m")
       end
+    end
+
+    def self.recursively_symbolize_keys(hash)
+      # Base case: nil maps to nil
+      if hash.nil?
+        return nil
+      end
+
+      # Recurse case: value is a hash so symbolize keys
+      if hash.is_a?(Hash)
+        result = hash.map do |key, value|
+          { key.snakecase.to_sym => recursively_symbolize_keys(value) }
+        end
+
+        return result.reduce(:merge)
+      end
+
+      # Recurse case: value is an array so symbolize keys for any hash
+      # in it
+      if hash.is_a?(Array)
+        result = hash.map do |value|
+          recursively_symbolize_keys(value)
+        end
+
+        return result
+      end
+
+      # Base case: value was not an array or a hash, so just
+      # return it
+      hash
     end
   end
 end
