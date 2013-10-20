@@ -39,8 +39,6 @@ module AllscriptsUnityClient
         # is ever enabled, this library will get a speed bump for free.
         headers({ "Accept-Encoding" => "gzip,deflate" })
       end
-
-      get_security_token!
     end
 
     def magic(parameters = {})

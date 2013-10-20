@@ -14,18 +14,21 @@ module AllscriptsUnityClient
 
   def self.create(parameters = {})
     mode = parameters[:mode] || :soap
-    validate_parameters parameters
+    raise_if_required_parameters_missing parameters
 
     if mode == :json
-      JSONClient.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone])
+      client = JSONClient.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone])
     elsif mode == :soap
-      SOAPClient.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone])
+      client = SOAPClient.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone])
     end
+
+    client.get_security_token!
+    client
   end
 
   private
 
-  def self.validate_parameters(parameters)
+  def self.raise_if_required_parameters_missing(parameters)
     raise ":base_unity_url required" unless parameters[:base_unity_url]
     raise ":username required" unless parameters[:username]
     raise ":password required" unless parameters[:password]

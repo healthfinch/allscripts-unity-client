@@ -1,5 +1,4 @@
 require "json"
-require "nokogiri"
 require "httpi"
 
 module AllscriptsUnityClient
@@ -9,7 +8,6 @@ module AllscriptsUnityClient
 
     def setup!
       @json_base_url = "#{@base_unity_url}#{UNITY_JSON_ENDPOINT}"
-      get_security_token!
     end
 
     def magic(parameters = {})
@@ -76,9 +74,9 @@ module AllscriptsUnityClient
     end
 
     def raise_if_response_error(response)
-      if response.code == 500 || response.code == 400
-        error_text = Nokogiri::HTML(response.body).css("p.intro").first.text
-        raise APIError, error_text
+      if response.body.include? "Magic Error"
+        error_text = JSON.parse(response.body)
+        raise APIError, error_text[0]["Error"]
       end
     end
   end

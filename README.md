@@ -27,7 +27,7 @@ A Unity API client can be created using the `AllscriptsUnityClient#create` facto
 unity_client = AllscriptsUnityClient.create(:base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password")
 ```
 
-A JSON client can be also be created using the `:mode` option:
+A JSON client can also be created using the `:mode` option:
 
 ```ruby
 # Mode defaults to :soap
@@ -40,6 +40,11 @@ The `create` factory will request a security token from Unity when created. The 
 
 ```ruby
 unity_client.security_token
+```
+
+Existence of a security token can also be checked:
+
+```ruby
 unity_client.security_token?
 ```
 
@@ -55,7 +60,8 @@ Security tokens can be retired using the `retire_security_token!` method:
 unity_client.retire_security_token! # Retires the security token with Unity and sets security_token to nil
 ```
 
-After calling `get_security_token!`, each call using `magic` will automatically send `security_token` with the request.
+After calling `get_security_token!`, each call to `magic` will automatically send `security_token` with the request. If a security token is
+no longer valid, an exception will be raised by Unity.
 
 ### Executing Magic calls
 
@@ -65,9 +71,9 @@ The endpoint used to make API calls in Unity is called Magic. Magic can be acces
 unity_client.magic({
   :action => "action",
   :userid => "userid",
-  :appname => "appname",
+  :appname => "appname", # Only use to override default. Default: unity_client.appname
   :patientid => "patientid",
-  :token => "token",
+  :token => "token", # Only use to override default. Default: unity_client.security_token
   :parameter1 => "parameter1",
   :parameter2 => "parameter2",
   :parameter3 => "parameter3",
