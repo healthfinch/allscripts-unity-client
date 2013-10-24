@@ -29,6 +29,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "tzinfo-data", "~> 1.2013.7"
   gem.add_runtime_dependency "nokogiri", "~> 1.5.0"
 
+  gem.add_development_dependency "factory_girl", "~> 4.2.0"
   gem.add_development_dependency "rake", "~> 10.1.0"
+  gem.add_development_dependency "faker", "~> 1.2.0"
   gem.add_development_dependency "rspec", "~> 2.14.1"
 end

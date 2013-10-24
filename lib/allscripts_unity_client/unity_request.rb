@@ -1,5 +1,7 @@
 module AllscriptsUnityClient
   class UnityRequest
+    attr_accessor :parameters, :appname, :security_token, :timezone
+
     def initialize(parameters, timezone, appname, security_token)
       raise ArgumentError, "parameters can not be nil" if parameters.nil?
       raise ArgumentError, "timezone can not be nil" if timezone.nil?

@@ -26,10 +26,10 @@ module AllscriptsUnityClient
         return nil
       end
 
-      if data.respond_to?(:bytes)
-        return data.bytes.pack("m")
-      elsif data.is_a?(Array)
+      if data.respond_to?(:pack)
         return data.pack("m")
+      else
+        return [data].pack("m")
       end
     end
 

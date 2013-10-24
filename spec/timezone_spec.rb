@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe 'Timezone' do
-  let(:positive_timezone) { AllscriptsUnityClient::Timezone.new("Asia/Jakarta") }
-  let(:utc_timezone) { AllscriptsUnityClient::Timezone.new("UTC") }
-  let(:timezone) { AllscriptsUnityClient::Timezone.new("America/Phoenix") }
+  subject(:timezone) { FactoryGirl.build(:timezone) }
+
+  let(:positive_timezone) { FactoryGirl.build(:timezone, :zone_identifier => "Asia/Jakarta") }
+  let(:utc_timezone) { FactoryGirl.build(:timezone, :zone_identifier => "UTC") }
   let(:local_string) { "2013-10-19T17:00:00-07:00" }
   let(:date) { Date.parse(local_string) }
   let(:local_time) { Time.parse("2013-10-19T17:00:00") }
@@ -19,13 +20,13 @@ describe 'Timezone' do
   describe '#initialize' do
     context 'when nil is given' do
       it 'raises ArgumentError' do
-        expect { AllscriptsUnityClient::Timezone.new(nil) }.to raise_error(ArgumentError)
+        expect { FactoryGirl.build(:timezone, :zone_identifier => nil) }.to raise_error(ArgumentError)
       end
     end
 
     context 'when an invalid TZInfo zone is given' do
       it 'rasies TZInfo::InvalidTimezoneIdentifier' do
-        expect { AllscriptsUnityClient::Timezone.new("") }.to raise_error(TZInfo::InvalidTimezoneIdentifier)
+        expect { FactoryGirl.build(:timezone, :zone_identifier => "") }.to raise_error(TZInfo::InvalidTimezoneIdentifier)
       end
     end
   end
