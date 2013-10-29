@@ -29,10 +29,10 @@ module AllscriptsUnityClient
   private
 
   def self.raise_if_required_parameters_missing(parameters)
-    raise ":base_unity_url required" unless parameters[:base_unity_url]
-    raise ":username required" unless parameters[:username]
-    raise ":password required" unless parameters[:password]
-    raise ":appname required" unless parameters[:appname]
+    raise ArgumentError, ":base_unity_url required" if parameters[:base_unity_url].nil?
+    raise ArgumentError, ":username required" if parameters[:username].nil?
+    raise ArgumentError, ":password required" if parameters[:password].nil?
+    raise ArgumentError, ":appname required" if parameters[:appname].nil?
   end
 end
 
