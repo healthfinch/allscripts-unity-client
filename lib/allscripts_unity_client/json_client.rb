@@ -75,7 +75,9 @@ module AllscriptsUnityClient
     end
 
     def raise_if_response_error(response)
-      if response.is_a?(Array) && !response[0]["Error"].nil?
+      if response.nil?
+        raise APIError, "Response was empty"
+      elsif response.is_a?(Array) && !response[0]["Error"].nil?
         raise APIError, response[0]["Error"]
       elsif response.is_a?(String) && response.include?("error:")
         raise APIError, response
