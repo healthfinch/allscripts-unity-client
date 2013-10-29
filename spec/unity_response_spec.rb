@@ -1,60 +1,90 @@
 require 'spec_helper'
 
 describe 'UnityResponse' do
-  subject(:unity_response) { FactoryGirl.build(:unity_response) }
+  it_behaves_like 'a unity response'
 
-  let(:attributes_hash) do
-    {
-      :"@attribute1" => {
-        :"@nested_attribute1" => true,
-        :normal_key => true
-      },
-      :"@attribute2" => true,
-      :normal_key_2 => true,
-      :array_of_attributes => [
-        { :"@attribute" => true, :value => { :"@attribute" => true, :value => true } },
-        { :"@attribute" => true, :value => true },
-        { :"@attribute" => true, :value => true }
-      ]
-    }
-  end
+  subject(:unity_response) { FactoryGirl.build(:unity_response, :response => magic_response_soap) }
 
-  let(:stripped_attributes_hash) do
+  let(:magic_response_soap) do
     {
-      :normal_key_2 => true,
-      :array_of_attributes => [
-        { :value => { :value => true } },
-        { :value => true },
-        { :value => true }
-      ]
-    }
-  end
-
-  let(:date_hash) do
-    {
-      :date_string => "2013-02-15",
-      :date_string2 => {
-        :value => "2013-02-15"
-      },
-      :date_array => [
-        "2013-02-15",
-        "2013-02-15",
-        "2013-02-15"
-      ]
-    }
-  end
-
-  let(:converted_date_hash) do
-    {
-      :date_string => Date.parse("2013-02-15"),
-      :date_string2 => {
-        :value => Date.parse("2013-02-15")
-      },
-      :date_array => [
-        Date.parse("2013-02-15"),
-        Date.parse("2013-02-15"),
-        Date.parse("2013-02-15")
-      ]
+      :magic_response => {
+        :magic_result => {
+          :schema => {
+            :element => {
+              :complex_type => {
+                :choice => {
+                  :element => {
+                    :complex_type => {
+                      :sequence => {
+                        :element => [
+                          {
+                            :@name => "ServerTimeZone",
+                            :@type => "xs:string",
+                            :@min_occurs => "0"
+                          },
+                          {
+                            :@name => "ServerTime",
+                            :@type => "xs:string",
+                            :@min_occurs => "0"
+                          },
+                          {
+                            :@name => "ServerDateTimeOffset",
+                            :@type => "xs:string",
+                            :@min_occurs => "0"
+                          },
+                          {
+                            :@name => "System",
+                            :@type => "xs:string",
+                            :@min_occurs => "0"
+                          },
+                          {
+                            :@name => "ProductVersion",
+                            :@type => "xs:string",
+                            :@min_occurs => "0"
+                          },
+                          {
+                            :@name => "uaibornondate",
+                            :@type => "xs:string",
+                            :@min_occurs => "0"
+                          }
+                        ]
+                      }
+                    },
+                    :@name => "getserverinfoinfo"
+                    },
+                    :@min_occurs => "0",
+                    :@max_occurs => "unbounded"
+                  }
+                },
+                :@name => "getserverinforesponse",
+                :"@msdata:is_data_set" => "true",
+                :"@msdata:use_current_locale" => "true"
+              },
+              :"@xmlns:xs" => "http://www.w3.org/2001/XMLSchema",
+              :@xmlns => "",
+              :"@xmlns:msdata" => "urn:schemas-microsoft-com:xml-msdata",
+              :@id => "getserverinforesponse"
+          },
+          :diffgram => {
+            :getserverinforesponse => {
+              :getserverinfoinfo => {
+                :server_time_zone => "Eastern Standard Time",
+                :server_time => DateTime.parse("2013-10-24T18:52:49+00:00"),
+                :server_date_time_offset => DateTime.parse("2013-10-24T18:52:49-04:00"),
+                :system => "Enterprise EHR",
+                :product_version => "11.2.3.32.000",
+                :uaibornondate => "10/07/2013",
+                :"@diffgr:id" => "getserverinfoinfo1",
+                :"@msdata:row_order" => "0"
+              },
+              :@xmlns => ""
+            },
+            :"@xmlns:diffgr" => "urn:schemas-microsoft-com:xml-diffgram-v1",
+            :"@xmlns:msdata" => "urn:schemas-microsoft-com:xml-msdata"
+          }
+        },
+        :@xmlns => "http://www.allscripts.com/Unity"
+      }
     }
   end
 
@@ -76,32 +106,12 @@ describe 'UnityResponse' do
 
       context 'when given nil magic_result' do
         it 'returns []' do
-          magic_response = FactoryGirl.build(:magic_response_soap)
+          magic_response = magic_response_soap
           magic_response[:magic_response][:magic_result][:diffgram] = nil
-          unity_response = FactoryGirl.build(:unity_response, :response => magic_response)
+          unity_response.response = magic_response
           expect(unity_response.to_hash).to eq([])
         end
       end
-    end
-  end
-
-  describe '#strip_attributes' do
-    context 'when given nil' do
-      it { expect(unity_response.send(:strip_attributes, nil)).to be_nil }
-    end
-
-    it 'recursively strips attribute keys off hashes' do
-      expect(unity_response.send(:strip_attributes, attributes_hash)).to eq(stripped_attributes_hash)
-    end
-  end
-
-  describe '#convert_dates_to_utc' do
-    context 'when given nil' do
-      it { expect(unity_response.send(:convert_dates_to_utc, nil)).to be_nil }
-    end
-
-    it 'recursively converts date strings' do
-      expect(unity_response.send(:convert_dates_to_utc, date_hash)).to eq(converted_date_hash)
     end
   end
 end

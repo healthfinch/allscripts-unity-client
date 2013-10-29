@@ -48,6 +48,10 @@ describe 'Timezone' do
   end
 
   describe '#convert_with_timezone' do
+    context 'when given nil' do
+      it { expect(timezone.send(:convert_with_timezone, nil)).to be_nil }
+    end
+
     context 'when given :local_to_utc and a Date' do
       it 'returns a Date' do
         expect(timezone.send(:convert_with_timezone, :local_to_utc, date)).to be_an_instance_of(Date)

@@ -17,7 +17,12 @@ describe 'Utilities' do
       "key1" => true,
       "key2" => {
         "key3" => true
-      }
+      },
+      "key4" => [
+        { "key5" => true },
+        { "key6" => true },
+        { "key7" => true }
+      ]
     }
   end
 
@@ -26,7 +31,12 @@ describe 'Utilities' do
       :key1 => true,
       :key2 => {
         :key3 => true
-      }
+      },
+      :key4 => [
+        { :key5 => true },
+        { :key6 => true },
+        { :key7 => true }
+      ]
     }
   end
 

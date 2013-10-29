@@ -2,6 +2,8 @@ require "date"
 
 module AllscriptsUnityClient
   class UnityResponse
+    attr_accessor :response, :timezone
+
     def initialize(response, timezone)
       raise ArgumentError, "timezone can not be nil" if timezone.nil?
       raise ArgumentError, "response can not be nil" if response.nil?
