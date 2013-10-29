@@ -14,6 +14,7 @@ module AllscriptsUnityClient
       request_data = JSONUnityRequest.new(parameters, @timezone, @appname, @security_token)
       request = create_httpi_request("#{@json_base_url}/MagicJson", request_data.to_hash)
       response = HTTPI.post(request)
+      response = JSON.parse(response.body)
 
       raise_if_response_error(response)
 
@@ -34,7 +35,7 @@ module AllscriptsUnityClient
       request = create_httpi_request("#{@json_base_url}/GetToken", request_data)
       response = HTTPI.post(request, :net_http_persistent)
 
-      raise_if_response_error(response)
+      raise_if_response_error(response.body)
 
       @security_token = response.body
     end
@@ -50,7 +51,7 @@ module AllscriptsUnityClient
       request = create_httpi_request("#{@json_base_url}/RetireSecurityToken", request_data)
       response = HTTPI.post(request, :net_http_persistent)
 
-      raise_if_response_error(response)
+      raise_if_response_error(response.body)
 
       @security_token = nil
     end
@@ -74,9 +75,10 @@ module AllscriptsUnityClient
     end
 
     def raise_if_response_error(response)
-      if response.body.include? "Magic Error"
-        error_text = JSON.parse(response.body)
-        raise APIError, error_text[0]["Error"]
+      if response.is_a?(Array) && !response[0]["Error"].nil?
+        raise APIError, response[0]["Error"]
+      elsif response.is_a?(String) && response.include?("error:")
+        raise APIError, response
       end
     end
   end

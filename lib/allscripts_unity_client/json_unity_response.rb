@@ -3,7 +3,7 @@ require "json"
 module AllscriptsUnityClient
   class JSONUnityResponse < UnityResponse
     def to_hash
-      result = JSON.parse(@response.body)
+      result = @response
 
       # All JSON magic responses are an array with one item
       result = result.first
