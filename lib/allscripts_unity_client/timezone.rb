@@ -3,6 +3,8 @@ require "tzinfo"
 
 module AllscriptsUnityClient
   class Timezone
+    attr_accessor :tzinfo
+
     def initialize(zone_identifier)
       raise ArgumentError, "zone_identifier can not be nil" if zone_identifier.nil?
 

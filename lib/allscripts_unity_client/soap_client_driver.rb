@@ -1,11 +1,13 @@
 require "savon"
 
 module AllscriptsUnityClient
-  class SOAPClient < BaseClient
+  class SOAPClientDriver < ClientDriver
     UNITY_SOAP_ENDPOINT = "/Unity/UnityService.svc/unityservice"
     UNITY_ENDPOINT_NAMESPACE = "http://www.allscripts.com/Unity/IUnityService"
 
-    def setup!
+    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil)
+      super
+
       client_proxy = @proxy
       base_unity_url = "#{@base_unity_url}#{UNITY_SOAP_ENDPOINT}"
 
@@ -39,6 +41,10 @@ module AllscriptsUnityClient
         # is ever enabled, this library will get a speed bump for free.
         headers({ "Accept-Encoding" => "gzip,deflate" })
       end
+    end
+
+    def client_type
+      return :soap
     end
 
     def magic(parameters = {})

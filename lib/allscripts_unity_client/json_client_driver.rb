@@ -2,12 +2,19 @@ require "json"
 require "httpi"
 
 module AllscriptsUnityClient
-  class JSONClient < BaseClient
+  class JSONClientDriver < ClientDriver
     attr_accessor :json_base_url
+
     UNITY_JSON_ENDPOINT = "/Unity/UnityService.svc/json"
 
-    def setup!
+    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil)
+      super
+
       @json_base_url = "#{@base_unity_url}#{UNITY_JSON_ENDPOINT}"
+    end
+
+    def client_type
+      return :json
     end
 
     def magic(parameters = {})

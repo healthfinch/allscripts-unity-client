@@ -1,42 +1,31 @@
 require "nokogiri"
 
 module AllscriptsUnityClient
-  class BaseClient
-    attr_accessor :username, :password, :appname, :base_unity_url, :proxy, :security_token, :timezone
+  class Client
+    def initialize(client_driver)
+      raise ArgumentError, "client_driver can not be nil" if client_driver.nil?
 
-    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil)
-      @base_unity_url = base_unity_url.gsub /\/$/, ""
-      @username = username
-      @password = password
-      @appname = appname
-      @proxy = proxy
-
-      unless timezone.nil?
-        @timezone = Timezone.new(timezone)
-      else
-        @timezone = Timezone.new("UTC")
-      end
-
-      setup!
+      @client_driver = client_driver
     end
 
-    # Stub method that needs to be implemented by subclasses
     def magic(parameters = {})
-      raise NotImplementedError, "Magic operation not implemented"
+      @client_driver.magic(parameters)
     end
 
-    # Stub method that needs to be implemented by subclasses
     def get_security_token!(parameters = {})
-      raise NotImplementedError, "GetSecurityToken operation not implemented"
+      @client_driver.get_security_token!(parameters)
     end
 
-    # Stub method that needs to be implemented by subclasses
     def retire_security_token!(parameters = {})
-      raise NotImplementedError, "RetireSecurityToken operation not implemented"
+      @client_driver.retire_security_token!(parameters)
     end
 
     def security_token?
-      return security_token.nil?
+      @client_driver.security_token?
+    end
+
+    def client_type
+      return @client_driver.client_type
     end
 
     def commit_charges
