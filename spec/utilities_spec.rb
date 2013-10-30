@@ -12,33 +12,8 @@ describe 'Utilities' do
   let(:string_array) { ['string'] }
   let(:base64_string) { "c3RyaW5n\n" }
 
-  let(:hash) do
-    {
-      "key1" => true,
-      "key2" => {
-        "key3" => true
-      },
-      "key4" => [
-        { "key5" => true },
-        { "key6" => true },
-        { "key7" => true }
-      ]
-    }
-  end
-
-  let(:symbolized_hash) do
-    {
-      :key1 => true,
-      :key2 => {
-        :key3 => true
-      },
-      :key4 => [
-        { :key5 => true },
-        { :key6 => true },
-        { :key7 => true }
-      ]
-    }
-  end
+  let(:string_keyed_hash) { FixtureLoader.load_yaml("string_keyed_hash.yml") }
+  let(:symbol_keyed_hash) { FixtureLoader.load_yaml("symbol_keyed_hash.yml") }
 
   describe '.try_to_encode_as_date' do
     context 'when given nil' do
@@ -88,7 +63,7 @@ describe 'Utilities' do
     end
 
     context 'when given a hash with string keys' do
-      it { expect(subject.recursively_symbolize_keys(hash)).to eq(symbolized_hash) }
+      it { expect(subject.recursively_symbolize_keys(string_keyed_hash)).to eq(symbol_keyed_hash) }
     end
   end
 end

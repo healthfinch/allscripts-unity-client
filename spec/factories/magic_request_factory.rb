@@ -17,17 +17,17 @@ FactoryGirl.define do
   end
 
   factory :populated_magic_request, :parent => :magic_request do
-    action Faker::Name.name
-    appname Faker::Name.name
-    userid Faker::Name.name
-    patientid Faker::Name.name
-    token Faker::Name.name
-    parameter1 Faker::Name.name
-    parameter2 Faker::Name.name
-    parameter3 Faker::Name.name
-    parameter4 Faker::Name.name
-    parameter5 Faker::Name.name
-    parameter6 Faker::Name.name
-    data Faker::Name.name
+    action ["GetServerInfo", "GetProviders"].sample
+    appname Faker::Company.name
+    userid ["jmedici", "lmccoy"].sample
+    patientid Faker::Number.number(3)
+    token SecureRandom.uuid
+    parameter1 Faker::Internet.domain_word
+    parameter2 Faker::Internet.domain_word
+    parameter3 Faker::Internet.domain_word
+    parameter4 Faker::Internet.domain_word
+    parameter5 Faker::Internet.domain_word
+    parameter6 Faker::Internet.domain_word
+    data Faker::Internet.domain_word
   end
 end

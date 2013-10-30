@@ -1,0 +1,65 @@
+---
+- getprovidersinfo:
+  - Security: ''
+    EntryCode: ! 'ActiveHeal      '
+    Profession: Physician
+    DefaultSiteCode: '001       '
+    supervisingdefaultID: '0'
+    Credentials: MD
+    UserInactive: N
+    Middle: ''
+    SecSpecialty: ! ' '
+    ProviderInactive: N
+    Username: ActiveHealth
+    LastName: ActiveHealth
+    DefaultSiteName: New World Health
+    rxsupervisionrequired: N
+    CanPrescribeFlag: Y
+    UserType: User/Provider
+    personid: '368'
+    PrimSpecialty: Internal Medicine
+    orderingauthority: '8'
+    supervisingdefaultName: ''
+    FirstName: ActiveHealth
+  - Security: ''
+    EntryCode: ! 'AgileMedia      '
+    Profession: Physician
+    DefaultSiteCode: '001       '
+    supervisingdefaultID: '0'
+    Credentials: MD
+    UserInactive: N
+    Middle: ''
+    SecSpecialty: ! ' '
+    ProviderInactive: N
+    Username: AgileMedia
+    LastName: AgileMedia
+    DefaultSiteName: New World Health
+    rxsupervisionrequired: N
+    CanPrescribeFlag: Y
+    UserType: User/Provider
+    personid: '479'
+    PrimSpecialty: Internal Medicine
+    orderingauthority: '8'
+    supervisingdefaultName: ''
+    FirstName: AgileMedia
+  - Security: ''
+    EntryCode: ! '1TW050          '
+    Profession: Physician
+    DefaultSiteCode: '001       '
+    supervisingdefaultID: '0'
+    Credentials: MD
+    UserInactive: N
+    Middle: M
+    SecSpecialty: ! ' '
+    ProviderInactive: N
+    Username: pallbright
+    LastName: Allbright
+    DefaultSiteName: New World Health
+    rxsupervisionrequired: N
+    CanPrescribeFlag: Y
+    UserType: User/Provider
+    personid: '963'
+    PrimSpecialty: Allergy/Immunology
+    orderingauthority: '8'
+    supervisingdefaultName: ''
+    FirstName: Peter

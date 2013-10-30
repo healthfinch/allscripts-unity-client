@@ -5,7 +5,7 @@ describe 'AllscriptsUnityClient' do
 
   subject { AllscriptsUnityClient }
 
-  let(:get_security_token) { "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"><s:Body><GetSecurityTokenResponse xmlns=\"http://www.allscripts.com/\"><GetSecurityTokenResult>4FC2836B-540B-4A2B-967A-6C676DE0A9AE</GetSecurityTokenResult></GetSecurityTokenResponse></s:Body></s:Envelope>" }
+  let(:get_security_token) { FixtureLoader.load_file("get_security_token.xml") }
 
   before(:all) { savon.mock! }
   after(:all) { savon.unmock! }

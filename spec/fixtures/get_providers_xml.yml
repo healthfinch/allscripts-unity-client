@@ -1,0 +1,270 @@
+---
+:envelope:
+  :body:
+    :magic_response:
+      :magic_result:
+        :schema:
+          :element:
+            :complex_type:
+              :choice:
+                :element:
+                  :complex_type:
+                    :sequence:
+                      :element:
+                      - :@name: personid
+                        :@type: xs:decimal
+                        :@min_occurs: '0'
+                      - :@name: Username
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: UserType
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: LastName
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: FirstName
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: Middle
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: Profession
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: Credentials
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: PrimSpecialty
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: SecSpecialty
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: Security
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: DefaultSiteCode
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: DefaultSiteName
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: ProviderInactive
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: UserInactive
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: EntryCode
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: CanPrescribeFlag
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: rxsupervisionrequired
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: supervisingdefaultID
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: supervisingdefaultName
+                        :@type: xs:string
+                        :@min_occurs: '0'
+                      - :@name: orderingauthority
+                        :@type: xs:int
+                        :@min_occurs: '0'
+                  :@name: getprovidersinfo
+                :@min_occurs: '0'
+                :@max_occurs: unbounded
+            :@name: getprovidersresponse
+            :@msdata:is_data_set: 'true'
+            :@msdata:use_current_locale: 'true'
+          :@xmlns:xs: http://www.w3.org/2001/XMLSchema
+          :@xmlns: ''
+          :@xmlns:msdata: urn:schemas-microsoft-com:xml-msdata
+          :@id: getprovidersresponse
+        :diffgram:
+          :getprovidersresponse:
+            :getprovidersinfo:
+            - :personid: !ruby/string:Nori::StringWithAttributes
+                str: '368'
+                attributes: {}
+              :username: !ruby/string:Nori::StringWithAttributes
+                str: ActiveHealth
+                attributes: {}
+              :user_type: !ruby/string:Nori::StringWithAttributes
+                str: User/Provider
+                attributes: {}
+              :last_name: !ruby/string:Nori::StringWithAttributes
+                str: ActiveHealth
+                attributes: {}
+              :first_name: !ruby/string:Nori::StringWithAttributes
+                str: ActiveHealth
+                attributes: {}
+              :middle: 
+              :profession: !ruby/string:Nori::StringWithAttributes
+                str: Physician
+                attributes: {}
+              :credentials: !ruby/string:Nori::StringWithAttributes
+                str: MD
+                attributes: {}
+              :prim_specialty: !ruby/string:Nori::StringWithAttributes
+                str: Internal Medicine
+                attributes: {}
+              :sec_specialty:
+                :@xml:space: preserve
+              :security: 
+              :default_site_code: !ruby/string:Nori::StringWithAttributes
+                str: '001'
+                attributes: {}
+              :default_site_name: !ruby/string:Nori::StringWithAttributes
+                str: New World Health
+                attributes: {}
+              :provider_inactive: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :user_inactive: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :entry_code: !ruby/string:Nori::StringWithAttributes
+                str: ActiveHeal
+                attributes: {}
+              :can_prescribe_flag: !ruby/string:Nori::StringWithAttributes
+                str: Y
+                attributes: {}
+              :rxsupervisionrequired: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :supervisingdefault_id: !ruby/string:Nori::StringWithAttributes
+                str: '0'
+                attributes: {}
+              :supervisingdefault_name: 
+              :orderingauthority: !ruby/string:Nori::StringWithAttributes
+                str: '8'
+                attributes: {}
+              :@diffgr:id: getprovidersinfo1
+              :@msdata:row_order: '0'
+            - :personid: !ruby/string:Nori::StringWithAttributes
+                str: '479'
+                attributes: {}
+              :username: !ruby/string:Nori::StringWithAttributes
+                str: AgileMedia
+                attributes: {}
+              :user_type: !ruby/string:Nori::StringWithAttributes
+                str: User/Provider
+                attributes: {}
+              :last_name: !ruby/string:Nori::StringWithAttributes
+                str: AgileMedia
+                attributes: {}
+              :first_name: !ruby/string:Nori::StringWithAttributes
+                str: AgileMedia
+                attributes: {}
+              :middle: 
+              :profession: !ruby/string:Nori::StringWithAttributes
+                str: Physician
+                attributes: {}
+              :credentials: !ruby/string:Nori::StringWithAttributes
+                str: MD
+                attributes: {}
+              :prim_specialty: !ruby/string:Nori::StringWithAttributes
+                str: Internal Medicine
+                attributes: {}
+              :sec_specialty:
+                :@xml:space: preserve
+              :security: 
+              :default_site_code: !ruby/string:Nori::StringWithAttributes
+                str: '001'
+                attributes: {}
+              :default_site_name: !ruby/string:Nori::StringWithAttributes
+                str: New World Health
+                attributes: {}
+              :provider_inactive: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :user_inactive: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :entry_code: !ruby/string:Nori::StringWithAttributes
+                str: AgileMedia
+                attributes: {}
+              :can_prescribe_flag: !ruby/string:Nori::StringWithAttributes
+                str: Y
+                attributes: {}
+              :rxsupervisionrequired: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :supervisingdefault_id: !ruby/string:Nori::StringWithAttributes
+                str: '0'
+                attributes: {}
+              :supervisingdefault_name: 
+              :orderingauthority: !ruby/string:Nori::StringWithAttributes
+                str: '8'
+                attributes: {}
+              :@diffgr:id: getprovidersinfo2
+              :@msdata:row_order: '1'
+            - :personid: !ruby/string:Nori::StringWithAttributes
+                str: '963'
+                attributes: {}
+              :username: !ruby/string:Nori::StringWithAttributes
+                str: pallbright
+                attributes: {}
+              :user_type: !ruby/string:Nori::StringWithAttributes
+                str: User/Provider
+                attributes: {}
+              :last_name: !ruby/string:Nori::StringWithAttributes
+                str: Allbright
+                attributes: {}
+              :first_name: !ruby/string:Nori::StringWithAttributes
+                str: Peter
+                attributes: {}
+              :middle: !ruby/string:Nori::StringWithAttributes
+                str: M
+                attributes: {}
+              :profession: !ruby/string:Nori::StringWithAttributes
+                str: Physician
+                attributes: {}
+              :credentials: !ruby/string:Nori::StringWithAttributes
+                str: MD
+                attributes: {}
+              :prim_specialty: !ruby/string:Nori::StringWithAttributes
+                str: Allergy/Immunology
+                attributes: {}
+              :sec_specialty:
+                :@xml:space: preserve
+              :security: 
+              :default_site_code: !ruby/string:Nori::StringWithAttributes
+                str: '001'
+                attributes: {}
+              :default_site_name: !ruby/string:Nori::StringWithAttributes
+                str: New World Health
+                attributes: {}
+              :provider_inactive: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :user_inactive: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :entry_code: !ruby/string:Nori::StringWithAttributes
+                str: 1TW050
+                attributes: {}
+              :can_prescribe_flag: !ruby/string:Nori::StringWithAttributes
+                str: Y
+                attributes: {}
+              :rxsupervisionrequired: !ruby/string:Nori::StringWithAttributes
+                str: N
+                attributes: {}
+              :supervisingdefault_id: !ruby/string:Nori::StringWithAttributes
+                str: '0'
+                attributes: {}
+              :supervisingdefault_name: 
+              :orderingauthority: !ruby/string:Nori::StringWithAttributes
+                str: '8'
+                attributes: {}
+              :@diffgr:id: getprovidersinfo3
+              :@msdata:row_order: '2'
+            :@xmlns: ''
+          :@xmlns:diffgr: urn:schemas-microsoft-com:xml-diffgram-v1
+          :@xmlns:msdata: urn:schemas-microsoft-com:xml-msdata
+      :@xmlns: http://www.allscripts.com/Unity
+  :@xmlns:s: http://schemas.xmlsoap.org/soap/envelope/

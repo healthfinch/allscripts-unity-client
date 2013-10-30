@@ -3,49 +3,10 @@ require 'spec_helper'
 describe 'JSONUnityResponse' do
   it_behaves_like 'a unity response'
 
-  subject { FactoryGirl.build(:json_unity_response, :response => magic_response_json) }
+  subject { FactoryGirl.build(:json_unity_response, :response => get_server_info) }
 
-  let(:magic_response_json) do
-    [
-      {
-        "getserverinfoinfo" => [
-          {
-            "ServerDateTimeOffset" => "2013-10-29T10:32:42.6932000-04:00",
-            "ServerTime" => "2013-10-29T10:32:42",
-            "uaibornondate" => "10/07/2013",
-            "ProductVersion" => "11.2.3.32.000",
-            "System" => "Enterprise EHR",
-            "ServerTimeZone" => "Eastern Standard Time"
-          }
-        ]
-      }
-    ]
-  end
-
-  let(:magic_response_json_array) do
-    [
-      {
-        "getserverinfoinfo" => [
-          {
-            "ServerDateTimeOffset" => "2013-10-29T10:32:42.6932000-04:00",
-            "ServerTime" => "2013-10-29T10:32:42",
-            "uaibornondate" => "10/07/2013",
-            "ProductVersion" => "11.2.3.32.000",
-            "System" => "Enterprise EHR",
-            "ServerTimeZone" => "Eastern Standard Time"
-          },
-          {
-            "ServerDateTimeOffset" => "2013-10-29T10:32:42.6932000-04:00",
-            "ServerTime" => "2013-10-29T10:32:42",
-            "uaibornondate" => "10/07/2013",
-            "ProductVersion" => "11.2.3.32.000",
-            "System" => "Enterprise EHR",
-            "ServerTimeZone" => "Eastern Standard Time"
-          }
-        ]
-      }
-    ]
-  end
+  let(:get_server_info) { FixtureLoader.load_yaml("get_server_info_json.yml") }
+  let(:get_providers) { FixtureLoader.load_yaml("get_providers_json.yml") }
 
   describe '#initialize' do
     context 'when nil is given for response' do
@@ -72,7 +33,7 @@ describe 'JSONUnityResponse' do
 
       context 'when given a multiple item response' do
         it 'returns an array' do
-          subject.response = magic_response_json_array
+          subject.response = get_providers
           expect(subject.to_hash).to be_instance_of(Array)
         end
       end

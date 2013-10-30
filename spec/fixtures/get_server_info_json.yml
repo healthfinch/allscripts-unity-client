@@ -1,0 +1,8 @@
+---
+- getserverinfoinfo:
+  - ServerDateTimeOffset: '2013-10-29T10:32:42.6932000-04:00'
+    ServerTime: '2013-10-29T10:32:42'
+    uaibornondate: 10/07/2013
+    ProductVersion: 11.2.3.32.000
+    System: Enterprise EHR
+    ServerTimeZone: Eastern Standard Time

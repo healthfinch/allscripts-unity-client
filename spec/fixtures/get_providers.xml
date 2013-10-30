@@ -1,0 +1,119 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <MagicResponse xmlns="http://www.allscripts.com/Unity">
+      <MagicResult>
+        <xs:schema id="getprovidersresponse" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+          <xs:element name="getprovidersresponse" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="getprovidersinfo">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="personid" type="xs:decimal" minOccurs="0" />
+                      <xs:element name="Username" type="xs:string" minOccurs="0" />
+                      <xs:element name="UserType" type="xs:string" minOccurs="0" />
+                      <xs:element name="LastName" type="xs:string" minOccurs="0" />
+                      <xs:element name="FirstName" type="xs:string" minOccurs="0" />
+                      <xs:element name="Middle" type="xs:string" minOccurs="0" />
+                      <xs:element name="Profession" type="xs:string" minOccurs="0" />
+                      <xs:element name="Credentials" type="xs:string" minOccurs="0" />
+                      <xs:element name="PrimSpecialty" type="xs:string" minOccurs="0" />
+                      <xs:element name="SecSpecialty" type="xs:string" minOccurs="0" />
+                      <xs:element name="Security" type="xs:string" minOccurs="0" />
+                      <xs:element name="DefaultSiteCode" type="xs:string" minOccurs="0" />
+                      <xs:element name="DefaultSiteName" type="xs:string" minOccurs="0" />
+                      <xs:element name="ProviderInactive" type="xs:string" minOccurs="0" />
+                      <xs:element name="UserInactive" type="xs:string" minOccurs="0" />
+                      <xs:element name="EntryCode" type="xs:string" minOccurs="0" />
+                      <xs:element name="CanPrescribeFlag" type="xs:string" minOccurs="0" />
+                      <xs:element name="rxsupervisionrequired" type="xs:string" minOccurs="0" />
+                      <xs:element name="supervisingdefaultID" type="xs:string" minOccurs="0" />
+                      <xs:element name="supervisingdefaultName" type="xs:string" minOccurs="0" />
+                      <xs:element name="orderingauthority" type="xs:int" minOccurs="0" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:schema>
+        <diffgr:diffgram xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+          <getprovidersresponse xmlns="">
+            <getprovidersinfo diffgr:id="getprovidersinfo1" msdata:rowOrder="0">
+              <personid>368</personid>
+              <Username>ActiveHealth</Username>
+              <UserType>User/Provider</UserType>
+              <LastName>ActiveHealth</LastName>
+              <FirstName>ActiveHealth</FirstName>
+              <Middle />
+              <Profession>Physician</Profession>
+              <Credentials>MD</Credentials>
+              <PrimSpecialty>Internal Medicine</PrimSpecialty>
+              <SecSpecialty xml:space="preserve"> 
+              </SecSpecialty>
+              <Security />
+              <DefaultSiteCode>001</DefaultSiteCode>
+              <DefaultSiteName>New World Health</DefaultSiteName>
+              <ProviderInactive>N</ProviderInactive>
+              <UserInactive>N</UserInactive>
+              <EntryCode>ActiveHeal</EntryCode>
+              <CanPrescribeFlag>Y</CanPrescribeFlag>
+              <rxsupervisionrequired>N</rxsupervisionrequired>
+              <supervisingdefaultID>0</supervisingdefaultID>
+              <supervisingdefaultName />
+              <orderingauthority>8</orderingauthority>
+            </getprovidersinfo>
+            <getprovidersinfo diffgr:id="getprovidersinfo2" msdata:rowOrder="1">
+              <personid>479</personid>
+              <Username>AgileMedia</Username>
+              <UserType>User/Provider</UserType>
+              <LastName>AgileMedia</LastName>
+              <FirstName>AgileMedia</FirstName>
+              <Middle />
+              <Profession>Physician</Profession>
+              <Credentials>MD</Credentials>
+              <PrimSpecialty>Internal Medicine</PrimSpecialty>
+              <SecSpecialty xml:space="preserve"> 
+              </SecSpecialty>
+              <Security />
+              <DefaultSiteCode>001</DefaultSiteCode>
+              <DefaultSiteName>New World Health</DefaultSiteName>
+              <ProviderInactive>N</ProviderInactive>
+              <UserInactive>N</UserInactive>
+              <EntryCode>AgileMedia</EntryCode>
+              <CanPrescribeFlag>Y</CanPrescribeFlag>
+              <rxsupervisionrequired>N</rxsupervisionrequired>
+              <supervisingdefaultID>0</supervisingdefaultID>
+              <supervisingdefaultName />
+              <orderingauthority>8</orderingauthority>
+            </getprovidersinfo>
+            <getprovidersinfo diffgr:id="getprovidersinfo3" msdata:rowOrder="2">
+              <personid>963</personid>
+              <Username>pallbright</Username>
+              <UserType>User/Provider</UserType>
+              <LastName>Allbright</LastName>
+              <FirstName>Peter</FirstName>
+              <Middle>M</Middle>
+              <Profession>Physician</Profession>
+              <Credentials>MD</Credentials>
+              <PrimSpecialty>Allergy/Immunology</PrimSpecialty>
+              <SecSpecialty xml:space="preserve"> 
+              </SecSpecialty>
+              <Security />
+              <DefaultSiteCode>001</DefaultSiteCode>
+              <DefaultSiteName>New World Health</DefaultSiteName>
+              <ProviderInactive>N</ProviderInactive>
+              <UserInactive>N</UserInactive>
+              <EntryCode>1TW050</EntryCode>
+              <CanPrescribeFlag>Y</CanPrescribeFlag>
+              <rxsupervisionrequired>N</rxsupervisionrequired>
+              <supervisingdefaultID>0</supervisingdefaultID>
+              <supervisingdefaultName />
+              <orderingauthority>8</orderingauthority>
+            </getprovidersinfo>
+          </getprovidersresponse>
+        </diffgr:diffgram>
+      </MagicResult>
+    </MagicResponse>
+  </s:Body>
+</s:Envelope>

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'ClientDriver' do
+  it_behaves_like 'a client driver'
+
   subject { FactoryGirl.build(:client_driver) }
 
   describe '#initialize' do
@@ -32,22 +34,6 @@ describe 'ClientDriver' do
         client_driver = FactoryGirl.build(:client_driver, :timezone => nil)
         utc_timezone = FactoryGirl.build(:timezone, :zone_identifier => "UTC")
         expect(client_driver.timezone.tzinfo).to eq(utc_timezone.tzinfo)
-      end
-    end
-  end
-
-  describe '#security_token?' do
-    context 'when @security_token is nil' do
-      it do
-        subject.security_token = nil
-        expect(subject.security_token?).to be_false
-      end
-    end
-
-    context 'when @security_token is not nil' do
-      it do
-        subject.security_token = "security token"
-        expect(subject.security_token?).to be_true
       end
     end
   end

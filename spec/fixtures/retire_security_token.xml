@@ -1,0 +1,5 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <RetireSecurityTokenResponse xmlns="http://www.allscripts.com/Unity" />
+  </s:Body>
+</s:Envelope>

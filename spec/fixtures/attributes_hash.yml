@@ -1,0 +1,15 @@
+---
+:@attribute1:
+  :@nested_attribute1: true
+  :normal_key: true
+:@attribute2: true
+:normal_key_2: true
+:array_of_attributes:
+- :@attribute: true
+  :value:
+    :@attribute: true
+    :value: true
+- :@attribute: true
+  :value: true
+- :@attribute: true
+  :value: true

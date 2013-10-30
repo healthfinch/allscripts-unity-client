@@ -1,0 +1,40 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <MagicResponse xmlns="http://www.allscripts.com/Unity">
+      <MagicResult>
+        <xs:schema id="getserverinforesponse" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+          <xs:element name="getserverinforesponse" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="getserverinfoinfo">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="ServerTimeZone" type="xs:string" minOccurs="0"/>
+                      <xs:element name="ServerTime" type="xs:string" minOccurs="0"/>
+                      <xs:element name="ServerDateTimeOffset" type="xs:string" minOccurs="0"/>
+                      <xs:element name="System" type="xs:string" minOccurs="0"/>
+                      <xs:element name="ProductVersion" type="xs:string" minOccurs="0"/>
+                      <xs:element name="uaibornondate" type="xs:string" minOccurs="0"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:complexType>
+          </xs:element>
+        </xs:schema>
+        <diffgr:diffgram xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+          <getserverinforesponse xmlns="">
+            <getserverinfoinfo diffgr:id="getserverinfoinfo1" msdata:rowOrder="0">
+              <ServerTimeZone>Eastern Standard Time</ServerTimeZone>
+              <ServerTime>2013-10-24T18:41:43</ServerTime>
+              <ServerDateTimeOffset>2013-10-24T18:41:43.6130000-04:00</ServerDateTimeOffset>
+              <System>Enterprise EHR</System>
+              <ProductVersion>11.2.3.32.000</ProductVersion>
+              <uaibornondate>10/07/2013</uaibornondate>
+            </getserverinfoinfo>
+          </getserverinforesponse>
+        </diffgr:diffgram>
+      </MagicResult>
+    </MagicResponse>
+  </s:Body>
+</s:Envelope>

@@ -18,18 +18,20 @@ lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
 require 'allscripts_unity_client'
+
 require 'rspec'
 require 'webmock/rspec'
 require 'savon/mock/spec_helper'
 require 'securerandom'
 require 'faker'
 require 'factory_girl'
-
-# Include all factories
-FactoryGirl.find_definitions
+require 'json'
 
 # Include all support files
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
+
+# Include all factories
+FactoryGirl.find_definitions
 
 RSpec.configure do |config|
 end

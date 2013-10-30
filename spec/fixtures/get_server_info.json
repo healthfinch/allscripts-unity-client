@@ -1,0 +1,10 @@
+[{
+  "getserverinfoinfo": [{
+    "ServerDateTimeOffset": "2013-10-29T10:30:45.0292000-04:00",
+    "ServerTime": "2013-10-29T10:30:45",
+    "uaibornondate": "10/07/2013",
+    "ProductVersion": "11.2.3.32.000",
+    "System": "Enterprise EHR",
+    "ServerTimeZone": "Eastern Standard Time"
+  }]
+}]
