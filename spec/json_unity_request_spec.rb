@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'JSONUnityRequest' do
   it_behaves_like 'a unity request'
 
-  subject(:unity_request) { FactoryGirl.build(:json_unity_request) }
+  subject { FactoryGirl.build(:json_unity_request) }
 
   describe '#initialize' do
     context 'when nil is given for parameters' do
@@ -25,13 +25,13 @@ describe 'JSONUnityRequest' do
 
   describe '#to_hash' do
     it ':userid maps to AppUserID' do
-      unity_request.parameters = FactoryGirl.build(:magic_request, :userid => 'UserID')
-      expect(unity_request.to_hash['AppUserID']).to eq('UserID')
+      subject.parameters = FactoryGirl.build(:magic_request, :userid => 'UserID')
+      expect(subject.to_hash['AppUserID']).to eq('UserID')
     end
 
     it ':data maps to Base64 encoded Data' do
-      unity_request.parameters = FactoryGirl.build(:magic_request, :data => 'data')
-      expect(unity_request.to_hash['Data']).to eq(['data'].pack('m'))
+      subject.parameters = FactoryGirl.build(:magic_request, :data => 'data')
+      expect(subject.to_hash['Data']).to eq(['data'].pack('m'))
     end
   end
 end

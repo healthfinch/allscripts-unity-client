@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'JSONUnityResponse' do
   it_behaves_like 'a unity response'
 
-  subject(:unity_response) { FactoryGirl.build(:json_unity_response, :response => magic_response_json) }
+  subject { FactoryGirl.build(:json_unity_response, :response => magic_response_json) }
 
   let(:magic_response_json) do
     [
@@ -60,20 +60,20 @@ describe 'JSONUnityResponse' do
   describe '#to_hash' do
     context 'when given a GetServerInfo JSON response hash' do
       it 'strips Unity JSON wrappers' do
-        expect(unity_response.to_hash[:server_time_zone]).to_not be_nil
+        expect(subject.to_hash[:server_time_zone]).to_not be_nil
       end
 
       context 'when given empty response' do
         it 'returns []' do
-          unity_response.response = []
-          expect(unity_response.to_hash).to eq([])
+          subject.response = []
+          expect(subject.to_hash).to eq([])
         end
       end
 
       context 'when given a multiple item response' do
         it 'returns an array' do
-          unity_response.response = magic_response_json_array
-          expect(unity_response.to_hash).to be_instance_of(Array)
+          subject.response = magic_response_json_array
+          expect(subject.to_hash).to be_instance_of(Array)
         end
       end
     end

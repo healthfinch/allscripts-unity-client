@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Timezone' do
-  subject(:timezone) { FactoryGirl.build(:timezone) }
+  subject { FactoryGirl.build(:timezone) }
 
   let(:positive_timezone) { FactoryGirl.build(:timezone, :zone_identifier => "Asia/Jakarta") }
   let(:utc_timezone) { FactoryGirl.build(:timezone, :zone_identifier => "UTC") }
@@ -33,106 +33,106 @@ describe 'Timezone' do
 
   describe '#local_to_utc' do
     it 'calls #convert_with_timezone with :local_to_utc' do
-      allow(timezone).to receive(:convert_with_timezone).and_return(local_string)
-      timezone.local_to_utc(local_string)
-      expect(timezone).to have_received(:convert_with_timezone).with(:local_to_utc, local_string)
+      allow(subject).to receive(:convert_with_timezone).and_return(local_string)
+      subject.local_to_utc(local_string)
+      expect(subject).to have_received(:convert_with_timezone).with(:local_to_utc, local_string)
     end
   end
 
   describe '#utc_to_local' do
     it 'calls #convert_with_timezone with :utc_to_local' do
-      allow(timezone).to receive(:convert_with_timezone).and_return(local_string)
-      timezone.utc_to_local(local_string)
-      expect(timezone).to have_received(:convert_with_timezone).with(:utc_to_local, local_string)
+      allow(subject).to receive(:convert_with_timezone).and_return(local_string)
+      subject.utc_to_local(local_string)
+      expect(subject).to have_received(:convert_with_timezone).with(:utc_to_local, local_string)
     end
   end
 
   describe '#convert_with_timezone' do
     context 'when given nil' do
-      it { expect(timezone.send(:convert_with_timezone, nil)).to be_nil }
+      it { expect(subject.send(:convert_with_timezone, nil)).to be_nil }
     end
 
     context 'when given :local_to_utc and a Date' do
       it 'returns a Date' do
-        expect(timezone.send(:convert_with_timezone, :local_to_utc, date)).to be_an_instance_of(Date)
+        expect(subject.send(:convert_with_timezone, :local_to_utc, date)).to be_an_instance_of(Date)
       end
     end
 
     context 'when given :local_to_utc and a Time' do
       it 'returns a Date' do
-        expect(timezone.send(:convert_with_timezone, :local_to_utc, local_time)).to be_an_instance_of(Time)
+        expect(subject.send(:convert_with_timezone, :local_to_utc, local_time)).to be_an_instance_of(Time)
       end
     end
 
     context 'when given :local_to_utc and a DateTime' do
       it 'returns a DateTime' do
-        expect(timezone.send(:convert_with_timezone, :local_to_utc, local_datetime)).to be_an_instance_of(DateTime)
+        expect(subject.send(:convert_with_timezone, :local_to_utc, local_datetime)).to be_an_instance_of(DateTime)
       end
     end
 
     context 'when given :local_to_utc and a String' do
       it 'returns a DateTime' do
-        expect(timezone.send(:convert_with_timezone, :local_to_utc, local_string)).to be_an_instance_of(DateTime)
+        expect(subject.send(:convert_with_timezone, :local_to_utc, local_string)).to be_an_instance_of(DateTime)
       end
     end
 
     context 'when given :utc_to_local and a Date' do
       it 'returns a Date' do
-        expect(timezone.send(:convert_with_timezone, :utc_to_local, date)).to be_an_instance_of(Date)
+        expect(subject.send(:convert_with_timezone, :utc_to_local, date)).to be_an_instance_of(Date)
       end
     end
 
     context 'when given :utc_to_local and a Time' do
       it 'returns a Date' do
-        expect(timezone.send(:convert_with_timezone, :utc_to_local, utc_time)).to be_an_instance_of(Time)
+        expect(subject.send(:convert_with_timezone, :utc_to_local, utc_time)).to be_an_instance_of(Time)
       end
     end
 
     context 'when given :utc_to_local and a DateTime' do
       it 'returns a DateTime' do
-        expect(timezone.send(:convert_with_timezone, :utc_to_local, utc_datetime)).to be_an_instance_of(DateTime)
+        expect(subject.send(:convert_with_timezone, :utc_to_local, utc_datetime)).to be_an_instance_of(DateTime)
       end
     end
 
     context 'when given :utc_to_local and a String' do
       it 'returns a DateTime' do
-        expect(timezone.send(:convert_with_timezone, :utc_to_local, utc_string)).to be_an_instance_of(DateTime)
+        expect(subject.send(:convert_with_timezone, :utc_to_local, utc_string)).to be_an_instance_of(DateTime)
       end
     end
 
     describe 'converts local time to UTC' do
       context 'when given an ISO8601 date string' do
-        it { expect(timezone.send(:convert_with_timezone, :local_to_utc, local_string)).to eq(utc_datetime) }
+        it { expect(subject.send(:convert_with_timezone, :local_to_utc, local_string)).to eq(utc_datetime) }
       end
 
       context 'when given a Date' do
-        it { expect(timezone.send(:convert_with_timezone, :local_to_utc, date)).to eq(date) }
+        it { expect(subject.send(:convert_with_timezone, :local_to_utc, date)).to eq(date) }
       end
 
       context 'when given a local Time' do
-        it { expect(time_to_s(timezone.send(:convert_with_timezone, :local_to_utc, local_time))).to eq(time_to_s(utc_time)) }
+        it { expect(time_to_s(subject.send(:convert_with_timezone, :local_to_utc, local_time))).to eq(time_to_s(utc_time)) }
       end
 
       context 'when given a local DateTime' do
-        it { expect(timezone.send(:convert_with_timezone, :local_to_utc, local_datetime)).to eq(utc_datetime) }
+        it { expect(subject.send(:convert_with_timezone, :local_to_utc, local_datetime)).to eq(utc_datetime) }
       end
     end
 
     describe 'converts UTC time to local' do
       context 'when given an ISO8601 date string' do
-        it { expect(timezone.send(:convert_with_timezone, :utc_to_local, utc_string)).to eq(local_datetime) }
+        it { expect(subject.send(:convert_with_timezone, :utc_to_local, utc_string)).to eq(local_datetime) }
       end
 
       context 'when given a Date' do
-        it { expect(timezone.send(:convert_with_timezone, :utc_to_local, date)).to eq(date) }
+        it { expect(subject.send(:convert_with_timezone, :utc_to_local, date)).to eq(date) }
       end
 
       context 'when given a local Time' do
-        it { expect(time_to_s(timezone.send(:convert_with_timezone, :utc_to_local, utc_time))).to eq(time_to_s(local_time)) }
+        it { expect(time_to_s(subject.send(:convert_with_timezone, :utc_to_local, utc_time))).to eq(time_to_s(local_time)) }
       end
 
       context 'when given a local DateTime' do
-        it { expect(timezone.send(:convert_with_timezone, :utc_to_local, utc_datetime)).to eq(local_datetime) }
+        it { expect(subject.send(:convert_with_timezone, :utc_to_local, utc_datetime)).to eq(local_datetime) }
       end
     end
   end
@@ -140,7 +140,7 @@ describe 'Timezone' do
   describe "#iso8601_with_offset" do
     context 'when given nil' do
       it 'returns nil' do
-        expect(timezone.send(:iso8601_with_offset, nil)).to be_nil
+        expect(subject.send(:iso8601_with_offset, nil)).to be_nil
       end
     end
 
@@ -150,7 +150,7 @@ describe 'Timezone' do
       end
 
       context 'when timezone offset is negative' do
-        it { expect(timezone.send(:iso8601_with_offset, utc_datetime)).to match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-07:00$/) }
+        it { expect(subject.send(:iso8601_with_offset, utc_datetime)).to match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-07:00$/) }
       end
 
       context 'when timezone offset is positive' do

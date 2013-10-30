@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'UnityResponse' do
   it_behaves_like 'a unity response'
 
-  subject(:unity_response) { FactoryGirl.build(:unity_response, :response => magic_response_soap) }
+  subject { FactoryGirl.build(:unity_response, :response => magic_response_soap) }
 
   let(:magic_response_soap) do
     {
@@ -101,15 +101,15 @@ describe 'UnityResponse' do
   describe '#to_hash' do
     context 'when given a GetServerInfo SOAP response hash' do
       it 'strips Unity SOAP wrappers' do
-        expect(unity_response.to_hash[:server_time_zone]).to_not be_nil
+        expect(subject.to_hash[:server_time_zone]).to_not be_nil
       end
 
       context 'when given nil magic_result' do
         it 'returns []' do
           magic_response = magic_response_soap
           magic_response[:magic_response][:magic_result][:diffgram] = nil
-          unity_response.response = magic_response
-          expect(unity_response.to_hash).to eq([])
+          subject.response = magic_response
+          expect(subject.to_hash).to eq([])
         end
       end
     end

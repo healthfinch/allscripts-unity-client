@@ -56,21 +56,21 @@ shared_examples 'a unity response' do
 
   describe '#strip_attributes' do
     context 'when given nil' do
-      it { expect(unity_response.send(:strip_attributes, nil)).to be_nil }
+      it { expect(subject.send(:strip_attributes, nil)).to be_nil }
     end
 
     it 'recursively strips attribute keys off hashes' do
-      expect(unity_response.send(:strip_attributes, attributes_hash)).to eq(stripped_attributes_hash)
+      expect(subject.send(:strip_attributes, attributes_hash)).to eq(stripped_attributes_hash)
     end
   end
 
   describe '#convert_dates_to_utc' do
     context 'when given nil' do
-      it { expect(unity_response.send(:convert_dates_to_utc, nil)).to be_nil }
+      it { expect(subject.send(:convert_dates_to_utc, nil)).to be_nil }
     end
 
     it 'recursively converts date strings' do
-      expect(unity_response.send(:convert_dates_to_utc, date_hash)).to eq(converted_date_hash)
+      expect(subject.send(:convert_dates_to_utc, date_hash)).to eq(converted_date_hash)
     end
   end
 end

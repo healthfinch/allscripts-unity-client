@@ -2,6 +2,8 @@ require "nokogiri"
 
 module AllscriptsUnityClient
   class Client
+    attr_accessor :client_driver
+
     def initialize(client_driver)
       raise ArgumentError, "client_driver can not be nil" if client_driver.nil?
 

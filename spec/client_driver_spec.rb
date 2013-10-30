@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'ClientDriver' do
-  subject(:client_driver) { FactoryGirl.build(:client_driver) }
+  subject { FactoryGirl.build(:client_driver) }
 
   describe '#initialize' do
     context 'when nil is given for base_unity_url' do
@@ -39,32 +39,32 @@ describe 'ClientDriver' do
   describe '#security_token?' do
     context 'when @security_token is nil' do
       it do
-        client_driver.security_token = nil
-        expect(client_driver.security_token?).to be_false
+        subject.security_token = nil
+        expect(subject.security_token?).to be_false
       end
     end
 
     context 'when @security_token is not nil' do
       it do
-        client_driver.security_token = "security token"
-        expect(client_driver.security_token?).to be_true
+        subject.security_token = "security token"
+        expect(subject.security_token?).to be_true
       end
     end
   end
 
   describe '#client_type' do
-    it { expect(client_driver.client_type).to be(:none) }
+    it { expect(subject.client_type).to be(:none) }
   end
 
   describe '#magic' do
-    it { expect { client_driver.magic }.to raise_error(NotImplementedError) }
+    it { expect { subject.magic }.to raise_error(NotImplementedError) }
   end
 
   describe '#get_security_token!' do
-    it { expect { client_driver.get_security_token! }.to raise_error(NotImplementedError) }
+    it { expect { subject.get_security_token! }.to raise_error(NotImplementedError) }
   end
 
   describe '#retire_security_token!' do
-    it { expect { client_driver.retire_security_token! }.to raise_error(NotImplementedError) }
+    it { expect { subject.retire_security_token! }.to raise_error(NotImplementedError) }
   end
 end
