@@ -1,5 +1,12 @@
 require 'pathname'
 require 'simplecov'
+require 'coveralls'
+
+# Configure coverage stats.
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
 SimpleCov.start do
   add_filter do |source_file|
     filename = Pathname.new(source_file.filename).basename
