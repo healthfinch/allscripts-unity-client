@@ -2,6 +2,8 @@ require "savon"
 
 module AllscriptsUnityClient
   class SOAPClientDriver < ClientDriver
+    attr_accessor :savon_client
+
     UNITY_SOAP_ENDPOINT = "/Unity/UnityService.svc/unityservice"
     UNITY_ENDPOINT_NAMESPACE = "http://www.allscripts.com/Unity/IUnityService"
 

@@ -1,0 +1,13 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <s:Fault>
+      <faultcode>s:Client</faultcode>
+      <faultstring xml:lang="en-US">Magic Error - Action: GetProviders - As a Security precaution, you have been logged out due to inactivity.</faultstring>
+      <detail>
+        <UnityFault xmlns="http://schemas.datacontract.org/2004/07/Allscripts.UAI.Unity.UnityService" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+          <ErrorMessage>Magic Error - Action: GetProviders - As a Security precaution, you have been logged out due to inactivity.</ErrorMessage>
+        </UnityFault>
+      </detail>
+    </s:Fault>
+  </s:Body>
+</s:Envelope>

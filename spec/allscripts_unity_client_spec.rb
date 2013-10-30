@@ -26,6 +26,14 @@ describe 'AllscriptsUnityClient' do
         expect(subject.create(parameters).client_type).to be(:json)
       end
     end
+
+    context 'when not given :mode' do
+      it 'returns a SOAPClient' do
+        savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
+        parameters = FactoryGirl.build(:allscripts_unity_client_parameters)
+        expect(subject.create(parameters).client_type).to be(:soap)
+      end
+    end
   end
 
   describe '.raise_if_parameters_invalid' do
