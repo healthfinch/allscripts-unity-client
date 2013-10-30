@@ -20,7 +20,7 @@ describe 'AllscriptsUnityClient' do
     end
 
     context 'when given :mode => :json' do
-      it 'returns a JSONClient' do
+      it 'returns a client with client_type :json' do
         stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/GetToken")
         parameters = FactoryGirl.build(:allscripts_unity_client_parameters, :mode => :json)
         expect(subject.create(parameters).client_type).to be(:json)
@@ -28,9 +28,10 @@ describe 'AllscriptsUnityClient' do
     end
 
     context 'when not given :mode' do
-      it 'returns a SOAPClient' do
+      it 'returns a client with client_type :soap' do
         savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
         parameters = FactoryGirl.build(:allscripts_unity_client_parameters)
+        parameters[:mode] = nil
         expect(subject.create(parameters).client_type).to be(:soap)
       end
     end

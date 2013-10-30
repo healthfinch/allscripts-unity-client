@@ -143,7 +143,7 @@ Maintainer(s):  Ash Gupta (https://github.com/incomethax), Neil Goodman (https:/
 
 ## License:
 
-Copyright (c) 2012 healthfinch, Inc
+Copyright (c) 2013 healthfinch, Inc
 
 MIT License
 
