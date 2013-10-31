@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "savon", "~> 2.3.0"
   gem.add_runtime_dependency "httpi", "~> 2.1.0"
   gem.add_runtime_dependency "net-http-persistent", "~> 2.9.0"
-  gem.add_runtime_dependency "tzinfo", "<= 1.1.0", ">= 0.3.29"
+  gem.add_runtime_dependency "tzinfo", "~> 0.3.29"
   gem.add_runtime_dependency "tzinfo-data", "~> 1.2013.7"
   gem.add_runtime_dependency "nokogiri", "~> 1.5.0"
 
