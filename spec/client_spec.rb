@@ -394,4 +394,13 @@ describe 'Client' do
   describe '#update_referral_order_status' do
     it { expect { subject.update_referral_order_status }.to raise_error(NotImplementedError) }
   end
+
+  describe '#nokogiri_to_string' do
+    context 'when given a Nokogiri::XML::Builder' do
+      it 'returns an XML string' do
+        builder = Nokogiri::XML::Builder.new { |xml| xml.field "test" }
+        expect(subject.send(:nokogiri_to_string, builder)).to eq("<field>test</field>")
+      end
+    end
+  end
 end
