@@ -57,6 +57,21 @@ describe 'JSONClientDriver' do
         expect(client_driver.timezone.tzinfo).to eq(utc_timezone.tzinfo)
       end
     end
+
+    context 'when nil is given for logger' do
+      it 'sets @logger to Logger' do
+        client_driver = FactoryGirl.build(:json_client_driver, :logger => nil)
+        expect(client_driver.logger).to be_instance_of(Logger)
+      end
+    end
+
+    context 'when logger is set' do
+      it 'sets @logger to logger' do
+        logger = double("logger")
+        client_driver = FactoryGirl.build(:json_client_driver, :logger => logger)
+        expect(client_driver.logger).to be(logger)
+      end
+    end
   end
 
   describe '#client_type' do
