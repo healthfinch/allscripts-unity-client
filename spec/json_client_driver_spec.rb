@@ -60,7 +60,7 @@ describe 'JSONClientDriver' do
 
     context 'when nil is given for logger' do
       it 'sets @logger to Logger' do
-        client_driver = FactoryGirl.build(:client_driver, :logger => nil)
+        client_driver = FactoryGirl.build(:json_client_driver, :logger => nil)
         expect(client_driver.logger).to be_instance_of(Logger)
       end
     end
@@ -68,7 +68,7 @@ describe 'JSONClientDriver' do
     context 'when logger is set' do
       it 'sets @logger to logger' do
         logger = double("logger")
-        client_driver = FactoryGirl.build(:client_driver, :logger => logger)
+        client_driver = FactoryGirl.build(:json_client_driver, :logger => logger)
         expect(client_driver.logger).to be(logger)
       end
     end
