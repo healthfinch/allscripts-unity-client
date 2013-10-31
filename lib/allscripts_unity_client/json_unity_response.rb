@@ -5,10 +5,6 @@ module AllscriptsUnityClient
     def to_hash
       result = @response
 
-      if result.empty?
-        return []
-      end
-
       # All JSON magic responses are an array with one item
       result = result.first
 

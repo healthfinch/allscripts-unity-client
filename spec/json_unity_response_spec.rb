@@ -23,19 +23,21 @@ describe 'JSONUnityResponse' do
       it 'strips Unity JSON wrappers' do
         expect(subject.to_hash[:server_time_zone]).to_not be_nil
       end
+    end
 
-      context 'when given empty response' do
-        it 'returns []' do
-          subject.response = []
-          expect(subject.to_hash).to eq([])
-        end
+    context 'when given empty response' do
+      it 'returns []' do
+        magic_response = get_providers
+        magic_response[0]["getprovidersinfo"] = []
+        subject.response = magic_response
+        expect(subject.to_hash).to eq([])
       end
+    end
 
-      context 'when given a multiple item response' do
-        it 'returns an array' do
-          subject.response = get_providers
-          expect(subject.to_hash).to be_instance_of(Array)
-        end
+    context 'when given a multiple item response' do
+      it 'returns an array' do
+        subject.response = get_providers
+        expect(subject.to_hash).to be_instance_of(Array)
       end
     end
   end

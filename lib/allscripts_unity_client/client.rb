@@ -590,12 +590,5 @@ module AllscriptsUnityClient
     def nokogiri_to_string(builder)
       builder.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
     end
-
-    protected
-
-    # Stub method that needs to be implemented by subclasses
-    def setup!
-      raise NotImplementedError, "create_client not implemented"
-    end
   end
 end

@@ -64,26 +64,89 @@ describe 'JSONClientDriver' do
   end
 
   describe '#magic' do
-    it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
+    before(:each) {
       stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").to_return(:body => get_server_info)
+      allow(subject).to receive(:start_timer)
+      allow(subject).to receive(:end_timer)
+      allow(subject).to receive(:log_magic)
+    }
+
+    it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
       subject.magic
       WebMock.should have_requested(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson")
+    end
+
+    it 'should call start_timer' do
+      subject.magic
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call end_timer' do
+      subject.magic
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call log_magic' do
+      subject.magic
+      expect(subject).to have_received(:log_magic)
     end
   end
 
   describe '#get_security_token!' do
-    it 'should POST to /Unity/UnityService.svc/json/GetToken' do
+    before(:each) {
       stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/GetToken").to_return(:body => get_security_token)
+      allow(subject).to receive(:start_timer)
+      allow(subject).to receive(:end_timer)
+      allow(subject).to receive(:log_get_security_token)
+    }
+
+    it 'should POST to /Unity/UnityService.svc/json/GetToken' do
       subject.get_security_token!
       WebMock.should have_requested(:post, "http://www.example.com/Unity/UnityService.svc/json/GetToken")
+    end
+
+    it 'should call start_timer' do
+      subject.get_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call end_timer' do
+      subject.get_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call log_get_security_token' do
+      subject.get_security_token!
+      expect(subject).to have_received(:log_get_security_token)
     end
   end
 
   describe '#retire_security_token!' do
-    it 'should POST to /Unity/UnityService.svc/json/RetireSecurityToken' do
+    before(:each) {
       stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken").to_return(:body => retire_security_token)
+      allow(subject).to receive(:start_timer)
+      allow(subject).to receive(:end_timer)
+      allow(subject).to receive(:log_retire_security_token)
+    }
+
+    it 'should POST to /Unity/UnityService.svc/json/RetireSecurityToken' do
       subject.retire_security_token!
       WebMock.should have_requested(:post, "http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken")
+    end
+
+    it 'should call start_timer' do
+      subject.retire_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call end_timer' do
+      subject.retire_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call log_retire_security_token' do
+      subject.retire_security_token!
+      expect(subject).to have_received(:log_retire_security_token)
     end
   end
 

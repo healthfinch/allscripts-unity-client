@@ -15,13 +15,14 @@ module AllscriptsUnityClient
 
   def self.create(parameters = {})
     parameters[:mode] ||= :soap
+    parameters[:log] = true unless parameters[:log] === false
     raise_if_parameters_invalid parameters
 
     case parameters[:mode]
     when :json
-      client_driver = JSONClientDriver.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone])
+      client_driver = JSONClientDriver.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone], parameters[:logger], parameters[:log])
     when :soap
-      client_driver = SOAPClientDriver.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone])
+      client_driver = SOAPClientDriver.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone], parameters[:logger], parameters[:log])
     end
 
     client = Client.new(client_driver)

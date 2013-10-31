@@ -71,6 +71,12 @@ describe 'SOAPClientDriver' do
   end
 
   describe '#magic' do
+    before(:each) {
+      allow(subject).to receive(:start_timer)
+      allow(subject).to receive(:end_timer)
+      allow(subject).to receive(:log_magic)
+    }
+
     it 'should send a SOAP request to Magic endpoint' do
       savon.expects("Magic").with(:message => :any).returns(get_server_info)
       subject.magic
@@ -82,9 +88,33 @@ describe 'SOAPClientDriver' do
         expect { subject.magic }.to raise_error(AllscriptsUnityClient::APIError)
       end
     end
+
+    it 'should call start_timer' do
+      savon.expects("Magic").with(:message => :any).returns(get_server_info)
+      subject.magic
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call end_timer' do
+      savon.expects("Magic").with(:message => :any).returns(get_server_info)
+      subject.magic
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call log_magic' do
+      savon.expects("Magic").with(:message => :any).returns(get_server_info)
+      subject.magic
+      expect(subject).to have_received(:log_magic)
+    end
   end
 
   describe '#get_security_token!' do
+    before(:each) {
+      allow(subject).to receive(:start_timer)
+      allow(subject).to receive(:end_timer)
+      allow(subject).to receive(:log_get_security_token)
+    }
+
     it 'should send a SOAP request to GetSecurityToken endpoint' do
       savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
       subject.get_security_token!
@@ -96,9 +126,33 @@ describe 'SOAPClientDriver' do
         expect { subject.get_security_token! }.to raise_error(AllscriptsUnityClient::APIError)
       end
     end
+
+    it 'should call start_timer' do
+      savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
+      subject.get_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call end_timer' do
+      savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
+      subject.get_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call log_get_security_token' do
+      savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
+      subject.get_security_token!
+      expect(subject).to have_received(:log_get_security_token)
+    end
   end
 
   describe '#retire_security_token!' do
+    before(:each) {
+      allow(subject).to receive(:start_timer)
+      allow(subject).to receive(:end_timer)
+      allow(subject).to receive(:log_retire_security_token)
+    }
+
     it 'should send a SOAP request to RetireSecurityToken endpoint' do
       savon.expects("RetireSecurityToken").with(:message => :any).returns(retire_security_token)
       subject.retire_security_token!
@@ -109,6 +163,24 @@ describe 'SOAPClientDriver' do
         savon.expects("RetireSecurityToken").with(:message => :any).returns({ code: 500, headers: {}, body: soap_fault })
         expect { subject.retire_security_token! }.to raise_error(AllscriptsUnityClient::APIError)
       end
+    end
+
+    it 'should call start_timer' do
+      savon.expects("RetireSecurityToken").with(:message => :any).returns(retire_security_token)
+      subject.retire_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call end_timer' do
+      savon.expects("RetireSecurityToken").with(:message => :any).returns(retire_security_token)
+      subject.retire_security_token!
+      expect(subject).to have_received(:start_timer)
+    end
+
+    it 'should call log_retire_security_token' do
+      savon.expects("RetireSecurityToken").with(:message => :any).returns(retire_security_token)
+      subject.retire_security_token!
+      expect(subject).to have_received(:log_retire_security_token)
     end
   end
 end

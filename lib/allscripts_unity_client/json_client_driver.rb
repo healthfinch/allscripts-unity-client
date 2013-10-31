@@ -7,8 +7,11 @@ module AllscriptsUnityClient
 
     UNITY_JSON_ENDPOINT = "/Unity/UnityService.svc/json"
 
-    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil)
+    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil, logger = nil, log = true)
       super
+
+      # Disable HTTPI logging
+      HTTPI.log = false
 
       @json_base_url = "#{@base_unity_url}#{UNITY_JSON_ENDPOINT}"
     end
@@ -20,10 +23,15 @@ module AllscriptsUnityClient
     def magic(parameters = {})
       request_data = JSONUnityRequest.new(parameters, @timezone, @appname, @security_token)
       request = create_httpi_request("#{@json_base_url}/MagicJson", request_data.to_hash)
+
+      start_timer
       response = HTTPI.post(request)
+      end_timer
+
       response = JSON.parse(response.body)
 
       raise_if_response_error(response)
+      log_magic(request_data)
 
       response = JSONUnityResponse.new(response, @timezone)
       response.to_hash
@@ -40,9 +48,13 @@ module AllscriptsUnityClient
         "Appname" => appname
       }
       request = create_httpi_request("#{@json_base_url}/GetToken", request_data)
+
+      start_timer
       response = HTTPI.post(request, :net_http_persistent)
+      end_timer
 
       raise_if_response_error(response.body)
+      log_get_security_token
 
       @security_token = response.body
     end
@@ -56,9 +68,13 @@ module AllscriptsUnityClient
         "Appname" => appname
       }
       request = create_httpi_request("#{@json_base_url}/RetireSecurityToken", request_data)
+
+      start_timer
       response = HTTPI.post(request, :net_http_persistent)
+      end_timer
 
       raise_if_response_error(response.body)
+      log_retire_security_token
 
       @security_token = nil
     end

@@ -7,7 +7,7 @@ module AllscriptsUnityClient
     UNITY_SOAP_ENDPOINT = "/Unity/UnityService.svc/unityservice"
     UNITY_ENDPOINT_NAMESPACE = "http://www.allscripts.com/Unity/IUnityService"
 
-    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil)
+    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil, logger = nil, log = true)
       super
 
       client_proxy = @proxy
@@ -42,6 +42,9 @@ module AllscriptsUnityClient
         # as of Born On 10/7/2013, but it doesn't hurt to future-proof. If gzip
         # is ever enabled, this library will get a speed bump for free.
         headers({ "Accept-Encoding" => "gzip,deflate" })
+
+        # Disable Savon logs
+        log false
       end
     end
 
@@ -57,10 +60,14 @@ module AllscriptsUnityClient
       }
 
       begin
+        start_timer
         response = @savon_client.call("Magic", call_data)
+        end_timer
       rescue Savon::SOAPFault => e
         raise APIError, e.message
       end
+
+      log_magic(request_data)
 
       response = UnityResponse.new(response.body, @timezone)
       response.to_hash
@@ -81,10 +88,14 @@ module AllscriptsUnityClient
       }
 
       begin
+        start_timer
         response = @savon_client.call("GetSecurityToken", call_data)
+        end_timer
       rescue Savon::SOAPFault => e
         raise APIError, e.message
       end
+
+      log_get_security_token
 
       @security_token = response.body[:get_security_token_response][:get_security_token_result]
     end
@@ -102,10 +113,14 @@ module AllscriptsUnityClient
       }
 
       begin
+        start_timer
         @savon_client.call("RetireSecurityToken", call_data)
+        end_timer
       rescue Savon::SOAPFault => e
         raise APIError, e.message
       end
+
+      log_retire_security_token
 
       @security_token = nil
     end

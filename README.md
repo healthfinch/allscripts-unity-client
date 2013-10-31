@@ -1,7 +1,4 @@
-# Allscripts Unity Client
-
-[![Build Status](https://travis-ci.org/healthfinch/allscripts-unity-client.png?branch=master)](https://travis-ci.org/healthfinch/allscripts-unity-client)
-[![Coverage Status](https://coveralls.io/repos/healthfinch/allscripts-unity-client/badge.png?branch=master)](https://coveralls.io/r/healthfinch/allscripts-unity-client?branch=master)
+# Allscripts Unity Client [![Build Status](https://travis-ci.org/healthfinch/allscripts-unity-client.png?branch=master)](https://travis-ci.org/healthfinch/allscripts-unity-client) [![Coverage Status](https://coveralls.io/repos/healthfinch/allscripts-unity-client/badge.png?branch=master)](https://coveralls.io/r/healthfinch/allscripts-unity-client?branch=master)
 
 The `allscripts_unity_client` gem is a Ruby client for the Allscripts Unity API.  See http://asdn.unitysandbox.com/UnitySDK/SDK/ for more documentation on the API.
  
@@ -128,6 +125,22 @@ unity_client = AllscriptsUnityClient.create(:timezone => "America/New_York", :ba
 
 Any `magic` action that takes in a date needs to be given in UTC. Dates can be `Date`, `DateTime`, `Time`, or a string. Dates will be processed and formatted in the correct
 [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format that Unity requires.
+
+## Logging
+
+By default Ruby's Logger is used and logs to STDOUT with level Logger::INFO. Custom loggers can be configured:
+
+```ruby
+unity_client = AllscriptsUnityClient.create(:base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password", :logger => Rails.logger)
+```
+
+Logging can also be disabled:
+
+```ruby
+unity_client = AllscriptsUnityClient.create(:base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password", :log => false)
+```
+
+Magic action is the only parameter logged with requests and responses are not logged. This is done to prevent logging PHI.
 
 ## Contributing
 
