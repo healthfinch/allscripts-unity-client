@@ -7,5 +7,7 @@ FactoryGirl.define do
     password Faker::Internet.password
     appname Faker::Name.name
     mode [:json, :soap].sample
+    log false
+    logger nil
   end
 end

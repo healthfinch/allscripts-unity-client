@@ -95,6 +95,16 @@ shared_examples 'a client driver' do
       end
     end
 
+    context 'when @timer is nil and log is true' do
+      it 'should not include seconds in the log' do
+        subject.log = true
+        subject.instance_variable_set("@timer", nil)
+        allow(subject.logger).to receive(:info)
+        subject.send(:log_info, "test")
+        expect(subject.logger).to_not have_received(:info).with(match(/seconds/))
+      end
+    end
+
     context 'when @timer is not nil and log is true' do
       it 'should include seconds in log' do
         subject.log = true

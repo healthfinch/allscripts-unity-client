@@ -22,6 +22,8 @@ module AllscriptsUnityClient
       if logger.nil?
         @logger = Logger.new(STDOUT)
         @logger.level = Logger::INFO
+      else
+        @logger = logger
       end
 
       unless timezone.nil?

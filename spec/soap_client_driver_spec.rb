@@ -64,6 +64,21 @@ describe 'SOAPClientDriver' do
         expect(client_driver.savon_client.globals.instance_variable_get("@options")[:proxy]).to eq(url)
       end
     end
+
+    context 'when nil is given for logger' do
+      it 'sets @logger to Logger' do
+        client_driver = FactoryGirl.build(:client_driver, :logger => nil)
+        expect(client_driver.logger).to be_instance_of(Logger)
+      end
+    end
+
+    context 'when logger is set' do
+      it 'sets @logger to logger' do
+        logger = double("logger")
+        client_driver = FactoryGirl.build(:client_driver, :logger => logger)
+        expect(client_driver.logger).to be(logger)
+      end
+    end
   end
 
   describe '#client_type' do
