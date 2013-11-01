@@ -20,38 +20,46 @@ Or install it yourself as:
 
 ### Creating clients
 
-The Allscripts Unity API has three endpoints: GetSecurityToken, Magic, and RetireSecurityToken and supports both SOAP and JSON.
-A Unity API client can be created using the `AllscriptsUnityClient#create` factory:
+The Allscripts Unity API supports both JSON and SOAP. Both versions are supported by this gem.
+A Unity API client can be created using the `AllscriptsUnityClient.create` factory:
 
 ```ruby
-unity_client = AllscriptsUnityClient.create(:base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password")
+unity_client = AllscriptsUnityClient.create({
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password"
+})
 ```
 
 A JSON client can also be created using the `:mode` option:
 
 ```ruby
 # Mode defaults to :soap
-unity_client = AllscriptsUnityClient.create(:mode => :json, :base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password")
+unity_client = AllscriptsUnityClient.create({
+  :mode => :json,
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password"
+})
 ```
 
 ### Security token management
-
-The `create` factory will request a security token from Unity when created. The token can be accessed using the `security_token` accessor:
-
-```ruby
-unity_client.security_token
-```
-
-Existence of a security token can also be checked:
-
-```ruby
-unity_client.security_token?
-```
 
 Security tokens can be manually requested using the `get_security_token!` method:
 
 ```ruby
 unity_client.get_security_token! # Fetches a new security token and stores it in security_token
+```
+
+After calling `get_security_token!`, each call to `magic` will automatically send `security_token` with the request. If a security token is
+no longer valid, an exception will be raised by Unity.
+
+The token can be accessed using the `security_token` accessor:
+
+```ruby
+unity_client.security_token
 ```
 
 Security tokens can be retired using the `retire_security_token!` method:
@@ -60,8 +68,11 @@ Security tokens can be retired using the `retire_security_token!` method:
 unity_client.retire_security_token! # Retires the security token with Unity and sets security_token to nil
 ```
 
-After calling `get_security_token!`, each call to `magic` will automatically send `security_token` with the request. If a security token is
-no longer valid, an exception will be raised by Unity.
+Existence of a security token can also be checked:
+
+```ruby
+unity_client.security_token?
+```
 
 ### Executing Magic calls
 
@@ -113,34 +124,129 @@ A number of helper methods exist that abstract away the details of the Magic ope
 
 All magic helper methods not on this list currently raise `NotImplementedError`. More helper methods will be added in future releases. Pull requests welcome.
 
-## Timezone
+### Timezone
 
 All times and dates coming from Unity are in local timezones. When creating the client, the `:timezone` option can be used to configure
 automatic timezone conversion. If no `:timezone` is given, then it will default to `UTC`. Timezones must be given in `TZInfo` zone identifier
 format. See [TZInfo](http://tzinfo.github.io/) for more information:
 
 ```ruby
-unity_client = AllscriptsUnityClient.create(:timezone => "America/New_York", :base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password")
+unity_client = AllscriptsUnityClient.create({
+  :timezone => "America/New_York",
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password"
+})
 ```
 
 Any `magic` action that takes in a date needs to be given in UTC. Dates can be `Date`, `DateTime`, `Time`, or a string. Dates will be processed and formatted in the correct
 [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format that Unity requires.
 
-## Logging
+### Logging
 
-By default Ruby's Logger is used and logs to STDOUT with level Logger::INFO. Custom loggers can be configured:
-
-```ruby
-unity_client = AllscriptsUnityClient.create(:base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password", :logger => Rails.logger)
-```
-
-Logging can also be disabled:
+By default Ruby's `Logger` is used and logs to `STDOUT` with a level of `Logger::INFO`. Custom loggers can be configured with the `:logger` option:
 
 ```ruby
-unity_client = AllscriptsUnityClient.create(:base_unity_url => "http://unity.base.url", :appname => "appname", :username => "username", :password => "password", :log => false)
+unity_client = AllscriptsUnityClient.create({
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :logger => Rails.logger
+})
 ```
 
-Magic action is the only parameter logged with requests and responses are not logged. This is done to prevent logging PHI.
+Logging can also be disabled with the `:log` option:
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :log => false
+})
+```
+
+Responses are not logged and Magic action is the only parameter logged with requests. This is done to prevent exposing PHI.
+
+### Proxy
+
+An HTTP proxy can be configured using the `:proxy` option:
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :proxy => "http://localhost:8888"
+})
+```
+
+## Examples
+
+### GetServerInfo SOAP
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :timezone => "America/New_York"
+})
+
+unity_client.get_security_token!
+
+# API call made using a helper
+unity_client.get_server_info
+```
+
+The above example would output the following `Hash`:
+
+```
+{
+  :server_time_zone => "Eastern Standard Time",
+  :server_time => #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
+  :server_date_time_offset => #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
+  :system => "Enterprise EHR",
+  :product_version => "11.2.3.32.000",
+  :uaibornondate => #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
+}
+```
+
+### GetServerInfo JSON
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  :mode => :json
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :timezone => "America/New_York"
+})
+
+unity_client.get_security_token!
+
+# API call made using a helper
+unity_client.get_server_info
+```
+
+The above example would output the following `Hash`:
+
+```
+{
+  :server_time_zone => "Eastern Standard Time",
+  :server_time => #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
+  :server_date_time_offset => #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
+  :system => "Enterprise EHR",
+  :product_version => "11.2.3.32.000",
+  :uaibornondate => #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
+}
+```
 
 ## Contributing
 
@@ -154,7 +260,7 @@ Magic action is the only parameter logged with requests and responses are not lo
 
 Maintainer(s):  Ash Gupta (https://github.com/incomethax), Neil Goodman (https://github.com/posco2k8)
 
-## License:
+## License
 
 Copyright (c) 2013 healthfinch, Inc
 

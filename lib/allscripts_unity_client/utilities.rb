@@ -1,3 +1,4 @@
+require "nori"
 require "date"
 
 module AllscriptsUnityClient

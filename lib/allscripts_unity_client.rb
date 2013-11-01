@@ -26,7 +26,6 @@ module AllscriptsUnityClient
     end
 
     client = Client.new(client_driver)
-    client.get_security_token!
     client
   end
 
