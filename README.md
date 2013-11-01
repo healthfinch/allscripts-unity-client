@@ -171,7 +171,23 @@ unity_client = AllscriptsUnityClient.create({
 
 Responses are not logged and Magic action is the only parameter logged with requests. This is done to prevent exposing PHI.
 
+### Proxy
+
+An HTTP proxy can be configured using the `:proxy` option:
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :proxy => "http://localhost:8888"
+})
+```
+
 ## Examples
+
+### GetServerInfo SOAP
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
@@ -200,6 +216,38 @@ The above example would output the following `Hash`:
   :uaibornondate => #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
 }
 ```
+
+### GetServerInfo JSON
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  :mode => :json
+  :base_unity_url => "http://unity.base.url",
+  :appname => "appname",
+  :username => "username",
+  :password => "password",
+  :timezone => "America/New_York"
+})
+
+unity_client.get_security_token!
+
+# API call made using a helper
+unity_client.get_server_info
+```
+
+The above example would output the following `Hash`:
+
+```
+{
+  :server_time_zone => "Eastern Standard Time",
+  :server_time => #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
+  :server_date_time_offset => #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
+  :system => "Enterprise EHR",
+  :product_version => "11.2.3.32.000",
+  :uaibornondate => #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
+}
+```
+
 ## Contributing
 
 1. Fork it
