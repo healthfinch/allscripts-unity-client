@@ -5,15 +5,9 @@ describe 'AllscriptsUnityClient' do
 
   subject { AllscriptsUnityClient }
 
-  let(:get_security_token) { FixtureLoader.load_file("get_security_token.xml") }
-
-  before(:all) { savon.mock! }
-  after(:all) { savon.unmock! }
-
   describe '.create' do
     context 'when given :mode => :soap' do
       it 'returns a SOAPClient' do
-        savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
         parameters = FactoryGirl.build(:allscripts_unity_client_parameters, :mode => :soap)
         expect(subject.create(parameters).client_type).to be(:soap)
       end
@@ -21,7 +15,6 @@ describe 'AllscriptsUnityClient' do
 
     context 'when given :mode => :json' do
       it 'returns a client with client_type :json' do
-        stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/GetToken")
         parameters = FactoryGirl.build(:allscripts_unity_client_parameters, :mode => :json)
         expect(subject.create(parameters).client_type).to be(:json)
       end
@@ -29,7 +22,6 @@ describe 'AllscriptsUnityClient' do
 
     context 'when not given :mode' do
       it 'returns a client with client_type :soap' do
-        savon.expects("GetSecurityToken").with(:message => :any).returns(get_security_token)
         parameters = FactoryGirl.build(:allscripts_unity_client_parameters)
         parameters[:mode] = nil
         expect(subject.create(parameters).client_type).to be(:soap)
