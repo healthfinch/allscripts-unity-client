@@ -366,18 +366,13 @@ describe 'Client' do
   end
 
   describe '#search_meds'
-
-  describe '#search_patients' do
-    it { expect { subject.search_patients }.to raise_error(NotImplementedError) }
-  end
+  describe '#search_patients'
 
   describe '#search_patients_rxhub5' do
     it { expect { subject.search_patients_rxhub5 }.to raise_error(NotImplementedError) }
   end
 
-  describe '#search_pharmacies' do
-    it { expect { subject.search_pharmacies }.to raise_error(NotImplementedError) }
-  end
+  describe '#search_pharmacies'
 
   describe '#search_problem_codes' do
     it { expect { subject.search_problem_codes }.to raise_error(NotImplementedError) }
