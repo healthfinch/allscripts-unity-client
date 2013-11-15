@@ -557,16 +557,24 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def search_patients
-      raise NotImplementedError, "SearchPatients magic action not implemented"
+    def search_patients(search)
+      magic_parameters = {
+        :action => "SearchPatients",
+        :parameter1 => search
+      }
+      magic(magic_parameters)
     end
 
     def search_patients_rxhub5
       raise NotImplementedError, "SearchPatientsRXHub5 magic action not implemented"
     end
 
-    def search_pharmacies
-      raise NotImplementedError, "SearchPharmacies magic action not implemented"
+    def search_pharmacies(search)
+      magic_parameters = {
+        :action => "SearchPharmacies",
+        :parameter1 => search
+      }
+      magic(magic_parameters)
     end
 
     def search_problem_codes

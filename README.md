@@ -121,6 +121,8 @@ A number of helper methods exist that abstract away the details of the Magic ope
  - `save_task(userid, patientid, task_type = nil, target_user = nil, work_object_id = nil, comments = nil)`
  - `save_task_status(userid, transaction_id = nil, param = nil, delegate_id = nil, comment = nil)`
  - `search_meds(userid, patientid, search = nil)`
+ - `search_patients(search)`
+ - `search_pharmacies(search)`
 
 All magic helper methods not on this list currently raise `NotImplementedError`. More helper methods will be added in future releases. Pull requests welcome.
 
