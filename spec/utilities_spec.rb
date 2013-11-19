@@ -15,6 +15,17 @@ describe 'Utilities' do
   let(:string_keyed_hash) { FixtureLoader.load_yaml("string_keyed_hash.yml") }
   let(:symbol_keyed_hash) { FixtureLoader.load_yaml("symbol_keyed_hash.yml") }
 
+  let(:datetime_string_one) { 'Feb 27 2013 12:37PM' }
+  let(:datetime_string_two) { 'Feb 28 2013  1:34PM' }
+  let(:datetime_string_three) { '12/25/2013 12:37 PM' }
+  let(:datetime_one) { DateTime.parse(datetime_string_one) }
+  let(:datetime_two) { DateTime.parse(datetime_string_two) }
+  let(:datetime_three) { DateTime.parse(datetime_string_three) }
+  let(:date_string_one) { '20-Jul-2014' }
+  let(:date_string_two) { '12/25/2013' }
+  let(:date_one) { Date.parse(date_string_one) }
+  let(:date_two) { Date.parse(date_string_two) }
+
   describe '.try_to_encode_as_date' do
     context 'when given nil' do
       it { expect(subject.try_to_encode_as_date(nil)).to be_nil }
@@ -29,6 +40,36 @@ describe 'Utilities' do
     context 'when given date time string' do
       it 'returns the string as a DateTime' do
         expect(subject.try_to_encode_as_date(datetime_string)).to eq(datetime)
+      end
+    end
+
+    context 'when given datetime_string_one' do
+      it 'returns the string as a DateTime' do
+        expect(subject.try_to_encode_as_date(datetime_string_one)).to eq(datetime_one)
+      end
+    end
+
+    context 'when given datetime_string_two' do
+      it 'returns the string as a DateTime' do
+        expect(subject.try_to_encode_as_date(datetime_string_two)).to eq(datetime_two)
+      end
+    end
+
+    context 'when given datetime_string_three' do
+      it 'returns the string as a DateTime' do
+        expect(subject.try_to_encode_as_date(datetime_string_three)).to eq(datetime_three)
+      end
+    end
+
+    context 'when given date_string_one' do
+      it 'returns the string as a Date' do
+        expect(subject.try_to_encode_as_date(date_string_one)).to eq(date_one)
+      end
+    end
+
+    context 'when given date_string_two' do
+      it 'returns the string as a Date' do
+        expect(subject.try_to_encode_as_date(date_string_two)).to eq(date_two)
       end
     end
 

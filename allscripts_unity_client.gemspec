@@ -28,6 +28,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "tzinfo", "~> 0.3.29"
   gem.add_runtime_dependency "nokogiri", "< 1.6", ">= 1.4.0"
   gem.add_runtime_dependency "nori", "~> 2.3.0"
+  gem.add_runtime_dependency "american_date", "~> 1.1.0"
 
   gem.add_development_dependency "factory_girl", "~> 4.2.0"
   gem.add_development_dependency "rake", "~> 10.1.0"
