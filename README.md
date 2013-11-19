@@ -187,6 +187,11 @@ unity_client = AllscriptsUnityClient.create({
 })
 ```
 
+### Locale
+
+This gem uses the [american_date](http://rubygems.org/gems/american_date) gem to force `Date.parse` to
+accept USA locale dates by default. There are currently no plans to support other locales. Pull requests welcome.
+
 ## Examples
 
 ### GetServerInfo SOAP

@@ -1,10 +1,11 @@
 require "nori"
 require "date"
+require "american_date"
 
 module AllscriptsUnityClient
   class Utilities
-    DATETIME_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|([A-Za-z]{3,4} \d{1,2} \d{2,4}))(T| )\d{1,2}:\d{2}(:\d{2})?(\.\d+)? ?(PM|AM|pm|am)?((-|\+)\d{2}:?\d{2})?Z?$/
-    DATE_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4}))$/
+    DATETIME_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4})|([A-Za-z]{3,4} \d{1,2} \d{2,4}))(T| +)(\d{1,2}:\d{2}(:\d{2})?(\.\d+)? ?(PM|AM|pm|am)?((-|\+)\d{2}:?\d{2})?Z?)$/
+    DATE_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4})|([A-Za-z]{3,4} \d{1,2} \d{2,4}))$/
 
     def self.try_to_encode_as_date(possible_date)
       if possible_date.nil?
