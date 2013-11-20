@@ -507,9 +507,9 @@ module AllscriptsUnityClient
       # Generate XML structure for rxxml
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.taskchanges {
-          xml.refills("value" => taskchanges[:refills]) unless taskchanges[:refills].nil?
-          xml.days("value" => taskchanges[:days]) unless taskchanges[:days].nil?
-          xml.qty("value" => taskchanges[:qty]) unless taskchanges[:qty].nil?
+          xml.refills("value" => taskchanges[:refills]) unless taskchanges.nil? || taskchanges[:refills].nil?
+          xml.days("value" => taskchanges[:days]) unless taskchanges.nil? || taskchanges[:days].nil?
+          xml.qty("value" => taskchanges[:qty]) unless taskchanges.nil? || taskchanges[:qty].nil?
         }
       end
 
