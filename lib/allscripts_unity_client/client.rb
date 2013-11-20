@@ -499,9 +499,18 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil)
+    def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil)
       if transaction_id.nil? && param.nil? && delegate_id.nil? && comment.nil?
         raise ArugmentError, "task_type, target_user, work_object_id, and comments can not all be nil"
+      end
+
+      # Generate XML structure for rxxml
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.taskchanges {
+          xml.refills("value" => taskchanges[:refills]) unless taskchanges[:refills].nil?
+          xml.days("value" => taskchanges[:days]) unless taskchanges[:days].nil?
+          xml.qty("value" => taskchanges[:qty]) unless taskchanges[:qty].nil?
+        }
       end
 
       magic_parameters = {
@@ -510,7 +519,8 @@ module AllscriptsUnityClient
         :parameter1 => transaction_id,
         :parameter2 => status,
         :parameter3 => delegate_id,
-        :parameter4 => comment
+        :parameter4 => comment,
+        :parameter6 => nokogiri_to_string(builder)
       }
       magic(magic_parameters)
     end
