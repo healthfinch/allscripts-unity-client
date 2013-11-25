@@ -458,6 +458,12 @@ module AllscriptsUnityClient
           xml.field("name" => "DaysSupply", "value" => rxxml[:dayssupply]) unless rxxml[:dayssupply].nil?
           xml.field("name" => "startdate", "value" => utc_to_local(Date.parse(rxxml[:startdate].to_s))) unless rxxml[:startdate].nil?
           xml.field("name" => "historicalflag", "value" => rxxml[:historicalflag]) unless rxxml[:historicalflag].nil?
+          xml.field("name" => "rxaction", "value" => rxxml[:rxaction]) unless rxxml[:rxaction].nil?
+          xml.field("name" => "delivery", "value" => rxxml[:delivery]) unless rxxml[:delivery].nil?
+          xml.field("name" => "ignorepharmzero", "value" => rxxml[:ignorepharmzero]) unless rxxml[:ignorepharmzero].nil?
+          xml.field("name" => "orderedbyid", "value" => rxxml[:orderedbyid]) unless rxxml[:orderedbyid].nil?
+          xml.field("name" => "newqty", "value" => rxxml[:newqty]) unless rxxml[:newqty].nil?
+          xml.field("name" => "newrefills", "value" => rxxml[:newrefills]) unless rxxml[:newrefills].nil?
         }
       end
 
