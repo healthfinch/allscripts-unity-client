@@ -32,7 +32,7 @@ module AllscriptsUnityClient
   private
 
   def self.raise_if_parameters_invalid(parameters)
-    raise ArgumentError, ":mode must be :json or :soap" if ![:json, :soap].include?(parameters[:mode])
+    raise ArgumentError, ":mode must be :json or :soap" unless [:json, :soap].include?(parameters[:mode])
     raise ArgumentError, ":base_unity_url required" if parameters[:base_unity_url].nil?
     raise ArgumentError, ":username required" if parameters[:username].nil?
     raise ArgumentError, ":password required" if parameters[:password].nil?
