@@ -18,13 +18,17 @@ describe 'Utilities' do
   let(:datetime_string_one) { 'Feb 27 2013 12:37PM' }
   let(:datetime_string_two) { 'Feb 28 2013  1:34PM' }
   let(:datetime_string_three) { '12/25/2013 12:37 PM' }
+  let(:datetime_string_four) { 'Nov  1 2011 11:31AM' }
   let(:datetime_one) { DateTime.parse(datetime_string_one) }
   let(:datetime_two) { DateTime.parse(datetime_string_two) }
   let(:datetime_three) { DateTime.parse(datetime_string_three) }
+  let(:datetime_four) { DateTime.parse(datetime_string_four) }
   let(:date_string_one) { '20-Jul-2014' }
   let(:date_string_two) { '12/25/2013' }
+  let(:date_string_three) { 'Nov  1 2011' }
   let(:date_one) { Date.parse(date_string_one) }
   let(:date_two) { Date.parse(date_string_two) }
+  let(:date_three) { Date.parse(date_string_three) }
 
   describe '.try_to_encode_as_date' do
     context 'when given nil' do
@@ -61,6 +65,12 @@ describe 'Utilities' do
       end
     end
 
+    context 'when given datetime_string_four' do
+      it 'returns the string as a DateTime' do
+        expect(subject.try_to_encode_as_date(datetime_string_four)).to eq(datetime_four)
+      end
+    end
+
     context 'when given date_string_one' do
       it 'returns the string as a Date' do
         expect(subject.try_to_encode_as_date(date_string_one)).to eq(date_one)
@@ -70,6 +80,12 @@ describe 'Utilities' do
     context 'when given date_string_two' do
       it 'returns the string as a Date' do
         expect(subject.try_to_encode_as_date(date_string_two)).to eq(date_two)
+      end
+    end
+
+    context 'when given date_string_three' do
+      it 'returns the string as a Date' do
+        expect(subject.try_to_encode_as_date(date_string_three)).to eq(date_three)
       end
     end
 
