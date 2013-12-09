@@ -101,7 +101,13 @@ module AllscriptsUnityClient
         :parameter1 => dictionary_name,
         :parameter2 => site
       }
-      magic(magic_parameters)
+      response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
+
+      response
     end
 
     def get_dictionary_sets
@@ -152,6 +158,10 @@ module AllscriptsUnityClient
         :parameter5 => billing_provider_user_name
       }
       response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
 
       # Remove nil encounters
       response.delete_if do |value|
@@ -342,7 +352,13 @@ module AllscriptsUnityClient
         :userid => userid,
         :parameter1 => since
       }
-      magic(magic_parameters)
+      response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
+
+      response
     end
 
     def get_user_authentication
