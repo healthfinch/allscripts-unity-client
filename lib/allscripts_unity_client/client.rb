@@ -263,7 +263,13 @@ module AllscriptsUnityClient
         :parameter3 => encounter_id,
         :parameter4 => medcin_id
       }
-      magic(magic_parameters)
+      response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
+
+      response
     end
 
     def get_patients_by_icd9(icd9, start = nil, end_param = nil)
@@ -303,7 +309,13 @@ module AllscriptsUnityClient
         :parameter1 => security_filter,
         :parameter2 => name_filter
       }
-      magic(magic_parameters)
+      response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
+
+      response
     end
 
     def get_ref_providers_by_specialty
@@ -586,7 +598,14 @@ module AllscriptsUnityClient
         :patientid => patientid,
         :parameter1 => search
       }
-      magic(magic_parameters)
+
+      response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
+
+      response
     end
 
     def search_patients(search)
