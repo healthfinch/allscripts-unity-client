@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.name                  = "allscripts_unity_client"
   gem.version               = AllscriptsUnityClient::VERSION
   gem.date                  = Date.today
-  gem.required_ruby_version = "~> 1.9"
+  gem.required_ruby_version = "> 1.9.3"
   gem.license               = "MIT"
   gem.homepage              = "https://github.com/healthfinch/allscripts-unity-client"
 
