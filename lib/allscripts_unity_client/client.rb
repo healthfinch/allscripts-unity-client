@@ -191,6 +191,16 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
+    def get_medication_info(userid, ddid, patientid = nil)
+      magic_parameters = {
+        :action => "GetMedicationInfo",
+        :userid => userid,
+        :patientid => patientid,
+        :parameter1 => ddid
+      }
+      magic(magic_parameters)
+    end
+
     def get_order_history
       raise NotImplementedError, "GetOrderHistory magic action not implemented"
     end
