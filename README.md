@@ -1,6 +1,6 @@
 # Allscripts Unity Client [![Build Status](https://travis-ci.org/healthfinch/allscripts-unity-client.png?branch=master)](https://travis-ci.org/healthfinch/allscripts-unity-client) [![Coverage Status](https://coveralls.io/repos/healthfinch/allscripts-unity-client/badge.png?branch=master)](https://coveralls.io/r/healthfinch/allscripts-unity-client?branch=master)
 
-The `allscripts_unity_client` gem is a Ruby client for the Allscripts Unity API.  See http://asdn.unitysandbox.com/UnitySDK/SDK/ for more documentation on the API.
+The `allscripts_unity_client` gem is a Ruby client for the Allscripts Unity API. See http://remotecentral.allscripts.com/UnityAPIReference for more documentation on the API.
  
 ## Installation
 
@@ -108,6 +108,7 @@ A number of helper methods exist that abstract away the details of the Magic ope
  - `get_dictionary(dictionary_name, userid = nil, site = nil)`
  - `get_encounter_list(userid, patientid, encounter_type, when_param = nil, nostradamus = nil, show_past_flag = nil, billing_provider_user_name = nil)`
  - `get_medication_by_trans_id(userid, patientid, transaction_id)`
+ - `get_medication_info(userid, ddid, patientid = nil)`
  - `get_patient(userid, patientid, includepix = nil)`
  - `get_patient_activity(userid, patientid)`
  - `get_patient_problems(patientid, show_by_encounter_flag = nil, assessed = nil, encounter_id = nil, medcin_id = nil)`
