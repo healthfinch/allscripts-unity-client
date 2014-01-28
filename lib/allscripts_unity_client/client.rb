@@ -502,6 +502,7 @@ module AllscriptsUnityClient
           xml.field("name" => "orderedbyid", "value" => rxxml[:orderedbyid]) unless rxxml[:orderedbyid].nil?
           xml.field("name" => "newqty", "value" => rxxml[:newqty]) unless rxxml[:newqty].nil?
           xml.field("name" => "newrefills", "value" => rxxml[:newrefills]) unless rxxml[:newrefills].nil?
+          xml.field("name" => "comments", "value" => rxxml[:comments]) unless rxxml[:comments].nil?
         }
       end
 
