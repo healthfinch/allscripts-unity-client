@@ -555,6 +555,7 @@ module AllscriptsUnityClient
           xml.refills("value" => taskchanges[:refills]) unless taskchanges.nil? || taskchanges[:refills].nil?
           xml.days("value" => taskchanges[:days]) unless taskchanges.nil? || taskchanges[:days].nil?
           xml.qty("value" => taskchanges[:qty]) unless taskchanges.nil? || taskchanges[:qty].nil?
+          xml.tasktype("value" => taskchanges[:tasktype]) unless taskchanges.nil? || taskchanges[:tasktype].nil?
         }
       end
 
