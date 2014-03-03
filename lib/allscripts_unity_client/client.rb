@@ -403,6 +403,13 @@ module AllscriptsUnityClient
       raise NotImplementedError, "GetVitals magic action not implemented"
     end
 
+    def last_logs
+      magic_parameters = {
+        :action => "LastLogs"
+      }
+      magic(magic_parameters)
+    end
+
     def make_task
       raise NotImplementedError, "MakeTask magic action not implemented"
     end

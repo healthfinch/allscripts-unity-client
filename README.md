@@ -118,6 +118,7 @@ A number of helper methods exist that abstract away the details of the Magic ope
  - `get_server_info`
  - `get_task(userid, transaction_id)`
  - `get_task_list(userid = nil, since = nil)`
+ - `last_logs`
  - `save_rx(userid, patientid, rxxml)`
  - `save_task(userid, patientid, task_type = nil, target_user = nil, work_object_id = nil, comments = nil)`
  - `save_task_status(userid, transaction_id = nil, param = nil, delegate_id = nil, comment = nil)`
