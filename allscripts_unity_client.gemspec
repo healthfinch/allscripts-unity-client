@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
 
   gem.require_paths = ['lib']
 
-  gem.files = `git ls-files`.split("\n")
+  gem.files = `git ls-files`.split("\n").delete_if { |file| /^\.ruby-version$/.match(file) }
 
   gem.add_runtime_dependency 'savon', '~> 2.3.0'
   gem.add_runtime_dependency 'httpi', '~> 2.1.0'
@@ -33,7 +33,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'factory_girl', '~> 4.2.0'
   gem.add_development_dependency 'rake', '~> 10.1.0'
   gem.add_development_dependency 'faker', '~> 1.2.0'
-  gem.add_development_dependency 'rspec', '~> 2.14.1'
+  gem.add_development_dependency 'rspec', '~> 2.99.0.beta2'
   gem.add_development_dependency 'simplecov', '~> 0.7.1'
   gem.add_development_dependency 'webmock', '~> 1.15.0'
   gem.add_development_dependency 'coveralls', '~> 0.7.0'

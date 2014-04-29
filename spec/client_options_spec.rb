@@ -98,14 +98,14 @@ describe 'ClientOptions' do
   describe '.proxy?' do
     context 'when proxy is nil' do
       it 'returns false' do
-        expect(subject.proxy?).to be_false
+        expect(subject.proxy?).to be_falsey
       end
     end
 
     context 'when proxy is not nil' do
       it 'return true' do
         subject.proxy = url_with_slash
-        expect(subject.proxy?).to be_true
+        expect(subject.proxy?).to be_truthy
       end
     end
   end
@@ -113,14 +113,14 @@ describe 'ClientOptions' do
   describe '.logger?' do
     context 'when logger is nil' do
       it 'returns false' do
-        expect(subject.logger?).to be_false
+        expect(subject.logger?).to be_falsey
       end
     end
 
     context 'when logger is not nil' do
       it 'returns true' do
         subject.logger = double('logger')
-        expect(subject.logger?).to be_true
+        expect(subject.logger?).to be_truthy
       end
     end
   end

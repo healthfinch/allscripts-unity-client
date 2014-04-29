@@ -3,14 +3,14 @@ shared_examples 'a client driver' do
     context 'when @security_token is nil' do
       it do
         subject.security_token = nil
-        expect(subject.security_token?).to be_false
+        expect(subject.security_token?).to be_falsey
       end
     end
 
     context 'when @security_token is not nil' do
       it do
         subject.security_token = 'security token'
-        expect(subject.security_token?).to be_true
+        expect(subject.security_token?).to be_truthy
       end
     end
   end
