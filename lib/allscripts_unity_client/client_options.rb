@@ -56,7 +56,9 @@ module AllscriptsUnityClient
     end
 
     def proxy?
-      !@proxy.nil?
+      return false if @proxy.nil?
+      return false if @proxy.empty?
+      true
     end
 
     def logger?

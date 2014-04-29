@@ -4,7 +4,7 @@ require 'em-http-request'
 
 module AllscriptsUnityClient
   class JSONClientDriver < ClientDriver
-    attr_accessor :json_base_url
+    attr_accessor :json_base_url, :connection
 
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
 
@@ -12,7 +12,7 @@ module AllscriptsUnityClient
       super
       @connection = Faraday.new(url: @options.base_unity_url) do |conn|
         if @options.proxy?
-          conn.proxy = @options.proxy
+          conn.proxy @options.proxy
         end
 
         conn.adapter :em_http

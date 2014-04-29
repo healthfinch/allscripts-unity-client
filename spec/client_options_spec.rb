@@ -103,9 +103,16 @@ describe 'ClientOptions' do
     end
 
     context 'when proxy is not nil' do
-      it 'return true' do
+      it 'returns true' do
         subject.proxy = url_with_slash
         expect(subject.proxy?).to be_truthy
+      end
+    end
+
+    context 'when proxy is empty string' do
+      it 'returns false' do
+        subject.proxy = ''
+        expect(subject.proxy?).to be_falsey
       end
     end
   end

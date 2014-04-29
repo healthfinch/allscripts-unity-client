@@ -26,6 +26,14 @@ describe 'JSONClientDriver' do
     JSON.generate(hash)
   end
 
+  describe '#initialize' do
+    context 'when given proxy' do
+      it 'passes configuration to connection' do
+        expect(build(:json_client_driver, proxy: url).connection.proxy.uri.to_s).to eq(url)
+      end
+    end
+  end
+
   describe '#client_type' do
     it { expect(subject.client_type).to be(:json) }
   end
@@ -40,7 +48,7 @@ describe 'JSONClientDriver' do
 
     it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
       subject.magic
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson')
+      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
     end
 
     it 'should call start_timer' do
@@ -69,7 +77,7 @@ describe 'JSONClientDriver' do
 
     it 'should POST to /Unity/UnityService.svc/json/GetToken with username, password, and appname' do
       subject.get_security_token!
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken').with(body: /\{"Username":"[^"]+","Password":"[^"]+","Appname":"[^"]+"\}/)
+      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken').with(body: /\{"Username":"[^"]+","Password":"[^"]+","Appname":"[^"]+"\}/, headers: { 'Content-Type' => 'application/json' })
     end
 
     it 'should call start_timer' do
@@ -98,7 +106,7 @@ describe 'JSONClientDriver' do
 
     it 'should POST to /Unity/UnityService.svc/json/RetireSecurityToken with token and appname' do
       subject.retire_security_token!
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken').with(body: /\{"Token":"[^"]+","Appname":"[^"]+"\}/)
+      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken').with(body: /\{"Token":"[^"]+","Appname":"[^"]+"\}/, headers: { 'Content-Type' => 'application/json' })
     end
 
     it 'should call start_timer' do
