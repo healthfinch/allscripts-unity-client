@@ -1,11 +1,11 @@
-require "json"
-require "httpi"
+require 'json'
+require 'httpi'
 
 module AllscriptsUnityClient
   class JSONClientDriver < ClientDriver
     attr_accessor :json_base_url
 
-    UNITY_JSON_ENDPOINT = "/Unity/UnityService.svc/json"
+    UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
 
     def initialize(options)
       super
@@ -17,7 +17,7 @@ module AllscriptsUnityClient
     end
 
     def client_type
-      return :json
+      :json
     end
 
     def magic(parameters = {})
@@ -43,9 +43,9 @@ module AllscriptsUnityClient
       appname = parameters[:appname] || @options.appname
 
       request_data = {
-        "Username" => username,
-        "Password" => password,
-        "Appname" => appname
+        'Username' => username,
+        'Password' => password,
+        'Appname' => appname
       }
       request = create_httpi_request("#{@json_base_url}/GetToken", request_data)
 
@@ -64,8 +64,8 @@ module AllscriptsUnityClient
       appname = parameters[:appname] || @options.appname
 
       request_data = {
-        "Token" => token,
-        "Appname" => appname
+        'Token' => token,
+        'Appname' => appname
       }
       request = create_httpi_request("#{@json_base_url}/RetireSecurityToken", request_data)
 
@@ -85,8 +85,8 @@ module AllscriptsUnityClient
       request = HTTPI::Request.new
       request.url = url
       request.headers = {
-        "Accept-Encoding" => "gzip,deflate",
-        "Content-type" => "application/json;charset=utf-8"
+        'Accept-Encoding' => 'gzip,deflate',
+        'Content-type' => 'application/json;charset=utf-8'
       }
       request.body = JSON.generate(data)
 
@@ -99,10 +99,10 @@ module AllscriptsUnityClient
 
     def raise_if_response_error(response)
       if response.nil?
-        raise APIError, "Response was empty"
-      elsif response.is_a?(Array) && !response[0].nil? && !response[0]["Error"].nil?
-        raise APIError, response[0]["Error"]
-      elsif response.is_a?(String) && response.include?("error:")
+        raise APIError, 'Response was empty'
+      elsif response.is_a?(Array) && !response[0].nil? && !response[0]['Error'].nil?
+        raise APIError, response[0]['Error']
+      elsif response.is_a?(String) && response.include?('error:')
         raise APIError, response
       end
     end

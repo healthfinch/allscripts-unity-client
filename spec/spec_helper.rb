@@ -10,14 +10,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 SimpleCov.start do
   add_filter do |source_file|
     filename = Pathname.new(source_file.filename).basename
-    ignored_files = [
-      "version.rb",
-      "allscripts_unity_client.gemspec",
-      "Gemfile",
-      "Rakefile"
-    ]
+    ignored_files = %w(version.rb allscripts_unity_client.gemspec Gemfile Rakefile)
 
-    ignored_files.include?(filename) || source_file.filename.include?("spec/")
+    ignored_files.include?(filename) || source_file.filename.include?('spec/')
   end
 end
 
@@ -35,7 +30,7 @@ require 'factory_girl'
 require 'json'
 
 # Include all support files
-Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 
 # Include all factories
 FactoryGirl.find_definitions

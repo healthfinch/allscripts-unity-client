@@ -5,7 +5,7 @@ describe 'UnityResponse' do
 
   subject { FactoryGirl.build(:unity_response, response: get_server_info) }
 
-  let(:get_server_info) { FixtureLoader.load_yaml("get_server_info_xml.yml") }
+  let(:get_server_info) { FixtureLoader.load_yaml('get_server_info_xml.yml') }
 
   describe '#initialize' do
     context 'when nil is given for response' do

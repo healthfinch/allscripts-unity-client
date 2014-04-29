@@ -9,16 +9,16 @@ describe 'JSONClientDriver' do
     client_driver
   end
 
-  let(:get_server_info) { FixtureLoader.load_file("get_server_info.json") }
-  let(:get_security_token) { FixtureLoader.load_file("get_security_token.json") }
-  let(:retire_security_token) { FixtureLoader.load_file("retire_security_token.json") }
-  let(:error) { FixtureLoader.load_json("error.json") }
-  let(:error_string) { "error: Username and Password not valid for any licenses on this server" }
+  let(:get_server_info) { FixtureLoader.load_file('get_server_info.json') }
+  let(:get_security_token) { FixtureLoader.load_file('get_security_token.json') }
+  let(:retire_security_token) { FixtureLoader.load_file('retire_security_token.json') }
+  let(:error) { FixtureLoader.load_json('error.json') }
+  let(:error_string) { 'error: Username and Password not valid for any licenses on this server' }
   let(:url) { Faker::Internet.url }
 
   let(:hash) do
     {
-      "test" => true
+      'test' => true
     }
   end
 
@@ -32,7 +32,7 @@ describe 'JSONClientDriver' do
 
   describe '#magic' do
     before(:each) {
-      stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").to_return(body: get_server_info)
+      stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').to_return(body: get_server_info)
       allow(subject).to receive(:start_timer)
       allow(subject).to receive(:end_timer)
       allow(subject).to receive(:log_magic)
@@ -40,7 +40,7 @@ describe 'JSONClientDriver' do
 
     it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
       subject.magic
-      WebMock.should have_requested(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson")
+      WebMock.should have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson')
     end
 
     it 'should call start_timer' do
@@ -61,7 +61,7 @@ describe 'JSONClientDriver' do
 
   describe '#get_security_token!' do
     before(:each) {
-      stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/GetToken").to_return(body: get_security_token)
+      stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken').to_return(body: get_security_token)
       allow(subject).to receive(:start_timer)
       allow(subject).to receive(:end_timer)
       allow(subject).to receive(:log_get_security_token)
@@ -69,7 +69,7 @@ describe 'JSONClientDriver' do
 
     it 'should POST to /Unity/UnityService.svc/json/GetToken with username, password, and appname' do
       subject.get_security_token!
-      WebMock.should have_requested(:post, "http://www.example.com/Unity/UnityService.svc/json/GetToken").with(body: /\{"Username":"[^"]+","Password":"[^"]+","Appname":"[^"]+"\}/)
+      WebMock.should have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken').with(body: /\{"Username":"[^"]+","Password":"[^"]+","Appname":"[^"]+"\}/)
     end
 
     it 'should call start_timer' do
@@ -90,7 +90,7 @@ describe 'JSONClientDriver' do
 
   describe '#retire_security_token!' do
     before(:each) {
-      stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken").to_return(body: retire_security_token)
+      stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken').to_return(body: retire_security_token)
       allow(subject).to receive(:start_timer)
       allow(subject).to receive(:end_timer)
       allow(subject).to receive(:log_retire_security_token)
@@ -98,7 +98,7 @@ describe 'JSONClientDriver' do
 
     it 'should POST to /Unity/UnityService.svc/json/RetireSecurityToken with token and appname' do
       subject.retire_security_token!
-      WebMock.should have_requested(:post, "http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken").with(body: /\{"Token":"[^"]+","Appname":"[^"]+"\}/)
+      WebMock.should have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken').with(body: /\{"Token":"[^"]+","Appname":"[^"]+"\}/)
     end
 
     it 'should call start_timer' do

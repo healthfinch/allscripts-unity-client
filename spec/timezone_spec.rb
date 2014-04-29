@@ -3,18 +3,18 @@ require 'spec_helper'
 describe 'Timezone' do
   subject { FactoryGirl.build(:timezone) }
 
-  let(:positive_timezone) { FactoryGirl.build(:timezone, zone_identifier: "Asia/Jakarta") }
-  let(:utc_timezone) { FactoryGirl.build(:timezone, zone_identifier: "UTC") }
-  let(:local_string) { "2013-10-19T17:00:00-07:00" }
+  let(:positive_timezone) { FactoryGirl.build(:timezone, zone_identifier: 'Asia/Jakarta') }
+  let(:utc_timezone) { FactoryGirl.build(:timezone, zone_identifier: 'UTC') }
+  let(:local_string) { '2013-10-19T17:00:00-07:00' }
   let(:date) { Date.parse(local_string) }
-  let(:local_time) { Time.parse("2013-10-19T17:00:00") }
+  let(:local_time) { Time.parse('2013-10-19T17:00:00') }
   let(:local_datetime) { DateTime.parse(local_string) }
-  let(:utc_string) { "2013-10-20T00:00:00+00:00" }
-  let(:utc_time) { Time.parse("2013-10-20T00:00:00") }
+  let(:utc_string) { '2013-10-20T00:00:00+00:00' }
+  let(:utc_time) { Time.parse('2013-10-20T00:00:00') }
   let(:utc_datetime) { DateTime.parse(utc_string) }
 
   def time_to_s(time)
-    time.strftime("%FT%T")
+    time.strftime('%FT%T')
   end
 
   describe '#initialize' do
@@ -26,7 +26,7 @@ describe 'Timezone' do
 
     context 'when an invalid TZInfo zone is given' do
       it 'rasies TZInfo::InvalidTimezoneIdentifier' do
-        expect { FactoryGirl.build(:timezone, zone_identifier: "") }.to raise_error(TZInfo::InvalidTimezoneIdentifier)
+        expect { FactoryGirl.build(:timezone, zone_identifier: '') }.to raise_error(TZInfo::InvalidTimezoneIdentifier)
       end
     end
   end
@@ -137,7 +137,7 @@ describe 'Timezone' do
     end
   end
 
-  describe "#iso8601_with_offset" do
+  describe '#iso8601_with_offset' do
     context 'when given nil' do
       it 'returns nil' do
         expect(subject.send(:iso8601_with_offset, nil)).to be_nil

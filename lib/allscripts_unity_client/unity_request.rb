@@ -3,10 +3,10 @@ module AllscriptsUnityClient
     attr_accessor :parameters, :appname, :security_token, :timezone
 
     def initialize(parameters, timezone, appname, security_token)
-      raise ArgumentError, "parameters can not be nil" if parameters.nil?
-      raise ArgumentError, "timezone can not be nil" if timezone.nil?
-      raise ArgumentError, "appname can not be nil" if appname.nil?
-      raise ArgumentError, "security_token can not be nil" if security_token.nil?
+      raise ArgumentError, 'parameters can not be nil' if parameters.nil?
+      raise ArgumentError, 'timezone can not be nil' if timezone.nil?
+      raise ArgumentError, 'appname can not be nil' if appname.nil?
+      raise ArgumentError, 'security_token can not be nil' if security_token.nil?
 
       @appname = appname
       @security_token = security_token
@@ -28,19 +28,19 @@ module AllscriptsUnityClient
       parameter6 = process_date(@parameters[:parameter6])
       data = Utilities::encode_data(@parameters[:data])
 
-      return {
-        "Action" => action,
-        "UserID" => userid,
-        "Appname" => appname,
-        "PatientID" => patientid,
-        "Token" => token,
-        "Parameter1" => parameter1,
-        "Parameter2" => parameter2,
-        "Parameter3" => parameter3,
-        "Parameter4" => parameter4,
-        "Parameter5" => parameter5,
-        "Parameter6" => parameter6,
-        "data" => data
+      {
+        'Action' => action,
+        'UserID' => userid,
+        'Appname' => appname,
+        'PatientID' => patientid,
+        'Token' => token,
+        'Parameter1' => parameter1,
+        'Parameter2' => parameter2,
+        'Parameter3' => parameter3,
+        'Parameter4' => parameter4,
+        'Parameter5' => parameter5,
+        'Parameter6' => parameter6,
+        'data' => data
       }
     end
 

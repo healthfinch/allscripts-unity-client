@@ -74,7 +74,7 @@ shared_examples 'a unity request' do
 
     context 'when given a date string' do
       it do
-        date = "2013-10-24"
+        date = '2013-10-24'
         expect(subject.send(:process_date, date)).to be_instance_of(Date)
       end
     end

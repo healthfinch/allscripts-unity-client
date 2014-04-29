@@ -1,12 +1,12 @@
-require "date"
-require "tzinfo"
+require 'date'
+require 'tzinfo'
 
 module AllscriptsUnityClient
   class Timezone
     attr_accessor :tzinfo
 
     def initialize(zone_identifier)
-      raise ArgumentError, "zone_identifier can not be nil" if zone_identifier.nil?
+      raise ArgumentError, 'zone_identifier can not be nil' if zone_identifier.nil?
 
       @tzinfo = TZInfo::Timezone.get(zone_identifier)
     end
@@ -56,7 +56,7 @@ module AllscriptsUnityClient
 
         if is_datetime
           # Convert to a DateTime with a UTC offset
-          datetime = DateTime.parse("#{datetime.strftime("%FT%T")}Z")
+          datetime = DateTime.parse("#{datetime.strftime('%FT%T')}Z")
         end
       end
 
@@ -69,7 +69,7 @@ module AllscriptsUnityClient
         end
       end
 
-      return datetime
+      datetime
     end
 
     # TZInfo does not correctly update a DateTime's
@@ -82,7 +82,7 @@ module AllscriptsUnityClient
 
       offset = @tzinfo.current_period.utc_offset
       negative_offset = false
-      datetime_string = datetime.strftime("%FT%T")
+      datetime_string = datetime.strftime('%FT%T')
 
       if offset < 0
         offset *= -1
@@ -90,11 +90,11 @@ module AllscriptsUnityClient
       end
 
       if offset == 0
-        offset_string = "Z"
+        offset_string = 'Z'
       else
-        offset_string = Time.at(offset).utc.strftime("%H:%M")
-        offset_string = "-" + offset_string if negative_offset
-        offset_string = "+" + offset_string unless negative_offset
+        offset_string = Time.at(offset).utc.strftime('%H:%M')
+        offset_string = '-' + offset_string if negative_offset
+        offset_string = '+' + offset_string unless negative_offset
       end
 
       "#{datetime_string}#{offset_string}"

@@ -2,7 +2,7 @@ require 'logger'
 
 module AllscriptsUnityClient
   class ClientDriver
-    LOG_FILE = "logs/unity_client.log"
+    LOG_FILE = 'logs/unity_client.log'
 
     attr_accessor :options, :security_token
 
@@ -11,23 +11,23 @@ module AllscriptsUnityClient
     end
 
     def security_token?
-      return !@security_token.nil?
+      !@security_token.nil?
     end
 
     def client_type
-      return :none
+      :none
     end
 
     def magic(parameters = {})
-      raise NotImplementedError, "magic not implemented"
+      raise NotImplementedError, 'magic not implemented'
     end
 
     def get_security_token!(parameters = {})
-      raise NotImplementedError, "get_security_token! not implemented"
+      raise NotImplementedError, 'get_security_token! not implemented'
     end
 
     def retire_security_token!(parameters = {})
-      raise NotImplementedError, "retire_security_token! not implemented"
+      raise NotImplementedError, 'retire_security_token! not implemented'
     end
 
     protected
@@ -43,7 +43,7 @@ module AllscriptsUnityClient
     end
 
     def log_magic(request)
-      raise ArgumentError, "request can not be nil" if request.nil?
+      raise ArgumentError, 'request can not be nil' if request.nil?
       message = "Unity API Magic request to #{@options.base_unity_url} [#{request.parameters[:action]}]"
       log_info(message)
     end

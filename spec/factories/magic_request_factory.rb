@@ -17,9 +17,9 @@ FactoryGirl.define do
   end
 
   factory :populated_magic_request, parent: :magic_request do
-    action ["GetServerInfo", "GetProviders"].sample
+    action %w(GetServerInfo GetProviders).sample
     appname Faker::Company.name
-    userid ["jmedici", "lmccoy"].sample
+    userid %w(jmedici lmccoy).sample
     patientid Faker::Number.number(3)
     token SecureRandom.uuid
     parameter1 Faker::Internet.domain_word

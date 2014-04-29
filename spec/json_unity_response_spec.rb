@@ -5,8 +5,8 @@ describe 'JSONUnityResponse' do
 
   subject { FactoryGirl.build(:json_unity_response, response: get_server_info) }
 
-  let(:get_server_info) { FixtureLoader.load_yaml("get_server_info_json.yml") }
-  let(:get_providers) { FixtureLoader.load_yaml("get_providers_json.yml") }
+  let(:get_server_info) { FixtureLoader.load_yaml('get_server_info_json.yml') }
+  let(:get_providers) { FixtureLoader.load_yaml('get_providers_json.yml') }
 
   describe '#initialize' do
     context 'when nil is given for response' do
@@ -28,7 +28,7 @@ describe 'JSONUnityResponse' do
     context 'when given empty response' do
       it 'returns []' do
         magic_response = get_providers
-        magic_response[0]["getprovidersinfo"] = []
+        magic_response[0]['getprovidersinfo'] = []
         subject.response = magic_response
         expect(subject.to_hash).to eq([])
       end

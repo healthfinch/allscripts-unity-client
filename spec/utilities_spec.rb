@@ -12,8 +12,8 @@ describe 'Utilities' do
   let(:string_array) { ['string'] }
   let(:base64_string) { "c3RyaW5n\n" }
 
-  let(:string_keyed_hash) { FixtureLoader.load_yaml("string_keyed_hash.yml") }
-  let(:symbol_keyed_hash) { FixtureLoader.load_yaml("symbol_keyed_hash.yml") }
+  let(:string_keyed_hash) { FixtureLoader.load_yaml('string_keyed_hash.yml') }
+  let(:symbol_keyed_hash) { FixtureLoader.load_yaml('symbol_keyed_hash.yml') }
 
   let(:datetime_string_one) { 'Feb 27 2013 12:37PM' }
   let(:datetime_string_two) { 'Feb 28 2013  1:34PM' }

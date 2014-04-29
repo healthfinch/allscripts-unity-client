@@ -1,6 +1,6 @@
-require "nori"
-require "date"
-require "american_date"
+require 'nori'
+require 'date'
+require 'american_date'
 
 module AllscriptsUnityClient
   class Utilities
@@ -29,9 +29,9 @@ module AllscriptsUnityClient
       end
 
       if data.respond_to?(:pack)
-        return data.pack("m")
+        return data.pack('m')
       else
-        return [data].pack("m")
+        return [data].pack('m')
       end
     end
 

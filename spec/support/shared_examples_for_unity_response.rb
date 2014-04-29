@@ -1,8 +1,8 @@
 shared_examples 'a unity response' do
-  let(:attributes_hash) { FixtureLoader.load_yaml("attributes_hash.yml") }
-  let(:no_attributes_hash) { FixtureLoader.load_yaml("no_attributes_hash.yml") }
-  let(:date_string_hash) { FixtureLoader.load_yaml("date_string_hash.yml") }
-  let(:date_hash) { FixtureLoader.load_yaml("date_hash.yml") }
+  let(:attributes_hash) { FixtureLoader.load_yaml('attributes_hash.yml') }
+  let(:no_attributes_hash) { FixtureLoader.load_yaml('no_attributes_hash.yml') }
+  let(:date_string_hash) { FixtureLoader.load_yaml('date_string_hash.yml') }
+  let(:date_hash) { FixtureLoader.load_yaml('date_hash.yml') }
 
   describe '#strip_attributes' do
     context 'when given nil' do
