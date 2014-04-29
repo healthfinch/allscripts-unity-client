@@ -24,8 +24,6 @@ module AllscriptsUnityClient
         client_driver = JSONClientDriver.new(options)
       when :soap
         client_driver = SOAPClientDriver.new(options)
-      else
-        client_driver = nil
     end
 
     client = Client.new(client_driver)

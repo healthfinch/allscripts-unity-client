@@ -53,17 +53,29 @@ describe 'ClientOptions' do
     context 'when given nil' do
       it { expect { subject.username = nil }.to raise_error(ArgumentError) }
     end
+
+    context 'when given username' do
+      it { expect { subject.username = 'username' }.not_to raise_error }
+    end
   end
 
   describe '.password=' do
     context 'when given nil' do
       it { expect { subject.password = nil }.to raise_error(ArgumentError) }
     end
+
+    context 'when given password' do
+      it { expect { subject.password = 'password' }.not_to raise_error }
+    end
   end
 
   describe '.appname=' do
     context 'when given nil' do
-      it { expect { subject.password = nil }.to raise_error(ArgumentError) }
+      it { expect { subject.appname = nil }.to raise_error(ArgumentError) }
+    end
+
+    context 'when given appname' do
+      it { expect { subject.appname = 'appname' }.not_to raise_error }
     end
   end
 
