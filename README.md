@@ -25,10 +25,10 @@ A Unity API client can be created using the `AllscriptsUnityClient.create` facto
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password"
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password"
 })
 ```
 
@@ -37,11 +37,11 @@ A JSON client can also be created using the `:mode` option:
 ```ruby
 # Mode defaults to :soap
 unity_client = AllscriptsUnityClient.create({
-  :mode => :json,
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password"
+  mode: :json,
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password"
 })
 ```
 
@@ -80,18 +80,18 @@ The endpoint used to make API calls in Unity is called Magic. Magic can be acces
 
 ```ruby
 unity_client.magic({
-  :action => "action",
-  :userid => "userid",
-  :appname => "appname", # Only use to override default. Default: unity_client.appname
-  :patientid => "patientid",
-  :token => "token", # Only use to override default. Default: unity_client.security_token
-  :parameter1 => "parameter1",
-  :parameter2 => "parameter2",
-  :parameter3 => "parameter3",
-  :parameter4 => "parameter4",
-  :parameter5 => "parameter5",
-  :parameter6 => "parameter6",
-  :data => "data"
+  action: "action",
+  userid: "userid",
+  appname: "appname", # Only use to override default. Default: unity_client.appname
+  patientid: "patientid",
+  token: "token", # Only use to override default. Default: unity_client.security_token
+  parameter1: "parameter1",
+  parameter2: "parameter2",
+  parameter3: "parameter3",
+  parameter4: "parameter4",
+  parameter5: "parameter5",
+  parameter6: "parameter6",
+  data: "data"
 })
 ```
 
@@ -136,11 +136,11 @@ format. See [TZInfo](http://tzinfo.github.io/) for more information:
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :timezone => "America/New_York",
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password"
+  timezone: "America/New_York",
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password"
 })
 ```
 
@@ -153,23 +153,23 @@ By default Ruby's `Logger` is used and logs to `STDOUT` with a level of `Logger:
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password",
-  :logger => Rails.logger
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  logger: Rails.logger
 })
 ```
 
-Logging can also be disabled with the `:log` option:
+Logging can be disabled by setting the `:logger` option to nil (this is the default):
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password",
-  :log => false
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  logger: nil
 })
 ```
 
@@ -181,11 +181,11 @@ An HTTP proxy can be configured using the `:proxy` option:
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password",
-  :proxy => "http://localhost:8888"
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  proxy: "http://localhost:8888"
 })
 ```
 
@@ -200,11 +200,11 @@ accept USA locale dates by default. There are currently no plans to support othe
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password",
-  :timezone => "America/New_York"
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  timezone: "America/New_York"
 })
 
 unity_client.get_security_token!
@@ -217,12 +217,12 @@ The above example would output the following `Hash`:
 
 ```
 {
-  :server_time_zone => "Eastern Standard Time",
-  :server_time => #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
-  :server_date_time_offset => #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
-  :system => "Enterprise EHR",
-  :product_version => "11.2.3.32.000",
-  :uaibornondate => #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
+  server_time_zone: "Eastern Standard Time",
+  server_time: #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
+  server_date_time_offset: #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
+  system: "Enterprise EHR",
+  product_version: "11.2.3.32.000",
+  uaibornondate: #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
 }
 ```
 
@@ -230,12 +230,12 @@ The above example would output the following `Hash`:
 
 ```ruby
 unity_client = AllscriptsUnityClient.create({
-  :mode => :json
-  :base_unity_url => "http://unity.base.url",
-  :appname => "appname",
-  :username => "username",
-  :password => "password",
-  :timezone => "America/New_York"
+  mode: :json
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  timezone: "America/New_York"
 })
 
 unity_client.get_security_token!
@@ -248,12 +248,12 @@ The above example would output the following `Hash`:
 
 ```
 {
-  :server_time_zone => "Eastern Standard Time",
-  :server_time => #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
-  :server_date_time_offset => #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
-  :system => "Enterprise EHR",
-  :product_version => "11.2.3.32.000",
-  :uaibornondate => #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
+  server_time_zone: "Eastern Standard Time",
+  server_time: #<DateTime: 2013-11-01T15:49:23+00:00 ((2456598j,56963s,0n),+0s,2299161j)>,
+  server_date_time_offset: #<DateTime: 2013-11-01T19:49:23+00:00 ((2456598j,71363s,0n),+0s,2299161j)>,
+  system: "Enterprise EHR",
+  product_version: "11.2.3.32.000",
+  uaibornondate: #<Date: 2013-07-10 ((2456484j,0s,0n),+0s,2299161j)>
 }
 ```
 
