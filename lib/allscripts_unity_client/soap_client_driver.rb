@@ -7,11 +7,11 @@ module AllscriptsUnityClient
     UNITY_SOAP_ENDPOINT = "/Unity/UnityService.svc/unityservice"
     UNITY_ENDPOINT_NAMESPACE = "http://www.allscripts.com/Unity/IUnityService"
 
-    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil, logger = nil, log = true)
+    def initialize(options)
       super
 
-      client_proxy = @proxy
-      base_unity_url = "#{@base_unity_url}#{UNITY_SOAP_ENDPOINT}"
+      client_proxy = @options.proxy
+      base_unity_url = "#{@options.base_unity_url}#{UNITY_SOAP_ENDPOINT}"
 
       @savon_client = Savon.client do
         # Removes the wsdl: namespace from body elements in the SOAP
@@ -53,10 +53,10 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
-      request_data = UnityRequest.new(parameters, @timezone,  @appname, @security_token)
+      request_data = UnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
       call_data = {
-        :message => request_data.to_hash,
-        :soap_action => "#{UNITY_ENDPOINT_NAMESPACE}/Magic"
+        message: request_data.to_hash,
+        soap_action: "#{UNITY_ENDPOINT_NAMESPACE}/Magic"
       }
 
       begin
@@ -69,22 +69,22 @@ module AllscriptsUnityClient
 
       log_magic(request_data)
 
-      response = UnityResponse.new(response.body, @timezone)
+      response = UnityResponse.new(response.body, @options.timezone)
       response.to_hash
     end
 
     def get_security_token!(parameters = {})
-      username = parameters[:username] || @username
-      password = parameters[:password] || @password
-      appname = parameters[:appname] || @appname
+      username = parameters[:username] || @options.username
+      password = parameters[:password] || @options.password
+      appname = parameters[:appname] || @options.appname
 
       call_data = {
-        :message => {
+        message: {
           "Username" => username,
           "Password" => password,
           "Appname" => appname
         },
-        :soap_action => "#{UNITY_ENDPOINT_NAMESPACE}/GetSecurityToken"
+        soap_action: "#{UNITY_ENDPOINT_NAMESPACE}/GetSecurityToken"
       }
 
       begin
@@ -102,14 +102,14 @@ module AllscriptsUnityClient
 
     def retire_security_token!(parameters = {})
       token = parameters[:token] || @security_token
-      appname = parameters[:appname] || @appname
+      appname = parameters[:appname] || @options.appname
 
       call_data = {
-        :message => {
+        message: {
           "Token" => token,
           "Appname" => appname
         },
-        :soap_action => "#{UNITY_ENDPOINT_NAMESPACE}/RetireSecurityToken"
+        soap_action: "#{UNITY_ENDPOINT_NAMESPACE}/RetireSecurityToken"
       }
 
       begin

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :client_driver, class: AllscriptsUnityClient::ClientDriver do
+  factory :client_options, class: AllscriptsUnityClient::ClientOptions do
     initialize_with { new(base_unity_url: base_unity_url, username: username, password: password, appname: appname, proxy: proxy, timezone: timezone, logger: logger) }
 
     base_unity_url "http://www.example.com"

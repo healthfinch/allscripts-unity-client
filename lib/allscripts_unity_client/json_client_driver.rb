@@ -7,13 +7,13 @@ module AllscriptsUnityClient
 
     UNITY_JSON_ENDPOINT = "/Unity/UnityService.svc/json"
 
-    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil, logger = nil, log = true)
+    def initialize(options)
       super
 
       # Disable HTTPI logging
       HTTPI.log = false
 
-      @json_base_url = "#{@base_unity_url}#{UNITY_JSON_ENDPOINT}"
+      @json_base_url = "#{@options.base_unity_url}#{UNITY_JSON_ENDPOINT}"
     end
 
     def client_type
@@ -21,7 +21,7 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
-      request_data = JSONUnityRequest.new(parameters, @timezone, @appname, @security_token)
+      request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
       request = create_httpi_request("#{@json_base_url}/MagicJson", request_data.to_hash)
 
       start_timer
@@ -33,14 +33,14 @@ module AllscriptsUnityClient
       raise_if_response_error(response)
       log_magic(request_data)
 
-      response = JSONUnityResponse.new(response, @timezone)
+      response = JSONUnityResponse.new(response, @options.timezone)
       response.to_hash
     end
 
     def get_security_token!(parameters = {})
-      username = parameters[:username] || @username
-      password = parameters[:password] || @password
-      appname = parameters[:appname] || @appname
+      username = parameters[:username] || @options.username
+      password = parameters[:password] || @options.password
+      appname = parameters[:appname] || @options.appname
 
       request_data = {
         "Username" => username,
@@ -61,7 +61,7 @@ module AllscriptsUnityClient
 
     def retire_security_token!(parameters = {})
       token = parameters[:token] || @security_token
-      appname = parameters[:appname] || @appname
+      appname = parameters[:appname] || @options.appname
 
       request_data = {
         "Token" => token,
@@ -90,8 +90,8 @@ module AllscriptsUnityClient
       }
       request.body = JSON.generate(data)
 
-      unless @proxy.nil?
-        request.proxy = @proxy
+      if @options.proxy?
+        request.proxy = @options.proxy
       end
 
       request

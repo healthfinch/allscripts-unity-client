@@ -4,41 +4,14 @@ module AllscriptsUnityClient
   class ClientDriver
     LOG_FILE = "logs/unity_client.log"
 
-    attr_accessor :username, :password, :appname, :base_unity_url, :proxy, :security_token, :timezone, :logger, :log
+    attr_accessor :options, :security_token
 
-    def initialize(base_unity_url, username, password, appname, proxy = nil, timezone = nil, logger = nil, log = true)
-      raise ArgumentError, "base_unity_url can not be nil" if base_unity_url.nil?
-      raise ArgumentError, "username can not be nil" if username.nil?
-      raise ArgumentError, "password can not be nil" if password.nil?
-      raise ArgumentError, "appname can not be nil" if appname.nil?
-
-      @base_unity_url = base_unity_url.gsub /\/$/, ""
-      @username = username
-      @password = password
-      @appname = appname
-      @proxy = proxy
-      @log = log
-
-      if logger.nil?
-        @logger = Logger.new(STDOUT)
-        @logger.level = Logger::INFO
-      else
-        @logger = logger
-      end
-
-      unless timezone.nil?
-        @timezone = Timezone.new(timezone)
-      else
-        @timezone = Timezone.new("UTC")
-      end
+    def initialize(options)
+      @options = ClientOptions.new(options)
     end
 
     def security_token?
       return !@security_token.nil?
-    end
-
-    def log?
-      return @log
     end
 
     def client_type
@@ -60,26 +33,26 @@ module AllscriptsUnityClient
     protected
 
     def log_get_security_token
-      message = "Unity API GetSecurityToken request to #{@base_unity_url}"
+      message = "Unity API GetSecurityToken request to #{@options.base_unity_url}"
       log_info(message)
     end
 
     def log_retire_security_token
-      message = "Unity API RetireSecurityToken request to #{@base_unity_url}"
+      message = "Unity API RetireSecurityToken request to #{@options.base_unity_url}"
       log_info(message)
     end
 
     def log_magic(request)
       raise ArgumentError, "request can not be nil" if request.nil?
-      message = "Unity API Magic request to #{@base_unity_url} [#{request.parameters[:action]}]"
+      message = "Unity API Magic request to #{@options.base_unity_url} [#{request.parameters[:action]}]"
       log_info(message)
     end
 
     def log_info(message)
-      if log? && !logger.nil? && !message.nil?
+      if @options.logger? && !message.nil?
         message += " #{@timer} seconds" unless @timer.nil?
         @timer = nil
-        logger.info(message)
+        @options.logger.info(message)
       end
     end
 

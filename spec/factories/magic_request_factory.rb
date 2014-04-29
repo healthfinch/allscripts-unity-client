@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :magic_request, :class => Hash do
+  factory :magic_request, class: Hash do
     initialize_with { attributes }
 
     action nil
@@ -16,7 +16,7 @@ FactoryGirl.define do
     data nil
   end
 
-  factory :populated_magic_request, :parent => :magic_request do
+  factory :populated_magic_request, parent: :magic_request do
     action ["GetServerInfo", "GetProviders"].sample
     appname Faker::Company.name
     userid ["jmedici", "lmccoy"].sample

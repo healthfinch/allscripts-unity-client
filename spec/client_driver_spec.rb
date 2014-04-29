@@ -5,54 +5,6 @@ describe 'ClientDriver' do
 
   subject { FactoryGirl.build(:client_driver) }
 
-  describe '#initialize' do
-    context 'when nil is given for base_unity_url' do
-      it { expect { FactoryGirl.build(:client_driver, :base_unity_url => nil) }.to raise_error(ArgumentError) }
-    end
-
-    context 'when nil is given for username' do
-      it { expect { FactoryGirl.build(:client_driver, :username => nil) }.to raise_error(ArgumentError) }
-    end
-
-    context 'when nil is given for password' do
-      it { expect { FactoryGirl.build(:client_driver, :password => nil) }.to raise_error(ArgumentError) }
-    end
-
-    context 'when nil is given for appname' do
-      it { expect { FactoryGirl.build(:client_driver, :appname => nil) }.to raise_error(ArgumentError) }
-    end
-
-    context 'when given a base_unity_url with a trailing /' do
-      it 'sets @base_unity_url without the trailing /' do
-        client_driver = FactoryGirl.build(:client_driver, :base_unity_url => "http://www.example.com/")
-        expect(client_driver.base_unity_url).to eq("http://www.example.com")
-      end
-    end
-
-    context 'when nil is given for timezone' do
-      it 'sets @timezone to UTC' do
-        client_driver = FactoryGirl.build(:client_driver, :timezone => nil)
-        utc_timezone = FactoryGirl.build(:timezone, :zone_identifier => "UTC")
-        expect(client_driver.timezone.tzinfo).to eq(utc_timezone.tzinfo)
-      end
-    end
-
-    context 'when nil is given for logger' do
-      it 'sets @logger to Logger' do
-        client_driver = FactoryGirl.build(:client_driver, :logger => nil)
-        expect(client_driver.logger).to be_instance_of(Logger)
-      end
-    end
-
-    context 'when logger is set' do
-      it 'sets @logger to logger' do
-        logger = double("logger")
-        client_driver = FactoryGirl.build(:client_driver, :logger => logger)
-        expect(client_driver.logger).to be(logger)
-      end
-    end
-  end
-
   describe '#client_type' do
     it { expect(subject.client_type).to be(:none) }
   end

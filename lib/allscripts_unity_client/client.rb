@@ -10,6 +10,10 @@ module AllscriptsUnityClient
       @client_driver = client_driver
     end
 
+    def options
+      @client_driver.options
+    end
+
     def magic(parameters = {})
       @client_driver.magic(parameters)
     end
@@ -36,16 +40,16 @@ module AllscriptsUnityClient
 
     def echo(echo_text)
       magic_parameters = {
-        :action => "Echo",
-        :userid => echo_text,
-        :appname => echo_text,
-        :patientid => echo_text,
-        :parameter1 => echo_text,
-        :parameter2 => echo_text,
-        :parameter3 => echo_text,
-        :parameter4 => echo_text,
-        :parameter5 => echo_text,
-        :parameter6 => echo_text
+        action: "Echo",
+        userid: echo_text,
+        appname: echo_text,
+        patientid: echo_text,
+        parameter1: echo_text,
+        parameter2: echo_text,
+        parameter3: echo_text,
+        parameter4: echo_text,
+        parameter5: echo_text,
+        parameter6: echo_text
       }
       response = magic(magic_parameters)
       response[:userid]
@@ -57,8 +61,8 @@ module AllscriptsUnityClient
 
     def get_changed_patients(since = nil)
       magic_parameters = {
-        :action => "GetChangedPatients",
-        :parameter1 => since
+        action: "GetChangedPatients",
+        parameter1: since
       }
       magic(magic_parameters)
     end
@@ -73,21 +77,27 @@ module AllscriptsUnityClient
 
     def get_chart_item_details(userid, patientid, section)
       magic_parameters = {
-        :action => "GetChartItemDetails",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => section
+        action: "GetChartItemDetails",
+        userid: userid,
+        patientid: patientid,
+        parameter1: section
       }
       magic(magic_parameters)
     end
 
     def get_clinical_summary(userid, patientid)
       magic_parameters = {
-        :action => "GetClinicalSummary",
-        :userid => userid,
-        :patientid => patientid
+        action: "GetClinicalSummary",
+        userid: userid,
+        patientid: patientid
       }
-      magic(magic_parameters)
+      response = magic(magic_parameters)
+
+      unless response.is_a?(Array)
+        response = [ response ]
+      end
+
+      response
     end
 
     def get_delegates
@@ -96,10 +106,10 @@ module AllscriptsUnityClient
 
     def get_dictionary(dictionary_name, userid = nil, site = nil)
       magic_parameters = {
-        :action => "GetDictionary",
-        :userid => userid,
-        :parameter1 => dictionary_name,
-        :parameter2 => site
+        action: "GetDictionary",
+        userid: userid,
+        parameter1: dictionary_name,
+        parameter2: site
       }
       response = magic(magic_parameters)
 
@@ -148,14 +158,14 @@ module AllscriptsUnityClient
 
     def get_encounter_list(userid, patientid, encounter_type, when_param = nil, nostradamus = nil, show_past_flag = nil, billing_provider_user_name = nil)
       magic_parameters = {
-        :action => "GetEncounterList",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => encounter_type,
-        :parameter2 => when_param,
-        :parameter3 => nostradamus,
-        :parameter4 => show_past_flag,
-        :parameter5 => billing_provider_user_name
+        action: "GetEncounterList",
+        userid: userid,
+        patientid: patientid,
+        parameter1: encounter_type,
+        parameter2: when_param,
+        parameter3: nostradamus,
+        parameter4: show_past_flag,
+        parameter5: billing_provider_user_name
       }
       response = magic(magic_parameters)
 
@@ -183,20 +193,20 @@ module AllscriptsUnityClient
 
     def get_medication_by_trans_id(userid, patientid, transaction_id)
       magic_parameters = {
-        :action => "GetMedicationByTransID",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => transaction_id
+        action: "GetMedicationByTransID",
+        userid: userid,
+        patientid: patientid,
+        parameter1: transaction_id
       }
       magic(magic_parameters)
     end
 
     def get_medication_info(userid, ddid, patientid = nil)
       magic_parameters = {
-        :action => "GetMedicationInfo",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => ddid
+        action: "GetMedicationInfo",
+        userid: userid,
+        patientid: patientid,
+        parameter1: ddid
       }
       magic(magic_parameters)
     end
@@ -215,19 +225,19 @@ module AllscriptsUnityClient
 
     def get_patient(userid, patientid, includepix = nil)
       magic_parameters = {
-        :action => "GetPatient",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => includepix
+        action: "GetPatient",
+        userid: userid,
+        patientid: patientid,
+        parameter1: includepix
       }
       magic(magic_parameters)
     end
 
     def get_patient_activity(userid, patientid)
       magic_parameters = {
-        :action => "GetPatientActivity",
-        :userid => userid,
-        :patientid => patientid
+        action: "GetPatientActivity",
+        userid: userid,
+        patientid: patientid
       }
       magic(magic_parameters)
     end
@@ -266,12 +276,12 @@ module AllscriptsUnityClient
 
     def get_patient_problems(patientid, show_by_encounter_flag = nil, assessed = nil, encounter_id = nil, medcin_id = nil)
       magic_parameters = {
-        :action => "GetPatientProblems",
-        :patientid => patientid,
-        :parameter1 => show_by_encounter_flag,
-        :parameter2 => assessed,
-        :parameter3 => encounter_id,
-        :parameter4 => medcin_id
+        action: "GetPatientProblems",
+        patientid: patientid,
+        parameter1: show_by_encounter_flag,
+        parameter2: assessed,
+        parameter3: encounter_id,
+        parameter4: medcin_id
       }
       response = magic(magic_parameters)
 
@@ -284,10 +294,10 @@ module AllscriptsUnityClient
 
     def get_patients_by_icd9(icd9, start = nil, end_param = nil)
       magic_parameters = {
-        :action => "GetPatientsByICD9",
-        :parameter1 => icd9,
-        :parameter2 => start,
-        :parameter3 => end_param
+        action: "GetPatientsByICD9",
+        parameter1: icd9,
+        parameter2: start,
+        parameter3: end_param
       }
       magic(magic_parameters)
     end
@@ -306,18 +316,18 @@ module AllscriptsUnityClient
       end
 
       magic_parameters = {
-        :action => "GetProvider",
-        :parameter1 => provider_id,
-        :parameter2 => user_name
+        action: "GetProvider",
+        parameter1: provider_id,
+        parameter2: user_name
       }
       magic(magic_parameters)
     end
 
     def get_providers(security_filter = nil, name_filter = nil)
       magic_parameters = {
-        :action => "GetProviders",
-        :parameter1 => security_filter,
-        :parameter2 => name_filter
+        action: "GetProviders",
+        parameter1: security_filter,
+        parameter2: name_filter
       }
       response = magic(magic_parameters)
 
@@ -350,7 +360,7 @@ module AllscriptsUnityClient
 
     def get_server_info
       magic_parameters = {
-        :action => "GetServerInfo"
+        action: "GetServerInfo"
       }
       magic(magic_parameters)
     end
@@ -361,18 +371,18 @@ module AllscriptsUnityClient
 
     def get_task(userid, transaction_id)
       magic_parameters = {
-        :action => "GetTask",
-        :userid => userid,
-        :parameter1 => transaction_id
+        action: "GetTask",
+        userid: userid,
+        parameter1: transaction_id
       }
       magic(magic_parameters)
     end
 
     def get_task_list(userid = nil, since = nil)
       magic_parameters = {
-        :action => "GetTaskList",
-        :userid => userid,
-        :parameter1 => since
+        action: "GetTaskList",
+        userid: userid,
+        parameter1: since
       }
       response = magic(magic_parameters)
 
@@ -405,7 +415,7 @@ module AllscriptsUnityClient
 
     def last_logs
       magic_parameters = {
-        :action => "LastLogs"
+        action: "LastLogs"
       }
       magic(magic_parameters)
     end
@@ -514,10 +524,10 @@ module AllscriptsUnityClient
       end
 
       magic_parameters = {
-        :action => "SaveRX",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => nokogiri_to_string(builder)
+        action: "SaveRX",
+        userid: userid,
+        patientid: patientid,
+        parameter1: nokogiri_to_string(builder)
       }
       magic(magic_parameters)
     end
@@ -540,13 +550,13 @@ module AllscriptsUnityClient
       end
 
       magic_parameters = {
-        :action => "SaveTask",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => task_type,
-        :parameter2 => target_user,
-        :parameter3 => work_object_id,
-        :parameter4 => comments
+        action: "SaveTask",
+        userid: userid,
+        patientid: patientid,
+        parameter1: task_type,
+        parameter2: target_user,
+        parameter3: work_object_id,
+        parameter4: comments
       }
       magic(magic_parameters)
     end
@@ -567,13 +577,13 @@ module AllscriptsUnityClient
       end
 
       magic_parameters = {
-        :action => "SaveTaskStatus",
-        :userid => userid,
-        :parameter1 => transaction_id,
-        :parameter2 => status,
-        :parameter3 => delegate_id,
-        :parameter4 => comment,
-        :parameter6 => nokogiri_to_string(builder)
+        action: "SaveTaskStatus",
+        userid: userid,
+        parameter1: transaction_id,
+        parameter2: status,
+        parameter3: delegate_id,
+        parameter4: comment,
+        parameter6: nokogiri_to_string(builder)
       }
       magic(magic_parameters)
     end
@@ -612,10 +622,10 @@ module AllscriptsUnityClient
 
     def search_meds(userid, patientid, search = nil)
       magic_parameters = {
-        :action => "SearchMeds",
-        :userid => userid,
-        :patientid => patientid,
-        :parameter1 => search
+        action: "SearchMeds",
+        userid: userid,
+        patientid: patientid,
+        parameter1: search
       }
 
       response = magic(magic_parameters)
@@ -629,8 +639,8 @@ module AllscriptsUnityClient
 
     def search_patients(search)
       magic_parameters = {
-        :action => "SearchPatients",
-        :parameter1 => search
+        action: "SearchPatients",
+        parameter1: search
       }
       magic(magic_parameters)
     end
@@ -641,8 +651,8 @@ module AllscriptsUnityClient
 
     def search_pharmacies(search)
       magic_parameters = {
-        :action => "SearchPharmacies",
-        :parameter1 => search
+        action: "SearchPharmacies",
+        parameter1: search
       }
       magic(magic_parameters)
     end
@@ -666,7 +676,7 @@ module AllscriptsUnityClient
     private
 
     def nokogiri_to_string(builder)
-      builder.to_xml(:save_with => Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
+      builder.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
     end
   end
 end

@@ -21,6 +21,10 @@ module AllscriptsUnityClient
       convert_with_timezone(:utc_to_local, datetime)
     end
 
+    def ==(timezone)
+      @tzinfo == timezone.tzinfo
+    end
+
     private
 
     # Direction can be :utc_to_local or :local_to_utc

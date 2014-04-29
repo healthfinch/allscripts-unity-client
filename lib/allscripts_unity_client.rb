@@ -6,6 +6,7 @@ require "allscripts_unity_client/unity_response"
 require "allscripts_unity_client/json_unity_response"
 require "allscripts_unity_client/client"
 require "allscripts_unity_client/client_driver"
+require "allscripts_unity_client/client_options"
 require "allscripts_unity_client/soap_client_driver"
 require "allscripts_unity_client/json_client_driver"
 
@@ -13,16 +14,16 @@ module AllscriptsUnityClient
   class APIError < RuntimeError
   end
 
-  def self.create(parameters = {})
-    parameters[:mode] ||= :soap
-    parameters[:log] = true unless parameters[:log] === false
-    raise_if_parameters_invalid parameters
+  def self.create(options = {})
+    options[:mode] ||= :soap
+    options[:log] = true unless options[:log] === false
+    raise_if_options_invalid options
 
-    case parameters[:mode]
+    case options[:mode]
     when :json
-      client_driver = JSONClientDriver.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone], parameters[:logger], parameters[:log])
+      client_driver = JSONClientDriver.new(options)
     when :soap
-      client_driver = SOAPClientDriver.new(parameters[:base_unity_url], parameters[:username], parameters[:password], parameters[:appname], parameters[:proxy], parameters[:timezone], parameters[:logger], parameters[:log])
+      client_driver = SOAPClientDriver.new(options)
     end
 
     client = Client.new(client_driver)
@@ -31,12 +32,8 @@ module AllscriptsUnityClient
 
   private
 
-  def self.raise_if_parameters_invalid(parameters)
-    raise ArgumentError, ":mode must be :json or :soap" unless [:json, :soap].include?(parameters[:mode])
-    raise ArgumentError, ":base_unity_url required" if parameters[:base_unity_url].nil?
-    raise ArgumentError, ":username required" if parameters[:username].nil?
-    raise ArgumentError, ":password required" if parameters[:password].nil?
-    raise ArgumentError, ":appname required" if parameters[:appname].nil?
+  def self.raise_if_options_invalid(options)
+    raise ArgumentError, ":mode must be :json or :soap" unless [:json, :soap].include?(options[:mode])
   end
 end
 
