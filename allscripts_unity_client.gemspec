@@ -23,8 +23,8 @@ Gem::Specification.new do |gem|
   gem.files = `git ls-files`.split("\n").delete_if { |file| /^\.ruby-version$/.match(file) }
 
   gem.add_runtime_dependency 'savon', '~> 2.3.0'
-  gem.add_runtime_dependency 'httpi', '~> 2.1.0'
-  gem.add_runtime_dependency 'net-http-persistent', '~> 2.9.0'
+  gem.add_runtime_dependency 'faraday', '~> 0.9.0'
+  gem.add_runtime_dependency 'em-http-request', '~> 1.1.2'
   gem.add_runtime_dependency 'tzinfo', '~> 0.3.29'
   gem.add_runtime_dependency 'nokogiri', '< 1.6', '>= 1.4.0'
   gem.add_runtime_dependency 'nori', '~> 2.3.0'

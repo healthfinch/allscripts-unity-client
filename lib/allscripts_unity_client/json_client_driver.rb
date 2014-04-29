@@ -1,5 +1,6 @@
 require 'json'
-require 'httpi'
+require 'faraday'
+require 'em-http-request'
 
 module AllscriptsUnityClient
   class JSONClientDriver < ClientDriver
@@ -9,11 +10,13 @@ module AllscriptsUnityClient
 
     def initialize(options)
       super
+      @connection = Faraday.new(url: @options.base_unity_url) do |conn|
+        if @options.proxy?
+          conn.proxy = @options.proxy
+        end
 
-      # Disable HTTPI logging
-      HTTPI.log = false
-
-      @json_base_url = "#{@options.base_unity_url}#{UNITY_JSON_ENDPOINT}"
+        conn.adapter :em_http
+      end
     end
 
     def client_type
@@ -22,10 +25,13 @@ module AllscriptsUnityClient
 
     def magic(parameters = {})
       request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
-      request = create_httpi_request("#{@json_base_url}/MagicJson", request_data.to_hash)
 
-      start_timer
-      response = HTTPI.post(request)
+      response = @connection.post do |request|
+        request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = JSON.generate(request_data.to_hash)
+        start_timer
+      end
       end_timer
 
       response = JSON.parse(response.body)
@@ -47,10 +53,13 @@ module AllscriptsUnityClient
         'Password' => password,
         'Appname' => appname
       }
-      request = create_httpi_request("#{@json_base_url}/GetToken", request_data)
 
-      start_timer
-      response = HTTPI.post(request, :net_http_persistent)
+      response = @connection.post do |request|
+        request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = JSON.generate(request_data)
+        start_timer
+      end
       end_timer
 
       raise_if_response_error(response.body)
@@ -67,10 +76,13 @@ module AllscriptsUnityClient
         'Token' => token,
         'Appname' => appname
       }
-      request = create_httpi_request("#{@json_base_url}/RetireSecurityToken", request_data)
 
-      start_timer
-      response = HTTPI.post(request, :net_http_persistent)
+      response = @connection.post do |request|
+        request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = JSON.generate(request_data)
+        start_timer
+      end
       end_timer
 
       raise_if_response_error(response.body)
@@ -80,22 +92,6 @@ module AllscriptsUnityClient
     end
 
     private
-
-    def create_httpi_request(url, data)
-      request = HTTPI::Request.new
-      request.url = url
-      request.headers = {
-        'Accept-Encoding' => 'gzip,deflate',
-        'Content-type' => 'application/json;charset=utf-8'
-      }
-      request.body = JSON.generate(data)
-
-      if @options.proxy?
-        request.proxy = @options.proxy
-      end
-
-      request
-    end
 
     def raise_if_response_error(response)
       if response.nil?

@@ -48,7 +48,7 @@ module AllscriptsUnityClient
     end
 
     def timezone=(timezone)
-      unless timezone.nil?
+      if !timezone.nil?
         @timezone = Timezone.new(timezone)
       else
         @timezone = Timezone.new('UTC')

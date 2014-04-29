@@ -22,6 +22,7 @@ module AllscriptsUnityClient
     end
 
     def ==(timezone)
+      return false if !timezone.is_a?(Timezone)
       @tzinfo == timezone.tzinfo
     end
 

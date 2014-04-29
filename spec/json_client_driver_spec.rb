@@ -117,34 +117,6 @@ describe 'JSONClientDriver' do
     end
   end
 
-  describe '#create_httpi_request' do
-    context 'when given url' do
-      it 'returns an HTTPI request with that url' do
-        expect(subject.send(:create_httpi_request, url, hash).url.to_s).to eq(url)
-      end
-    end
-
-    context 'when given data' do
-      it 'returns an HTTPI request with body set to that data' do
-        expect(subject.send(:create_httpi_request, url, hash).body).to eq(json_hash)
-      end
-    end
-
-    context 'when @proxy is nil' do
-      it 'returns an HTTPI request with proxy set to nil' do
-        subject.options.proxy = nil
-        expect(subject.send(:create_httpi_request, url, hash).proxy).to be_nil
-      end
-    end
-
-    context 'when @proxy is set' do
-      it 'return an HTTPI request with proxy set to @options.proxy' do
-        subject.options.proxy = url
-        expect(subject.send(:create_httpi_request, url, hash).proxy.to_s).to eq(url)
-      end
-    end
-  end
-
   describe '#raise_if_response_error' do
     context 'when given nil for response' do
       it { expect { subject.send(:raise_if_response_error, nil) }.to raise_error(AllscriptsUnityClient::APIError) }

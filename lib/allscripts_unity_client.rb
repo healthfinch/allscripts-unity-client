@@ -19,11 +19,10 @@ module AllscriptsUnityClient
     options[:log] = true unless options[:log] === false
     raise_if_options_invalid options
 
-    case options[:mode]
-      when :json
-        client_driver = JSONClientDriver.new(options)
-      when :soap
-        client_driver = SOAPClientDriver.new(options)
+    if options[:mode] == :json
+      client_driver = JSONClientDriver.new(options)
+    else
+      client_driver = SOAPClientDriver.new(options)
     end
 
     client = Client.new(client_driver)

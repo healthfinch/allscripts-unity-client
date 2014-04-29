@@ -10,7 +10,7 @@ describe 'ClientOptions' do
   let(:america_los_angeles_timezone) { AllscriptsUnityClient::Timezone.new('America/Los_Angeles') }
   let(:client_options_hash) { { base_unity_url: 'http://www.example.com', username: 'username', password: 'password', appname: 'appname', proxy: 'proxy', timezone: 'UTC', logger: nil } }
 
-  describe '.initialize' do
+  describe '#initialize' do
     context 'when given a base_unity_url that ends in a slash (/)' do
       it 'strips the slash' do
         expect(build(:client_options, base_unity_url: url_with_slash).base_unity_url).to eq(url_without_slash)
@@ -18,7 +18,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.validate_options' do
+  describe '#validate_options' do
     context 'when not given base_unity_url' do
       it { expect { build(:client_options, base_unity_url: nil) }.to raise_error(ArgumentError) }
     end
@@ -36,7 +36,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.base_unity_url=' do
+  describe '#base_unity_url=' do
     context 'when given a base_unity_url that ends in a slash (/)' do
       it 'strips the slash' do
         subject.base_unity_url = url_with_slash
@@ -49,7 +49,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.username=' do
+  describe '#username=' do
     context 'when given nil' do
       it { expect { subject.username = nil }.to raise_error(ArgumentError) }
     end
@@ -59,7 +59,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.password=' do
+  describe '#password=' do
     context 'when given nil' do
       it { expect { subject.password = nil }.to raise_error(ArgumentError) }
     end
@@ -69,7 +69,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.appname=' do
+  describe '#appname=' do
     context 'when given nil' do
       it { expect { subject.appname = nil }.to raise_error(ArgumentError) }
     end
@@ -79,7 +79,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.timezone=' do
+  describe '#timezone=' do
     context 'when given nil' do
       it 'sets timezone to UTC' do
         subject.timezone = nil
@@ -95,7 +95,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.proxy?' do
+  describe '#proxy?' do
     context 'when proxy is nil' do
       it 'returns false' do
         expect(subject.proxy?).to be_falsey
@@ -110,7 +110,7 @@ describe 'ClientOptions' do
     end
   end
 
-  describe '.logger?' do
+  describe '#logger?' do
     context 'when logger is nil' do
       it 'returns false' do
         expect(subject.logger?).to be_falsey

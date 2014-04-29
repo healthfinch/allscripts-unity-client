@@ -47,6 +47,26 @@ describe 'Timezone' do
     end
   end
 
+  describe '#==' do
+    context 'when given an object other than Timezone' do
+      it 'returns false' do
+        expect(subject == 'not a timezone').to be_falsey
+      end
+    end
+
+    context 'when given a Timezone that has an equivalent @tzinfo' do
+      it 'returns true' do
+        expect(utc_timezone == utc_timezone).to be_truthy
+      end
+    end
+
+    context 'when given a Timezone that has a different @tzinfo' do
+      it 'returns false' do
+        expect(subject == utc_timezone).to be_falsey
+      end
+    end
+  end
+
   describe '#convert_with_timezone' do
     context 'when given nil' do
       it { expect(subject.send(:convert_with_timezone, nil)).to be_nil }
