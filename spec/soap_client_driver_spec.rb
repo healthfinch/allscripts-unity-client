@@ -5,7 +5,7 @@ describe 'SOAPClientDriver' do
   it_behaves_like 'a client driver'
 
   subject do
-    client_driver = FactoryGirl.build(:soap_client_driver, proxy: 'http://localhost:8888')
+    client_driver = build(:soap_client_driver, proxy: 'http://localhost:8888')
     client_driver.security_token = SecureRandom.uuid
     client_driver
   end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'ClientOptions' do
-  subject { FactoryGirl.build(:client_options) }
+  subject { build(:client_options) }
 
   let(:url_with_slash) { 'http://www.example.com/' }
   let(:url_without_slash) { 'http://www.example.com' }
@@ -13,26 +13,26 @@ describe 'ClientOptions' do
   describe '.initialize' do
     context 'when given a base_unity_url that ends in a slash (/)' do
       it 'strips the slash' do
-        expect(FactoryGirl.build(:client_options, base_unity_url: url_with_slash).base_unity_url).to eq(url_without_slash)
+        expect(build(:client_options, base_unity_url: url_with_slash).base_unity_url).to eq(url_without_slash)
       end
     end
   end
 
   describe '.validate_options' do
     context 'when not given base_unity_url' do
-      it { expect { FactoryGirl.build(:client_options, base_unity_url: nil) }.to raise_error(ArgumentError) }
+      it { expect { build(:client_options, base_unity_url: nil) }.to raise_error(ArgumentError) }
     end
 
     context 'when not given username' do
-      it { expect { FactoryGirl.build(:client_options, username: nil) }.to raise_error(ArgumentError) }
+      it { expect { build(:client_options, username: nil) }.to raise_error(ArgumentError) }
     end
 
     context 'when not given password' do
-      it { expect { FactoryGirl.build(:client_options, password: nil) }.to raise_error(ArgumentError) }
+      it { expect { build(:client_options, password: nil) }.to raise_error(ArgumentError) }
     end
 
     context 'when not given appname' do
-      it { expect { FactoryGirl.build(:client_options, appname: nil) }.to raise_error(ArgumentError) }
+      it { expect { build(:client_options, appname: nil) }.to raise_error(ArgumentError) }
     end
   end
 

@@ -4,7 +4,7 @@ describe 'JSONClientDriver' do
   it_behaves_like 'a client driver'
 
   subject do
-    client_driver = FactoryGirl.build(:json_client_driver)
+    client_driver = build(:json_client_driver)
     client_driver.security_token = SecureRandom.uuid
     client_driver
   end

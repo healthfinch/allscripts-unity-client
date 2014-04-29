@@ -3,6 +3,6 @@ FactoryGirl.define do
     initialize_with { new(response, timezone) }
 
     response {}
-    timezone FactoryGirl.build(:timezone)
+    timezone { build(:timezone) }
   end
 end

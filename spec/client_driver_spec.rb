@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ClientDriver' do
   it_behaves_like 'a client driver'
 
-  subject { FactoryGirl.build(:client_driver) }
+  subject { build(:client_driver) }
 
   describe '#client_type' do
     it { expect(subject.client_type).to be(:none) }

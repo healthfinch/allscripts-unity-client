@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'Client' do
-  subject { FactoryGirl.build(:client) }
+  subject { build(:client) }
 
   describe '#initialize' do
     context 'when given nil for client_driver' do
-      it { expect { FactoryGirl.build(:client, client_driver: nil) }.to raise_error(ArgumentError) }
+      it { expect { build(:client, client_driver: nil) }.to raise_error(ArgumentError) }
     end
   end
 
