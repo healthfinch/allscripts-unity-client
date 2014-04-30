@@ -1,7 +1,7 @@
 module AllscriptsUnityClient
   class ClientOptions
     attr_accessor :proxy, :logger
-    attr_reader :base_unity_url, :username, :password, :appname, :timezone
+    attr_reader :base_unity_url, :username, :password, :appname, :timezone, :ca_file, :ca_path
 
     def initialize(options = {})
       @base_unity_url = options[:base_unity_url] ? options[:base_unity_url].gsub(/\/$/, '') : nil
@@ -11,6 +11,8 @@ module AllscriptsUnityClient
       @proxy = options[:proxy]
       self.timezone = options[:timezone]
       @logger = options[:logger]
+      @ca_file = options[:ca_file]
+      @ca_path = options[:ca_path]
 
       validate_options
     end
@@ -63,6 +65,18 @@ module AllscriptsUnityClient
 
     def logger?
       !@logger.nil?
+    end
+
+    def ca_file?
+      return false if @ca_file.nil?
+      return false if @ca_file.empty?
+      true
+    end
+
+    def ca_path?
+      return false if @ca_path.nil?
+      return false if @ca_path.empty?
+      true
     end
   end
 end

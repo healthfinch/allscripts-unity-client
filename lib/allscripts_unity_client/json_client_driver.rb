@@ -10,11 +10,7 @@ module AllscriptsUnityClient
 
     def initialize(options)
       super
-      @connection = Faraday.new(url: @options.base_unity_url) do |conn|
-        if @options.proxy?
-          conn.proxy @options.proxy
-        end
-
+      @connection = Faraday.new(build_faraday_options) do |conn|
         conn.adapter :em_http
       end
     end
@@ -101,6 +97,52 @@ module AllscriptsUnityClient
       elsif response.is_a?(String) && response.include?('error:')
         raise APIError, response
       end
+    end
+
+    def build_faraday_options
+      options = {}
+
+      # Configure Faraday base url
+      options[:url] = @options.base_unity_url
+
+      # Configure root certificates for Faraday using options or via auto-detection
+      if @options.ca_file?
+        options[:ssl] = { ca_file: @options.ca_file }
+      elsif @options.ca_path?
+        options[:ssl] = { ca_path: @options.ca_path }
+      elsif ca_file = JSONClientDriver.find_ca_file
+        options[:ssl] = { ca_file: ca_file }
+      elsif ca_path = JSONClientDriver.find_ca_path
+        options[:ssl] = { ca_path: ca_path }
+      end
+
+      # Configure proxy
+      options[:proxy] = @options.proxy
+      options
+    end
+
+    def self.find_ca_path
+      if File.directory?('/usr/lib/ssl/certs')
+        return '/usr/lib/ssl/certs'
+      end
+
+      nil
+    end
+
+    def self.find_ca_file
+      if File.exists?('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt')
+        return '/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt'
+      end
+
+      if File.exists?('/opt/local/share/curl/curl-ca-bundle.crt')
+        return '/opt/local/share/curl/curl-ca-bundle.crt'
+      end
+
+      if File.exists?('/usr/lib/ssl/certs/ca-certificates.crt')
+        return '/usr/lib/ssl/certs/ca-certificates.crt'
+      end
+
+      nil
     end
   end
 end
