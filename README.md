@@ -45,6 +45,38 @@ unity_client = AllscriptsUnityClient.create({
 })
 ```
 
+## SSL Management
+
+[Faraday](https://github.com/lostisland/faraday) is used in combination with [EM-HTTP-Request](https://github.com/igrigorik/em-http-request) to send HTTP requests when using JSON clients. Faraday requires
+some configuration when making connections over SSL. AllscriptsUnityClient will try to auto-detect the location of the
+operating system's CA File or CA Path, but these values can be explicitly configured when creating a client:
+
+```ruby
+# Mode defaults to :soap
+unity_client = AllscriptsUnityClient.create({
+  mode: :json,
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  ca_file: "/usr/lib/ssl/certs/ca-certificates.crt"
+})
+```
+
+OR
+
+```ruby
+# Mode defaults to :soap
+unity_client = AllscriptsUnityClient.create({
+  mode: :json,
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  ca_path: "/usr/lib/ssl/certs"
+})
+```
+
 ### Security token management
 
 Security tokens can be manually requested using the `get_security_token!` method:
