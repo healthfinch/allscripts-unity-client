@@ -117,7 +117,10 @@ module AllscriptsUnityClient
       end
 
       # Configure proxy
-      options[:proxy] = @options.proxy
+      if @options.proxy?
+        options[:proxy] = @options.proxy
+      end
+
       options
     end
 
