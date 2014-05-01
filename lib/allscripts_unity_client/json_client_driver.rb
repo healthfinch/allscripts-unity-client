@@ -26,6 +26,8 @@ module AllscriptsUnityClient
         request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
         request.headers['Content-Type'] = 'application/json'
         request.body = JSON.generate(request_data.to_hash)
+        set_request_timeout(request)
+
         start_timer
       end
       end_timer
@@ -54,6 +56,8 @@ module AllscriptsUnityClient
         request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
         request.headers['Content-Type'] = 'application/json'
         request.body = JSON.generate(request_data)
+        set_request_timeout(request)
+
         start_timer
       end
       end_timer
@@ -77,6 +81,8 @@ module AllscriptsUnityClient
         request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
         request.headers['Content-Type'] = 'application/json'
         request.body = JSON.generate(request_data)
+        set_request_timeout(request)
+
         start_timer
       end
       end_timer
@@ -146,6 +152,16 @@ module AllscriptsUnityClient
       end
 
       nil
+    end
+
+    def set_request_timeout(request)
+      if @options.timeout?
+        request.options[:timeout] = @options.timeout
+        request.options[:open_timeout] = @options.timeout
+      else
+        request.options[:timeout] = 90
+        request.options[:open_timeout] = 90
+      end
     end
   end
 end

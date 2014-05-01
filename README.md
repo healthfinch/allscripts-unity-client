@@ -45,7 +45,7 @@ unity_client = AllscriptsUnityClient.create({
 })
 ```
 
-## SSL Management
+### SSL Management
 
 [Faraday](https://github.com/lostisland/faraday) is used in combination with [EM-HTTP-Request](https://github.com/igrigorik/em-http-request) to send HTTP requests when using JSON clients. Faraday requires
 some configuration when making connections over SSL. AllscriptsUnityClient will try to auto-detect the location of the
@@ -76,6 +76,24 @@ unity_client = AllscriptsUnityClient.create({
   ca_path: "/usr/lib/ssl/certs"
 })
 ```
+
+### Request Timeout
+
+When using a JSON client, request timeouts can be configured:
+
+```ruby
+# Mode defaults to :soap
+unity_client = AllscriptsUnityClient.create({
+  mode: :json,
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password",
+  timeout: 30
+})
+```
+
+Timeout is given in seconds and defaults to 90.
 
 ### Security token management
 
