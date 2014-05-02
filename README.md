@@ -317,7 +317,7 @@ The above example would output the following `Hash`:
 
 ## Additional Information
 
-Maintainer(s):  Ash Gupta (https://github.com/incomethax), Neil Goodman (https://github.com/posco2k8)
+Maintainer(s): Neil Goodman (https://github.com/posco2k8)
 
 ## License
 
