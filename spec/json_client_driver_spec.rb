@@ -138,4 +138,109 @@ describe 'JSONClientDriver' do
       it { expect { subject.send(:raise_if_response_error, error_string) }.to raise_error(AllscriptsUnityClient::APIError) }
     end
   end
+
+  describe '#build_faraday_options' do
+    context 'when given options with ca_file' do
+      it 'sets ca_file' do
+        client_driver = build(:json_client_driver, ca_file: 'test_file')
+        expect(client_driver.send(:build_faraday_options)[:ssl][:ca_file]).to eq('test_file')
+      end
+    end
+
+    context 'when given options with ca_path' do
+      it 'sets ca_path' do
+        client_driver = build(:json_client_driver, ca_path: 'test_path')
+        expect(client_driver.send(:build_faraday_options)[:ssl][:ca_path]).to eq('test_path')
+      end
+    end
+
+    context 'when given options with nil ca_file and ca_path' do
+      it 'calls JSONClientDriver.find_ca_file' do
+        allow(AllscriptsUnityClient::JSONClientDriver).to receive(:find_ca_file).and_return('/test/file')
+        expect(subject.send(:build_faraday_options)[:ssl][:ca_file]).to eq('/test/file')
+      end
+    end
+
+    context 'when given options with nil ca_file, ca_path, and JSONClientDriver.find_ca_file returns nil' do
+      it 'calls JSONClientDriver.find_ca_file' do
+        allow(AllscriptsUnityClient::JSONClientDriver).to receive(:find_ca_file).and_return(nil)
+        allow(AllscriptsUnityClient::JSONClientDriver).to receive(:find_ca_path).and_return('/test/path')
+        expect(subject.send(:build_faraday_options)[:ssl][:ca_path]).to eq('/test/path')
+      end
+    end
+  end
+
+  describe '.find_ca_path' do
+    context 'when Ubuntu certs path is found' do
+      it 'returns the Ubuntu certs path' do
+        allow(File).to receive(:directory?).with('/usr/lib/ssl/certs').and_return(true)
+        expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_path)).to eq('/usr/lib/ssl/certs')
+      end
+    end
+
+    context 'when no certificate path is found' do
+      it 'returns nil' do
+        allow(File).to receive(:directory?).with('/usr/lib/ssl/certs').and_return(false)
+        expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_path)).to be_nil
+      end
+    end
+  end
+
+  describe '.find_ca_file' do
+    context 'when OS X ca-bundle.crt found' do
+      it 'returns the ca-bundle.crt' do
+          allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(true)
+          expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to eq('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt')
+      end
+    end
+
+    context 'when OS X curl-ca-bundle.crt found' do
+      it 'returns the curl-ca-bundle.crt' do
+        allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(false)
+        allow(File).to receive(:exists?).with('/opt/local/share/curl/curl-ca-bundle.crt').and_return(true)
+        expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to eq('/opt/local/share/curl/curl-ca-bundle.crt')
+      end
+    end
+
+    context 'when CentOS ca-certificates.crt found' do
+      it 'returns the curl-ca-bundle.crt' do
+        allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(false)
+        allow(File).to receive(:exists?).with('/opt/local/share/curl/curl-ca-bundle.crt').and_return(false)
+        allow(File).to receive(:exists?).with('/usr/lib/ssl/certs/ca-certificates.crt').and_return(true)
+        expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to eq('/usr/lib/ssl/certs/ca-certificates.crt')
+      end
+    end
+
+    context 'when no certificate file is found' do
+      it 'returns nil' do
+        allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(false)
+        allow(File).to receive(:exists?).with('/opt/local/share/curl/curl-ca-bundle.crt').and_return(false)
+        allow(File).to receive(:exists?).with('/usr/lib/ssl/certs/ca-certificates.crt').and_return(false)
+        expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to be_nil
+      end
+    end
+  end
+
+  describe '.set_request_timeout' do
+    context 'when given options with timeout set' do
+      it 'sets timeout and open_timeout on the request' do
+        client_driver = build(:json_client_driver, timeout: 10)
+        options = {}
+        request = double('request', options: options)
+        client_driver.send(:set_request_timeout, request)
+        expect(options[:timeout]).to eq(10)
+        expect(options[:open_timeout]).to eq(10)
+      end
+    end
+
+    context 'when given options without timeout set' do
+      it 'sets timeout and open_timeout to 90 on the request' do
+        options = {}
+        request = double('request', options: options)
+        subject.send(:set_request_timeout, request)
+        expect(options[:timeout]).to eq(90)
+        expect(options[:open_timeout]).to eq(90)
+      end
+    end
+  end
 end
