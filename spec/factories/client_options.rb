@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :client_options, class: AllscriptsUnityClient::ClientOptions do
-    initialize_with { new(base_unity_url: base_unity_url, username: username, password: password, appname: appname, proxy: proxy, timezone: timezone, logger: logger) }
+    initialize_with { new(attributes) }
 
     base_unity_url 'http://www.example.com'
     username Faker::Name.name
@@ -9,5 +9,8 @@ FactoryGirl.define do
     proxy nil
     timezone 'America/Phoenix'
     logger nil
+    ca_file nil
+    ca_path nil
+    timeout nil
   end
 end

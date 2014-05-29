@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :unity_response, class: AllscriptsUnityClient::UnityResponse do
     initialize_with { new(response, timezone) }
 
-    response {}
+    response Hash.new
     timezone { build(:timezone) }
   end
 end

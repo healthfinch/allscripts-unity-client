@@ -6,8 +6,11 @@ FactoryGirl.define do
     username Faker::Name.name
     password Faker::Internet.password
     appname Faker::Name.name
-    mode [:json, :soap].sample
-    log false
+    proxy nil
+    timezone 'America/Phoenix'
     logger nil
+    ca_file nil
+    ca_path nil
+    timeout nil
   end
 end

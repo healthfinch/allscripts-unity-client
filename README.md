@@ -317,11 +317,11 @@ The above example would output the following `Hash`:
 
 ## Additional Information
 
-Maintainer(s):  Ash Gupta (https://github.com/incomethax), Neil Goodman (https://github.com/posco2k8)
+Maintainer(s): Neil Goodman (https://github.com/posco2k8)
 
 ## License
 
-Copyright (c) 2013 healthfinch, Inc
+Copyright (c) 2014 healthfinch, Inc
 
 MIT License
 

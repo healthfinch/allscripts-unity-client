@@ -10,14 +10,6 @@ describe 'ClientOptions' do
   let(:america_los_angeles_timezone) { AllscriptsUnityClient::Timezone.new('America/Los_Angeles') }
   let(:client_options_hash) { { base_unity_url: 'http://www.example.com', username: 'username', password: 'password', appname: 'appname', proxy: 'proxy', timezone: 'UTC', logger: nil } }
 
-  describe '#initialize' do
-    context 'when given a base_unity_url that ends in a slash (/)' do
-      it 'strips the slash' do
-        expect(build(:client_options, base_unity_url: url_with_slash).base_unity_url).to eq(url_without_slash)
-      end
-    end
-  end
-
   describe '#validate_options' do
     context 'when not given base_unity_url' do
       it { expect { build(:client_options, base_unity_url: nil) }.to raise_error(ArgumentError) }
@@ -128,6 +120,65 @@ describe 'ClientOptions' do
       it 'returns true' do
         subject.logger = double('logger')
         expect(subject.logger?).to be_truthy
+      end
+    end
+  end
+
+  describe '#ca_file?' do
+    context 'when ca_file is nil' do
+      it 'returns false' do
+        expect(subject.ca_file?).to be_falsey
+      end
+    end
+
+    context 'when ca_file is not nil' do
+      it 'returns true' do
+        subject.ca_file = 'test_file'
+        expect(subject.ca_file?).to be_truthy
+      end
+    end
+
+    context 'when ca_file is empty string' do
+      it 'returns false' do
+        subject.ca_file = ''
+        expect(subject.ca_file?).to be_falsey
+      end
+    end
+  end
+
+  describe '#ca_path?' do
+    context 'when ca_path is nil' do
+      it 'returns false' do
+        expect(subject.ca_path?).to be_falsey
+      end
+    end
+
+    context 'when ca_path is not nil' do
+      it 'returns true' do
+        subject.ca_path = 'test_path'
+        expect(subject.ca_path?).to be_truthy
+      end
+    end
+
+    context 'when ca_path is empty string' do
+      it 'returns false' do
+        subject.ca_path = ''
+        expect(subject.ca_path?).to be_falsey
+      end
+    end
+  end
+
+  describe '#timeout?' do
+    context 'when timeout is nil' do
+      it 'returns false' do
+        expect(subject.timeout?).to be_falsey
+      end
+    end
+
+    context 'when timeout is not nil' do
+      it 'returns true' do
+        subject.timeout = 10
+        expect(subject.timeout?).to be_truthy
       end
     end
   end

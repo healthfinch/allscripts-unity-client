@@ -1,19 +1,20 @@
 module AllscriptsUnityClient
   class ClientOptions
-    attr_accessor :proxy, :logger
-    attr_reader :base_unity_url, :username, :password, :appname, :timezone, :ca_file, :ca_path, :timeout
+    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout
+    attr_reader :base_unity_url, :username, :password, :appname, :timezone
 
     def initialize(options = {})
-      @base_unity_url = options[:base_unity_url] ? options[:base_unity_url].gsub(/\/$/, '') : nil
       @username = options[:username]
       @password = options[:password]
       @appname = options[:appname]
       @proxy = options[:proxy]
-      self.timezone = options[:timezone]
       @logger = options[:logger]
       @ca_file = options[:ca_file]
       @ca_path = options[:ca_path]
       @timeout = options[:timeout]
+
+      self.timezone = options[:timezone]
+      self.base_unity_url = options[:base_unity_url]
 
       validate_options
     end
@@ -59,9 +60,7 @@ module AllscriptsUnityClient
     end
 
     def proxy?
-      return false if @proxy.nil?
-      return false if @proxy.empty?
-      true
+      !@proxy.to_s.strip.empty?
     end
 
     def logger?
@@ -69,21 +68,15 @@ module AllscriptsUnityClient
     end
 
     def ca_file?
-      return false if @ca_file.nil?
-      return false if @ca_file.empty?
-      true
+      !@ca_file.to_s.strip.empty?
     end
 
     def ca_path?
-      return false if @ca_path.nil?
-      return false if @ca_path.empty?
-      true
+      !@ca_path.to_s.strip.empty?
     end
 
     def timeout?
-      return false if @timeout.nil?
-      return false if @timeout.empty?
-      true
+      !@timeout.to_s.strip.empty?
     end
   end
 end
