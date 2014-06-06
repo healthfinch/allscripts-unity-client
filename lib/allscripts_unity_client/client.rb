@@ -378,11 +378,12 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def get_task_list(userid = nil, since = nil)
+    def get_task_list(userid = nil, since = nil, delegated = nil)
       magic_parameters = {
         action: 'GetTaskList',
         userid: userid,
-        parameter1: since
+        parameter1: since,
+        parameter4: delegated
       }
       response = magic(magic_parameters)
 
