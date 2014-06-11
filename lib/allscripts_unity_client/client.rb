@@ -501,26 +501,33 @@ module AllscriptsUnityClient
       # Generate XML structure for rxxml
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.saverx {
-          xml.field('name' => 'transid', 'value' => rxxml[:transid]) unless rxxml[:transid].nil?
-          xml.field('name' => 'PharmID', 'value' => rxxml[:pharmid]) unless rxxml[:pharmid].nil?
-          xml.field('name' => 'DDI', 'value' => rxxml[:ddi]) unless rxxml[:ddi].nil?
-          xml.field('name' => 'GPPCCode', 'value' => rxxml[:gppccode]) unless rxxml[:gppccode].nil?
-          xml.field('name' => 'GPPCText', 'value' => rxxml[:gppctext]) unless rxxml[:gppctext].nil?
-          xml.field('name' => 'GPPCCustom', 'value' => rxxml[:gppccustom]) unless rxxml[:gppccustom].nil?
-          xml.field('name' => 'Sig', 'value' => rxxml[:sig]) unless rxxml[:sig].nil?
-          xml.field('name' => 'QuanPresc', 'value' => rxxml[:quanpresc]) unless rxxml[:quanpresc].nil?
-          xml.field('name' => 'Refills', 'value' => rxxml[:refills]) unless rxxml[:refills].nil?
-          xml.field('name' => 'DAW', 'value' => rxxml[:daw]) unless rxxml[:daw].nil?
-          xml.field('name' => 'DaysSupply', 'value' => rxxml[:dayssupply]) unless rxxml[:dayssupply].nil?
-          xml.field('name' => 'startdate', 'value' => utc_to_local(Date.parse(rxxml[:startdate].to_s))) unless rxxml[:startdate].nil?
-          xml.field('name' => 'historicalflag', 'value' => rxxml[:historicalflag]) unless rxxml[:historicalflag].nil?
-          xml.field('name' => 'rxaction', 'value' => rxxml[:rxaction]) unless rxxml[:rxaction].nil?
-          xml.field('name' => 'delivery', 'value' => rxxml[:delivery]) unless rxxml[:delivery].nil?
-          xml.field('name' => 'ignorepharmzero', 'value' => rxxml[:ignorepharmzero]) unless rxxml[:ignorepharmzero].nil?
-          xml.field('name' => 'orderedbyid', 'value' => rxxml[:orderedbyid]) unless rxxml[:orderedbyid].nil?
-          xml.field('name' => 'newqty', 'value' => rxxml[:newqty]) unless rxxml[:newqty].nil?
-          xml.field('name' => 'newrefills', 'value' => rxxml[:newrefills]) unless rxxml[:newrefills].nil?
-          xml.field('name' => 'comments', 'value' => rxxml[:comments]) unless rxxml[:comments].nil?
+          xml.field('name' => 'transid', 'value' => rxxml[:transid]) unless rxxml[:transid]
+          xml.field('name' => 'PharmID', 'value' => rxxml[:pharmid]) unless rxxml[:pharmid]
+          xml.field('name' => 'DDI', 'value' => rxxml[:ddi]) unless rxxml[:ddi]
+          xml.field('name' => 'GPPCCode', 'value' => rxxml[:gppccode]) unless rxxml[:gppccode]
+          xml.field('name' => 'GPPCText', 'value' => rxxml[:gppctext]) unless rxxml[:gppctext]
+          xml.field('name' => 'GPPCCustom', 'value' => rxxml[:gppccustom]) unless rxxml[:gppccustom]
+          xml.field('name' => 'Sig', 'value' => rxxml[:sig]) unless rxxml[:sig]
+          xml.field('name' => 'QuanPresc', 'value' => rxxml[:quanpresc]) unless rxxml[:quanpresc]
+          xml.field('name' => 'Refills', 'value' => rxxml[:refills]) unless rxxml[:refills]
+          xml.field('name' => 'DAW', 'value' => rxxml[:daw]) unless rxxml[:daw]
+          xml.field('name' => 'DaysSupply', 'value' => rxxml[:dayssupply]) unless rxxml[:dayssupply]
+          xml.field('name' => 'startdate', 'value' => utc_to_local(Date.parse(rxxml[:startdate].to_s))) unless rxxml[:startdate]
+          xml.field('name' => 'historicalflag', 'value' => rxxml[:historicalflag]) unless rxxml[:historicalflag]
+          xml.field('name' => 'rxaction', 'value' => rxxml[:rxaction]) unless rxxml[:rxaction]
+          xml.field('name' => 'delivery', 'value' => rxxml[:delivery]) unless rxxml[:delivery]
+          xml.field('name' => 'ignorepharmzero', 'value' => rxxml[:ignorepharmzero]) unless rxxml[:ignorepharmzero]
+          xml.field('name' => 'orderedbyid', 'value' => rxxml[:orderedbyid]) unless rxxml[:orderedbyid]
+          xml.field('name' => 'newqty', 'value' => rxxml[:newqty]) unless rxxml[:newqty]
+          xml.field('name' => 'newrefills', 'value' => rxxml[:newrefills]) unless rxxml[:newrefills]
+          xml.field('name' => 'comments', 'value' => rxxml[:comments]) unless rxxml[:comments]
+          xml.field('name' => 'orderstatus', 'value' => rxxml[:order_status]) unless rxxml[:order_status]
+
+          if rxxml[:problems]
+            rxxml[:problems].each do |problem|
+              xml.field('name' => 'Problem', 'value' => problem)
+            end
+          end
         }
       end
 
