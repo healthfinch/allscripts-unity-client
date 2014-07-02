@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'JSONUnityResponse' do
+describe AllscriptsUnityClient::JSONUnityResponse do
   it_behaves_like 'a unity response'
 
   subject { build(:json_unity_response, response: get_server_info) }

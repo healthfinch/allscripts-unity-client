@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'SOAPClientDriver' do
+describe AllscriptsUnityClient::SOAPClientDriver do
   include Savon::SpecHelper
   it_behaves_like 'a client driver'
 
@@ -10,6 +10,7 @@ describe 'SOAPClientDriver' do
     client_driver
   end
 
+  let(:new_relic_client_driver) { build(:soap_client_driver, new_relic: true) }
   let(:get_server_info) { FixtureLoader.load_file('get_server_info.xml') }
   let(:get_security_token) { FixtureLoader.load_file('get_security_token.xml') }
   let(:retire_security_token) { FixtureLoader.load_file('retire_security_token.xml') }

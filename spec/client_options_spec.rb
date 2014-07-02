@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ClientOptions' do
+describe AllscriptsUnityClient::ClientOptions do
   subject { build(:client_options) }
 
   let(:url_with_slash) { 'http://www.example.com/' }
@@ -179,6 +179,22 @@ describe 'ClientOptions' do
       it 'returns true' do
         subject.timeout = 10
         expect(subject.timeout?).to be_truthy
+      end
+    end
+  end
+
+  describe '#new_relic?' do
+    context 'when new_relic is nil' do
+      it 'returns false' do
+        subject.new_relic = nil
+        expect(subject.new_relic?).to be_falsey
+      end
+    end
+
+    context 'when timeout is not nil' do
+      it 'returns true' do
+        subject.new_relic = true
+        expect(subject.new_relic?).to be_truthy
       end
     end
   end

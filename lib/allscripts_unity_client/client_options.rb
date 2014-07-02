@@ -1,6 +1,6 @@
 module AllscriptsUnityClient
   class ClientOptions
-    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout
+    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout, :new_relic
     attr_reader :base_unity_url, :username, :password, :appname, :timezone
 
     def initialize(options = {})
@@ -12,6 +12,7 @@ module AllscriptsUnityClient
       @ca_file = options[:ca_file]
       @ca_path = options[:ca_path]
       @timeout = options[:timeout]
+      @new_relic = options[:new_relic]
 
       self.timezone = options[:timezone]
       self.base_unity_url = options[:base_unity_url]
@@ -77,6 +78,10 @@ module AllscriptsUnityClient
 
     def timeout?
       !@timeout.to_s.strip.empty?
+    end
+
+    def new_relic?
+      !@new_relic.nil?
     end
   end
 end

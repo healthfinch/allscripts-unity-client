@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Timezone' do
+describe AllscriptsUnityClient::Timezone do
   subject { build(:timezone) }
 
   let(:positive_timezone) { build(:timezone, zone_identifier: 'Asia/Jakarta') }

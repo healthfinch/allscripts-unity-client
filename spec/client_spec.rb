@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Client' do
+describe AllscriptsUnityClient::Client do
   subject { build(:client) }
 
   describe '#initialize' do

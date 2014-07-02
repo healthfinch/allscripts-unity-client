@@ -12,5 +12,6 @@ FactoryGirl.define do
     ca_file nil
     ca_path nil
     timeout nil
+    new_relic nil
   end
 end

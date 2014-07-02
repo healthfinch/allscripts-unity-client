@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'JSONUnityRequest' do
+describe AllscriptsUnityClient::JSONUnityRequest do
   it_behaves_like 'a unity request'
 
   subject { build(:json_unity_request) }

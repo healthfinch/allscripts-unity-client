@@ -8,6 +8,15 @@ module AllscriptsUnityClient
 
     def initialize(options)
       @options = ClientOptions.new(options)
+
+      # If New Relic support is enabled, setup method tracing
+      if @options.new_relic
+        NewRelicSupport.enable_method_tracer(self)
+
+        class << self
+          add_method_tracer :magic
+        end
+      end
     end
 
     def security_token?

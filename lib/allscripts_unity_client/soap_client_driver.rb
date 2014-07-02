@@ -59,10 +59,13 @@ module AllscriptsUnityClient
         soap_action: "#{UNITY_ENDPOINT_NAMESPACE}/Magic"
       }
 
+      response = nil
       begin
         start_timer
-        response = @savon_client.call('Magic', call_data)
-        end_timer
+        NewRelicSupport.trace_execution_scoped_if_available(SOAPClientDriver, ["Custom/UnitySOAP/#{parameters[:action]}"]) do
+          response = @savon_client.call('Magic', call_data)
+          end_timer
+        end
       rescue Savon::SOAPFault => e
         raise APIError, e.message
       end
