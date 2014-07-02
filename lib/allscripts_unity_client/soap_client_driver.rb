@@ -62,7 +62,7 @@ module AllscriptsUnityClient
       response = nil
       begin
         start_timer
-        NewRelicSupport.trace_execution_scoped_if_available(SOAPClientDriver, ["Custom/UnitySOAP/#{parameters[:action]}"]) do
+        NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnitySOAP/#{parameters[:action]}"]) do
           response = @savon_client.call('Magic', call_data)
           end_timer
         end
@@ -93,7 +93,7 @@ module AllscriptsUnityClient
       begin
         start_timer
         response = nil
-        NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnitySOAP/GetToken"]) do
+        NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnitySOAP/GetToken"]) do
           response = @savon_client.call('GetSecurityToken', call_data)
           end_timer
         end
@@ -120,7 +120,7 @@ module AllscriptsUnityClient
 
       begin
         start_timer
-        NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnitySOAP/RetireSecurityToken"]) do
+        NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnitySOAP/RetireSecurityToken"]) do
           @savon_client.call('RetireSecurityToken', call_data)
           end_timer
         end
