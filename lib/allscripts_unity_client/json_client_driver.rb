@@ -23,7 +23,7 @@ module AllscriptsUnityClient
       request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
 
       response = nil
-      NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnityJSON/#{parameters[:action]}"]) do
+      NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/#{parameters[:action]}"]) do
         response = @connection.post do |request|
           request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
           request.headers['Content-Type'] = 'application/json'
@@ -56,7 +56,7 @@ module AllscriptsUnityClient
       }
 
       response = nil
-      NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnityJSON/GetToken"]) do
+      NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/GetToken"]) do
         response = @connection.post do |request|
           request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
           request.headers['Content-Type'] = 'application/json'
@@ -84,7 +84,7 @@ module AllscriptsUnityClient
       }
 
       response = nil
-      NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnityJSON/RetireSecurityToken"]) do
+      NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/RetireSecurityToken"]) do
         response = @connection.post do |request|
           request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
           request.headers['Content-Type'] = 'application/json'
