@@ -7,6 +7,8 @@ shared_examples 'a client driver' do
         new_relic_client_driver
         expect(AllscriptsUnityClient::NewRelicSupport).to have_received(:enable_method_tracer).with(new_relic_client_driver)
         expect(described_class).to have_received(:add_method_tracer).with(:magic)
+        expect(described_class).to have_received(:add_method_tracer).with(:get_security_token!)
+        expect(described_class).to have_received(:add_method_tracer).with(:retire_security_token!)
       end
     end
   end

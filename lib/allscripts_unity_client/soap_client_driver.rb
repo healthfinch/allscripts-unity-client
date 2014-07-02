@@ -92,8 +92,11 @@ module AllscriptsUnityClient
 
       begin
         start_timer
-        response = @savon_client.call('GetSecurityToken', call_data)
-        end_timer
+        response = nil
+        NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnitySOAP/GetToken"]) do
+          response = @savon_client.call('GetSecurityToken', call_data)
+          end_timer
+        end
       rescue Savon::SOAPFault => e
         raise APIError, e.message
       end
@@ -117,8 +120,10 @@ module AllscriptsUnityClient
 
       begin
         start_timer
-        @savon_client.call('RetireSecurityToken', call_data)
-        end_timer
+        NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnitySOAP/RetireSecurityToken"]) do
+          @savon_client.call('RetireSecurityToken', call_data)
+          end_timer
+        end
       rescue Savon::SOAPFault => e
         raise APIError, e.message
       end
