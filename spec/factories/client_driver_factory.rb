@@ -12,5 +12,9 @@ FactoryGirl.define do
     ca_file nil
     ca_path nil
     timeout nil
+    new_relic nil
+
+    factory :json_client_driver, class: AllscriptsUnityClient::JSONClientDriver
+    factory :soap_client_driver, class: AllscriptsUnityClient::SOAPClientDriver
   end
 end

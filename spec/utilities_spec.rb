@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe 'Utilities' do
-  subject { AllscriptsUnityClient::Utilities }
+describe AllscriptsUnityClient::Utilities do
+  subject { described_class }
 
   let(:date_string) { '2013-02-15' }
   let(:date) { Date.parse(date_string) }

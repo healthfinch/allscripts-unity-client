@@ -6,5 +6,7 @@ FactoryGirl.define do
     timezone { build(:timezone) }
     appname Faker::Name.name
     security_token SecureRandom.uuid
+
+    factory :json_unity_request, class: AllscriptsUnityClient::JSONUnityRequest
   end
 end

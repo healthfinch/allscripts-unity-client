@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'UnityRequest' do
+describe AllscriptsUnityClient::UnityRequest do
   it_behaves_like 'a unity request'
 
   subject { build(:unity_request) }

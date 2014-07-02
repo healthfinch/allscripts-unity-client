@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'AllscriptsUnityClient' do
+describe AllscriptsUnityClient do
   include Savon::SpecHelper
 
-  subject { AllscriptsUnityClient }
+  subject { described_class }
 
   describe '.create' do
     context 'when given mode: :soap' do

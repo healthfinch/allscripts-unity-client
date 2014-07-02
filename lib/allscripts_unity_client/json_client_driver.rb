@@ -1,4 +1,4 @@
-require 'json'
+require 'oj'
 require 'faraday'
 require 'em-http-request'
 
@@ -22,17 +22,20 @@ module AllscriptsUnityClient
     def magic(parameters = {})
       request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
 
-      response = @connection.post do |request|
-        request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
-        request.headers['Content-Type'] = 'application/json'
-        request.body = JSON.generate(request_data.to_hash)
-        set_request_timeout(request)
+      response = nil
+      NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnityJSON/#{parameters[:action]}"]) do
+        response = @connection.post do |request|
+          request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
+          request.headers['Content-Type'] = 'application/json'
+          request.body = Oj.dump(request_data.to_hash, mode: :compat)
+          set_request_timeout(request)
 
-        start_timer
+          start_timer
+        end
       end
       end_timer
 
-      response = JSON.parse(response.body)
+      response = Oj.load(response.body, mode: :strict)
 
       raise_if_response_error(response)
       log_magic(request_data)
@@ -55,7 +58,7 @@ module AllscriptsUnityClient
       response = @connection.post do |request|
         request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
         request.headers['Content-Type'] = 'application/json'
-        request.body = JSON.generate(request_data)
+        request.body = Oj.dump(request_data, mode: :compat)
         set_request_timeout(request)
 
         start_timer
@@ -80,7 +83,7 @@ module AllscriptsUnityClient
       response = @connection.post do |request|
         request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
         request.headers['Content-Type'] = 'application/json'
-        request.body = JSON.generate(request_data)
+        request.body = Oj.dump(request_data, mode: :compat)
         set_request_timeout(request)
 
         start_timer

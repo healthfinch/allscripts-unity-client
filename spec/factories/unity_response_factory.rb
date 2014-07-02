@@ -4,5 +4,7 @@ FactoryGirl.define do
 
     response Hash.new
     timezone { build(:timezone) }
+
+    factory :json_unity_response, class: AllscriptsUnityClient::JSONUnityResponse
   end
 end

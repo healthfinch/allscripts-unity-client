@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'JSONClientDriver' do
+describe AllscriptsUnityClient::JSONClientDriver do
   it_behaves_like 'a client driver'
 
   subject do
@@ -9,6 +9,7 @@ describe 'JSONClientDriver' do
     client_driver
   end
 
+  let(:new_relic_client_driver) { build(:json_client_driver, new_relic: true) }
   let(:get_server_info) { FixtureLoader.load_file('get_server_info.json') }
   let(:get_security_token) { FixtureLoader.load_file('get_security_token.json') }
   let(:retire_security_token) { FixtureLoader.load_file('retire_security_token.json') }
@@ -23,7 +24,7 @@ describe 'JSONClientDriver' do
   end
 
   let(:json_hash) do
-    JSON.generate(hash)
+    Oj.dump(hash, mode: :strict)
   end
 
   describe '#initialize' do
@@ -49,6 +50,11 @@ describe 'JSONClientDriver' do
     it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
       subject.magic
       expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'should serialize DateTime to iso8601 when given' do
+      subject.magic(parameter1: DateTime.now)
+      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
     end
 
     it 'should call start_timer' do

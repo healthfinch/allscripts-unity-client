@@ -9,6 +9,7 @@ require 'allscripts_unity_client/client_driver'
 require 'allscripts_unity_client/client_options'
 require 'allscripts_unity_client/soap_client_driver'
 require 'allscripts_unity_client/json_client_driver'
+require 'allscripts_unity_client/new_relic_support'
 
 module AllscriptsUnityClient
   class APIError < RuntimeError

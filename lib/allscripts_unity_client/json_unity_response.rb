@@ -1,5 +1,3 @@
-require 'json'
-
 module AllscriptsUnityClient
   class JSONUnityResponse < UnityResponse
     def to_hash

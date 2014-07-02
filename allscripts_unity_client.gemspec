@@ -29,11 +29,12 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'nokogiri', '< 1.6', '>= 1.4.0'
   gem.add_runtime_dependency 'nori', '~> 2.3.0'
   gem.add_runtime_dependency 'american_date', '~> 1.1.0'
+  gem.add_runtime_dependency 'oj', '~> 2.9.8'
 
   gem.add_development_dependency 'factory_girl', '~> 4.4.0'
   gem.add_development_dependency 'rake', '~> 10.3.1'
   gem.add_development_dependency 'faker', '~> 1.3.0'
-  gem.add_development_dependency 'rspec', '~> 3.0.0.beta2'
+  gem.add_development_dependency 'rspec', '~> 3.0.0'
   gem.add_development_dependency 'simplecov', '~> 0.8.2'
   gem.add_development_dependency 'webmock', '~> 1.17.4'
   gem.add_development_dependency 'coveralls', '~> 0.7.0'
