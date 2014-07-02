@@ -15,6 +15,8 @@ module AllscriptsUnityClient
 
         class << self
           add_method_tracer :magic
+          add_method_tracer :get_security_token!
+          add_method_tracer :retire_security_token!
         end
       end
     end

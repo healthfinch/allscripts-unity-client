@@ -32,8 +32,8 @@ module AllscriptsUnityClient
 
           start_timer
         end
+        end_timer
       end
-      end_timer
 
       response = Oj.load(response.body, mode: :strict)
 
@@ -55,15 +55,18 @@ module AllscriptsUnityClient
         'Appname' => appname
       }
 
-      response = @connection.post do |request|
-        request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
-        request.headers['Content-Type'] = 'application/json'
-        request.body = Oj.dump(request_data, mode: :compat)
-        set_request_timeout(request)
+      response = nil
+      NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnityJSON/GetToken"]) do
+        response = @connection.post do |request|
+          request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
+          request.headers['Content-Type'] = 'application/json'
+          request.body = Oj.dump(request_data, mode: :compat)
+          set_request_timeout(request)
 
-        start_timer
+          start_timer
+        end
+        end_timer
       end
-      end_timer
 
       raise_if_response_error(response.body)
       log_get_security_token
@@ -80,15 +83,18 @@ module AllscriptsUnityClient
         'Appname' => appname
       }
 
-      response = @connection.post do |request|
-        request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
-        request.headers['Content-Type'] = 'application/json'
-        request.body = Oj.dump(request_data, mode: :compat)
-        set_request_timeout(request)
+      response = nil
+      NewRelicSupport.trace_execution_scoped_if_available(JSONClientDriver, ["Custom/UnityJSON/RetireSecurityToken"]) do
+        response = @connection.post do |request|
+          request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
+          request.headers['Content-Type'] = 'application/json'
+          request.body = Oj.dump(request_data, mode: :compat)
+          set_request_timeout(request)
 
-        start_timer
+          start_timer
+        end
+        end_timer
       end
-      end_timer
 
       raise_if_response_error(response.body)
       log_retire_security_token
