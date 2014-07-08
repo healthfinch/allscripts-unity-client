@@ -582,6 +582,8 @@ module AllscriptsUnityClient
           xml.qty('value' => taskchanges[:qty]) unless taskchanges.nil? || taskchanges[:qty].nil?
           xml.tasktype('value' => taskchanges[:tasktype]) unless taskchanges.nil? || taskchanges[:tasktype].nil?
           xml.delegated('value' => taskchanges[:delegated]) unless taskchanges.nil? || taskchanges[:delegated].nil?
+          xml.taskstatus('value' => taskchanges[:taskstatus]) unless taskchanges.nil? || taskchanges[:taskstatus].nil?
+          xml.removereason('value' => taskchanges[:removereason]) unless taskchanges.nil? || taskchanges[:removereason].nil?
         }
       end
 
