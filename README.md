@@ -162,6 +162,7 @@ A number of helper methods exist that abstract away the details of the Magic ope
  - `get_patient(userid, patientid, includepix = nil)`
  - `get_patient_activity(userid, patientid)`
  - `get_patient_problems(patientid, show_by_encounter_flag = nil, assessed = nil, encounter_id = nil, medcin_id = nil)`
+ - `get_patient_by_mrn(userid, mrn)`
  - `get_patients_by_icd9(icd9, start = nil, end_param = nil)`
  - `get_provider(provider_id = nil, user_name = nil)`
  - `get_providers(security_filter = nil, name_filter = nil)`

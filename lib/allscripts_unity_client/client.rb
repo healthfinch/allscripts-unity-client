@@ -242,8 +242,13 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def get_patient_by_mrn
-      raise NotImplementedError, 'GetPatientByMRN magic action not implemented'
+    def get_patient_by_mrn(userid, mrn)
+      magic_parameters = {
+        action: 'GetPatientByMRN',
+        userid: userid,
+        parameter1: mrn
+      }
+      magic(magic_parameters)
     end
 
     def get_patient_cda
