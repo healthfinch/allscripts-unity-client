@@ -144,10 +144,7 @@ describe AllscriptsUnityClient::Client do
 
   describe '#get_patient'
   describe '#get_patient_activity'
-
-  describe '#get_patient_by_mrn' do
-    it { expect { subject.get_patient_by_mrn }.to raise_error(NotImplementedError) }
-  end
+  describe '#get_patient_by_mrn'
 
   describe '#get_patient_cda' do
     it { expect { subject.get_patient_cda }.to raise_error(NotImplementedError) }
