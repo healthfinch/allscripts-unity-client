@@ -198,7 +198,19 @@ module AllscriptsUnityClient
         patientid: patientid,
         parameter1: transaction_id
       }
-      magic(magic_parameters)
+      result = magic(magic_parameters)
+
+      if transaction_id == 0 || transaction_id == '0'
+        # When transaction_id is 0 all medications should be
+        # returned and the result should always be an array.
+        if !result.is_a?(Array) && !result.empty?
+          result = [ result ]
+        elsif result.empty?
+          result = []
+        end
+      end
+
+      result
     end
 
     def get_medication_info(userid, ddid, patientid = nil)
