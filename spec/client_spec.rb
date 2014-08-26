@@ -144,6 +144,7 @@ describe AllscriptsUnityClient::Client do
 
   describe '#get_patient'
   describe '#get_patient_activity'
+  describe '#get_patient_demographics'
   describe '#get_patient_by_mrn'
 
   describe '#get_patient_cda' do

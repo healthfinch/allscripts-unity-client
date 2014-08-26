@@ -254,6 +254,15 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
+    def get_patient_demographics(userid, patientid)
+      magic_parameters = {
+        action: 'GetPatientDemographics',
+        userid: userid,
+        patientid: patientid
+      }
+      magic(magic_parameters)
+    end
+    
     def get_patient_by_mrn(userid, mrn)
       magic_parameters = {
         action: 'GetPatientByMRN',
