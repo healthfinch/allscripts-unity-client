@@ -94,6 +94,12 @@ describe AllscriptsUnityClient::Utilities do
         expect(subject.try_to_encode_as_date(string)).to eq(string)
       end
     end
+    
+    context 'when given an americanized dash-delimited date string' do
+      it 'returns the valid date' do
+        expect(subject.try_to_encode_as_date('01-25-2012')).to eq(Date.parse('2012-1-25'))
+      end
+    end
   end
 
   describe '.encode_data' do
