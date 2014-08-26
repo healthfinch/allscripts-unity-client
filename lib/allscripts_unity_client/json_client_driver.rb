@@ -4,12 +4,20 @@ require 'em-http-request'
 
 module AllscriptsUnityClient
   class JSONClientDriver < ClientDriver
-    attr_accessor :json_base_url, :connection
+    attr_accessor :json_base_url, :connection, :json_endpoint
 
-    UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    # this is the endpoint path for EHR
+    UNITY_EHR_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    UNITY_PM_JSON_ENDPOINT = '/UnityPM/UnityService.svc/json'
 
     def initialize(options)
       super
+      @json_endpoint = case @options.product
+        when :ehr then UNITY_EHR_JSON_ENDPOINT
+        when :pm then UNITY_PM_JSON_ENDPOINT
+        else raise ArgumentError, 'product not recognized'
+      end
+
       @connection = Faraday.new(build_faraday_options) do |conn|
         conn.adapter :em_http
       end
@@ -25,7 +33,7 @@ module AllscriptsUnityClient
       response = nil
       NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/#{parameters[:action]}"]) do
         response = @connection.post do |request|
-          request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
+          request.url "#{@json_endpoint}/MagicJson"
           request.headers['Content-Type'] = 'application/json'
           request.body = Oj.dump(request_data.to_hash, mode: :compat)
           set_request_timeout(request)
@@ -58,7 +66,7 @@ module AllscriptsUnityClient
       response = nil
       NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/GetToken"]) do
         response = @connection.post do |request|
-          request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
+          request.url "#{@json_endpoint}/GetToken"
           request.headers['Content-Type'] = 'application/json'
           request.body = Oj.dump(request_data, mode: :compat)
           set_request_timeout(request)
@@ -86,7 +94,7 @@ module AllscriptsUnityClient
       response = nil
       NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/RetireSecurityToken"]) do
         response = @connection.post do |request|
-          request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
+          request.url "#{@json_endpoint}/RetireSecurityToken"
           request.headers['Content-Type'] = 'application/json'
           request.body = Oj.dump(request_data, mode: :compat)
           set_request_timeout(request)

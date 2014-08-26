@@ -198,4 +198,26 @@ describe AllscriptsUnityClient::ClientOptions do
       end
     end
   end
+  
+  describe "setting :product" do
+    it 'sets :ehr when selected' do
+      client_options = build(:client_options, product: :ehr)
+      expect(client_options.product).to eq(:ehr)
+    end
+
+    it 'sets :pm when selected' do
+      client_options = build(:client_options, product: :pm)
+      expect(client_options.product).to eq(:pm)
+    end
+
+    it 'sets :ehr by default' do
+      client_options = build(:client_options)
+      expect(client_options.product).to eq(:ehr)
+    end
+  
+    it 'raises error when product is not recognized' do
+      expect { build(:client_options, product: :homeboy) }.to raise_error(ArgumentError)
+    end
+  end
+      
 end

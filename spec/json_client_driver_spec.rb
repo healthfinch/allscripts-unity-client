@@ -42,21 +42,42 @@ describe AllscriptsUnityClient::JSONClientDriver do
   describe '#magic' do
     before(:each) {
       stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').to_return(body: get_server_info)
+      stub_request(:post, 'http://www.example.com/UnityPM/UnityService.svc/json/MagicJson').to_return(body: get_server_info)
       allow(subject).to receive(:start_timer)
       allow(subject).to receive(:end_timer)
       allow(subject).to receive(:log_magic)
     }
 
-    it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
-      subject.magic
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
-    end
+    context "for product: :ehr" do
+      it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
+        subject.magic
+        expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
+      end
 
-    it 'should serialize DateTime to iso8601 when given' do
-      subject.magic(parameter1: DateTime.now)
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
+      it 'should serialize DateTime to iso8601 when given' do
+        subject.magic(parameter1: DateTime.now)
+        expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
+      end
     end
+    
+    context "for product: :pm" do
+      let(:pm_subject) do
+        client_driver = build(:json_client_driver, product: :pm)
+        client_driver.security_token = SecureRandom.uuid
+        client_driver
+      end
+      
+      it 'should POST to /UnityPM/UnityService.svc/json/MagicJson' do
+        pm_subject.magic
+        expect(WebMock).to have_requested(:post, 'http://www.example.com/UnityPM/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
+      end
 
+      it 'should serialize DateTime to iso8601 when given' do
+        pm_subject.magic(parameter1: DateTime.now)
+        expect(WebMock).to have_requested(:post, 'http://www.example.com/UnityPM/UnityService.svc/json/MagicJson').with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/, headers: { 'Content-Type' => 'application/json' })
+      end
+    end
+    
     it 'should call start_timer' do
       subject.magic
       expect(subject).to have_received(:start_timer)

@@ -45,6 +45,24 @@ unity_client = AllscriptsUnityClient.create({
 })
 ```
 
+### Product
+
+The Allscripts Unity API supports the EHR and PM products, with different endpoint paths. Both are supported by this gem.
+A Unity API client for the target product can be created using the `:product` option:
+
+```ruby
+unity_client = AllscriptsUnityClient.create({
+  base_unity_url: "http://unity.base.url",
+  appname: "appname",
+  username: "username",
+  password: "password"
+  product: :ehr # or :pm
+})
+```
+
+If unspecified, the product defaults to `:ehr`
+
+
 ### SSL Management
 
 [Faraday](https://github.com/lostisland/faraday) is used in combination with [EM-HTTP-Request](https://github.com/igrigorik/em-http-request) to send HTTP requests when using JSON clients. Faraday requires
