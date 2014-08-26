@@ -674,9 +674,10 @@ module AllscriptsUnityClient
       response
     end
 
-    def search_patients(search)
+    def search_patients(userid, search)
       magic_parameters = {
         action: 'SearchPatients',
+        userid: userid,
         parameter1: search
       }
       magic(magic_parameters)
