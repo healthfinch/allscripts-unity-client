@@ -3,10 +3,9 @@ FactoryGirl.define do
     initialize_with { new(parameters, timezone, appname, security_token) }
 
     parameters { build(:magic_request) }
-    timezone { build(:timezone) }
+    timezone ActiveSupport::TimeZone['Etc/UTC']
     appname Faker::Name.name
     security_token SecureRandom.uuid
-
     factory :json_unity_request, class: AllscriptsUnityClient::JSONUnityRequest
   end
 end

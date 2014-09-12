@@ -84,11 +84,11 @@ shared_examples 'a unity request' do
     end
 
     context 'when given a Time' do
-      it { expect(subject.send(:process_date, Time.now)).to be_instance_of(Time) }
+      it { expect(subject.send(:process_date, Time.now)).to be_instance_of(ActiveSupport::TimeWithZone) }
     end
 
     context 'when given a DateTime' do
-      it { expect(subject.send(:process_date, DateTime.now)).to be_instance_of(DateTime) }
+      it { expect(subject.send(:process_date, DateTime.now)).to be_instance_of(ActiveSupport::TimeWithZone) }
     end
   end
 end

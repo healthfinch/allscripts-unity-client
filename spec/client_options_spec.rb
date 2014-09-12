@@ -5,9 +5,9 @@ describe AllscriptsUnityClient::ClientOptions do
 
   let(:url_with_slash) { 'http://www.example.com/' }
   let(:url_without_slash) { 'http://www.example.com' }
-  let(:utc_timezone) { AllscriptsUnityClient::Timezone.new('UTC') }
+  let(:utc_timezone) { ActiveSupport::TimeZone['Etc/UTC'] }
   let(:america_los_angeles) { 'America/Los_Angeles' }
-  let(:america_los_angeles_timezone) { AllscriptsUnityClient::Timezone.new('America/Los_Angeles') }
+  let(:america_los_angeles_timezone) { ActiveSupport::TimeZone['America/Los_Angeles'] }
   let(:client_options_hash) { { base_unity_url: 'http://www.example.com', username: 'username', password: 'password', appname: 'appname', proxy: 'proxy', timezone: 'UTC', logger: nil } }
 
   describe '#validate_options' do
