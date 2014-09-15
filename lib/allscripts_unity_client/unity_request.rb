@@ -47,17 +47,19 @@ module AllscriptsUnityClient
     protected
 
     def process_date(value)
-      if value.nil?
-        return nil
+      if value && (value.is_a?(Time) || value.is_a?(DateTime) || value.is_a?(ActiveSupport::TimeWithZone))
+        return value.in_time_zone(@timezone)
       end
 
-      result = Utilities::try_to_encode_as_date(value)
+      date = Utilities::try_to_encode_as_date(ActiveSupport::TimeZone['Etc/UTC'], value)
 
-      if result.instance_of?(Time) || result.instance_of?(Date) || result.instance_of?(DateTime)
-        return @timezone.utc_to_local(result)
+      if date && date.is_a?(ActiveSupport::TimeWithZone)
+        date.in_time_zone(@timezone)
+      elsif date && date.is_a?(Date)
+        date
+      else
+        value
       end
-
-      value
     end
   end
 end

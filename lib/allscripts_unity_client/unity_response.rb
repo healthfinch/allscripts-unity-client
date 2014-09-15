@@ -96,11 +96,11 @@ module AllscriptsUnityClient
       end
 
       # Attempt to parse a Date or DateTime from a string
-      response = Utilities::try_to_encode_as_date(response)
+      response = Utilities::try_to_encode_as_date(@timezone, response)
 
       # Base case: convert date object to UTC
-      if response.instance_of?(Time) || response.instance_of?(DateTime) || response.instance_of?(Date)
-        return @timezone.local_to_utc(response)
+      if response.instance_of?(ActiveSupport::TimeWithZone)
+        return response.utc
       end
 
       # Base case: value is not a date

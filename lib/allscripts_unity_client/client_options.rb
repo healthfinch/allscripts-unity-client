@@ -54,9 +54,9 @@ module AllscriptsUnityClient
 
     def timezone=(timezone)
       if !timezone.nil?
-        @timezone = Timezone.new(timezone)
+        @timezone = ActiveSupport::TimeZone[timezone]
       else
-        @timezone = Timezone.new('UTC')
+        @timezone = ActiveSupport::TimeZone['Etc/UTC']
       end
     end
 

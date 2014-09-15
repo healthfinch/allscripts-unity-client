@@ -7,7 +7,7 @@ module AllscriptsUnityClient
     DATETIME_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4})|([A-Za-z]{3,4} +\d{1,2} \d{2,4}))(T| +)(\d{1,2}:\d{2}(:\d{2})?(\.\d+)? ?(PM|AM|pm|am)?((-|\+)\d{2}:?\d{2})?Z?)$/
     DATE_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4})|([A-Za-z]{3,4} +\d{1,2} \d{2,4}))$/
 
-    def self.try_to_encode_as_date(possible_date)
+    def self.try_to_encode_as_date(timezone, possible_date)
       if possible_date.nil?
         return nil
       end
@@ -17,7 +17,7 @@ module AllscriptsUnityClient
       end
 
       if possible_date.is_a?(String) && possible_date =~ DATETIME_REGEX
-        return DateTime.parse(possible_date)
+        return timezone.parse(possible_date)
       end
 
       possible_date
