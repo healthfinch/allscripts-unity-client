@@ -48,7 +48,7 @@ module AllscriptsUnityClient
 
     def process_date(value)
       if value && (value.is_a?(Time) || value.is_a?(DateTime) || value.is_a?(ActiveSupport::TimeWithZone))
-        return value.in_time_zone(ActiveSupport::TimeZone['Etc/UTC'])
+        return value.in_time_zone(@timezone)
       end
 
       date = Utilities::try_to_encode_as_date(ActiveSupport::TimeZone['Etc/UTC'], value)
