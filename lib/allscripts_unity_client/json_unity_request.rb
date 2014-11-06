@@ -1,5 +1,10 @@
 module AllscriptsUnityClient
+
+  # Transform a Unity request into a Hash suitable for sending using Faraday.
   class JSONUnityRequest < UnityRequest
+
+    # Convert the parameters to a Hash for Faraday with all possible dates
+    # converted to the Organization's localtime.
     def to_hash
       action = @parameters[:action]
       userid = @parameters[:userid]

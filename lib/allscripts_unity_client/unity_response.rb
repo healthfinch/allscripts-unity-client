@@ -1,9 +1,15 @@
 require 'date'
 
 module AllscriptsUnityClient
+
+  # Transform Unity responses from Savon into Hash objects.
   class UnityResponse
     attr_accessor :response, :timezone
 
+    # Constructor.
+    #
+    # response:: The response to transform.
+    # timezone:: An ActiveSupport:TimeZone instance.
     def initialize(response, timezone)
       raise ArgumentError, 'timezone can not be nil' if timezone.nil?
       raise ArgumentError, 'response can not be nil' if response.nil?
@@ -12,6 +18,8 @@ module AllscriptsUnityClient
       @timezone = timezone
     end
 
+    # Convert the Unity response to a Hash with symbolized snake_case keys
+    # and convert all dates to UTC.
     def to_hash
       result = @response[:magic_response][:magic_result][:diffgram]
       result = strip_attributes(result)

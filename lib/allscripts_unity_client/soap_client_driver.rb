@@ -1,12 +1,17 @@
 require 'savon'
 
 module AllscriptsUnityClient
+
+  # A ClientDriver that supports Unity's SOAP endpoints.
   class SOAPClientDriver < ClientDriver
     attr_accessor :savon_client
 
     UNITY_SOAP_ENDPOINT = '/Unity/UnityService.svc/unityservice'
     UNITY_ENDPOINT_NAMESPACE = 'http://www.allscripts.com/Unity/IUnityService'
 
+    # Constructor.
+    #
+    # options:: See ClientOptions.
     def initialize(options)
       super
 
@@ -48,10 +53,12 @@ module AllscriptsUnityClient
       end
     end
 
+    # Returns :soap.
     def client_type
       :soap
     end
 
+    # See Client#magic.
     def magic(parameters = {})
       request_data = UnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
       call_data = {
@@ -76,6 +83,7 @@ module AllscriptsUnityClient
       response.to_hash
     end
 
+    # See Client#get_security_token!.
     def get_security_token!(parameters = {})
       username = parameters[:username] || @options.username
       password = parameters[:password] || @options.password
@@ -106,6 +114,7 @@ module AllscriptsUnityClient
       @security_token = response.body[:get_security_token_response][:get_security_token_result]
     end
 
+    # See Client#retire_security_token!.
     def retire_security_token!(parameters = {})
       token = parameters[:token] || @security_token
       appname = parameters[:appname] || @options.appname

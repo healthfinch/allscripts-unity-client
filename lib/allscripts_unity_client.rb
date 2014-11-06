@@ -11,10 +11,19 @@ require 'allscripts_unity_client/soap_client_driver'
 require 'allscripts_unity_client/json_client_driver'
 require 'allscripts_unity_client/new_relic_support'
 
+# A library for consuming Allscripts Unity web services.
 module AllscriptsUnityClient
+
+  # Any error returned from Unity is thrown as this error type
+  # with the error message.
   class APIError < RuntimeError
   end
 
+  # Create an instance of the Unity client.
+  #
+  # options:: See ClientOptions.
+  #
+  # Returns an instance of Client.
   def self.create(options = {})
     options[:mode] ||= :soap
     options[:log] = true unless options[:log] === false

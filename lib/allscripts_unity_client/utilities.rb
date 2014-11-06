@@ -3,10 +3,20 @@ require 'date'
 require 'american_date'
 
 module AllscriptsUnityClient
+
+  # Utilities for massaging the data that comes back from Unity.
   class Utilities
     DATETIME_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4})|([A-Za-z]{3,4} +\d{1,2} \d{2,4}))(T| +)(\d{1,2}:\d{2}(:\d{2})?(\.\d+)? ?(PM|AM|pm|am)?((-|\+)\d{2}:?\d{2})?Z?)$/
     DATE_REGEX = /^((\d{1,2}[-\/]\d{1,2}[-\/]\d{4})|(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})|(\d{1,2}-[A-Za-z]{3,4}-\d{4})|([A-Za-z]{3,4} +\d{1,2} \d{2,4}))$/
 
+    # Try to encode a string into a Data or ActiveSupport::TimeWithZone object.
+    #
+    # Uses DATETIME_REGEX and DATE_REGEX to match possible date string.
+    #
+    # timezone:: An ActiveSupport::TimeZone instance.
+    # possible_data:: A string that could contain a date.
+    #
+    # Returns Date or ActiveSupport::TimeWithZone, or the string if it did not contain a date.
     def self.try_to_encode_as_date(timezone, possible_date)
       if possible_date.nil?
         return nil
@@ -23,6 +33,11 @@ module AllscriptsUnityClient
       possible_date
     end
 
+    # Encode binary data into Base64 encoding.
+    #
+    # data:: Data to encode.
+    #
+    # The Base64 encoding of the data.
     def self.encode_data(data)
       if data.nil?
         return nil
@@ -35,6 +50,11 @@ module AllscriptsUnityClient
       end
     end
 
+    # Transform string keys into symbols and convert CamelCase to snake_case.
+    #
+    # hash:: The hash to transform.
+    #
+    # Returns the transformed hash.
     def self.recursively_symbolize_keys(hash)
       # Base case: nil maps to nil
       if hash.nil?

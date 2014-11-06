@@ -1,35 +1,89 @@
 require 'nokogiri'
 
 module AllscriptsUnityClient
+
+  # Providers an interface to access Unity endpoints.
+  #
+  # Build using a dependcy injection pattern. A Client instances takes an instance of
+  # ClientDriver and delegates Unity endpoint methods to the ClientDriver.
   class Client
     attr_accessor :client_driver
 
+    # Constructor.
+    #
+    # client_driver:: An instance of a ClientDriver. Currently only SoapClientDriver and JsonClientDriver
+    # are supported.
     def initialize(client_driver)
       raise ArgumentError, 'client_driver can not be nil' if client_driver.nil?
 
       @client_driver = client_driver
     end
 
+    # Access client's options. See ClientOptions.
     def options
       @client_driver.options
     end
 
+    # Implement Unity's Magic endpoint
+    #
+    # parameters:: A Hash of Unity parameters. Takes this form:
+    #
+    #   {
+    #     :action => ...,
+    #     :userid => ...,
+    #     :appname => ...,
+    #     :patientid => ...,
+    #     :token => ...,
+    #     :parameter1 => ...,
+    #     :parameter2 => ...,
+    #     :parameter3 => ...,
+    #     :parameter4 => ...,
+    #     :parameter5 => ...,
+    #     :parameter6 => ...,
+    #     :data => ...
+    #   }
+    #
+    # Returns the result of the Magic endpoint as a Hash.
     def magic(parameters = {})
       @client_driver.magic(parameters)
     end
 
+    # Implement Unity's GetSecurityToken endpoint.
+    #
+    # Stores the results in @security_token.
+    #
+    # parameters:: A hash of Unity parameters for GetSecurityToken:
+    #
+    #   {
+    #     :username => ...,
+    #     :password => ...,
+    #     :appname => ...
+    #   }
+    #
+    # Returns the security token.
     def get_security_token!(parameters = {})
       @client_driver.get_security_token!(parameters)
     end
 
+    # Implement Unity's RetireSecurityToken endpoint using Savon.
+    #
+    # parameters:: A hash of Unity parameters for RetireSecurityToken. If not given then defaults to
+    # @security_token:
+    #
+    #   {
+    #     :token => ...,
+    #     :appname => ...
+    #   }
     def retire_security_token!(parameters = {})
       @client_driver.retire_security_token!(parameters)
     end
 
+    # Return true if a Unity security token has been fetched and saved.
     def security_token?
       @client_driver.security_token?
     end
 
+    # Return the client type, either :json or :soap.
     def client_type
       @client_driver.client_type
     end
