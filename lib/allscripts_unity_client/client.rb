@@ -210,7 +210,7 @@ module AllscriptsUnityClient
       raise NotImplementedError, 'GetEncounterDate magic action not implemented'
     end
 
-    def get_encounter_list(userid, patientid, encounter_type, when_param = nil, nostradamus = nil, show_past_flag = nil, billing_provider_user_name = nil)
+    def get_encounter_list(userid, patientid, encounter_type, when_param = nil, nostradamus = nil, show_past_flag = nil, billing_provider_user_name = nil, show_all = false)
       magic_parameters = {
         action: 'GetEncounterList',
         userid: userid,
@@ -219,7 +219,8 @@ module AllscriptsUnityClient
         parameter2: when_param,
         parameter3: nostradamus,
         parameter4: show_past_flag,
-        parameter5: billing_provider_user_name
+        parameter5: billing_provider_user_name,
+        parameter6: show_all ? 'all' : nil
       }
       response = magic(magic_parameters)
 
