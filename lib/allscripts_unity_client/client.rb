@@ -321,8 +321,28 @@ module AllscriptsUnityClient
       raise NotImplementedError, 'GetPatientCDA magic action not implemented'
     end
 
-    def get_patient_diagnosis
-      raise NotImplementedError, 'GetPatientDiagnosis magic action not implemented'
+    def get_patient_diagnosis(userid, patientid, encounter_date = nil, encounter_type = nil, encounter_date_range = nil, encounter_id = nil)
+      magic_params = {
+        action: 'GetPatientDiagnosis',
+        userid: userid,
+        patientid: patientid,
+        parameter1: encounter_date,
+        parameter2: encounter_type,
+        parameter3: encounter_date_range,
+        parameter4: encounter_id
+      }
+
+      results = magic(magic_params)
+
+      if !results.is_a? Array
+        if results.empty?
+          results = []
+        else
+          results = [results]
+        end
+      end
+
+      result
     end
 
     def get_patient_full
