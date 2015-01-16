@@ -343,7 +343,7 @@ module AllscriptsUnityClient
         end
       end
 
-      result
+      results
     end
 
     def get_patient_full
