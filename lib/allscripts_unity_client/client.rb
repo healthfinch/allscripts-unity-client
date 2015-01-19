@@ -139,11 +139,12 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def get_clinical_summary(userid, patientid)
+    def get_clinical_summary(userid, patientid, extra_med_data = false)
       magic_parameters = {
         action: 'GetClinicalSummary',
         userid: userid,
-        patientid: patientid
+        patientid: patientid,
+        parameter3: extra_med_data ? 'Y' : nil
       }
       response = magic(magic_parameters)
 
