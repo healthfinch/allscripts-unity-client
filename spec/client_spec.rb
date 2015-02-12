@@ -171,16 +171,10 @@ describe AllscriptsUnityClient::Client do
     it { expect { subject.get_patient_locations }.to raise_error(NotImplementedError) }
   end
 
-  describe '#get_patient_pharmacies' do
-    it { expect { subject.get_patient_pharmacies }.to raise_error(NotImplementedError) }
-  end
-
+  describe '#get_patient_pharmacies'
   describe '#get_patient_problems'
   describe '#get_patients_by_icd9'
-
-  describe '#get_patient_sections' do
-    it { expect { subject.get_patient_sections }.to raise_error(NotImplementedError) }
-  end
+  describe '#get_patient_sections'
 
   describe '#get_procedures' do
     it { expect { subject.get_procedures }.to raise_error(NotImplementedError) }
