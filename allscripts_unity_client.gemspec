@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'faraday', '~> 0.9.0'
   gem.add_runtime_dependency 'em-http-request', '~> 1.1.2'
   gem.add_runtime_dependency 'tzinfo', '>= 0'
-  gem.add_runtime_dependency 'nokogiri', '< 1.6', '>= 1.4.0'
+  gem.add_runtime_dependency 'nokogiri', '~> 1.6' #'< 1.6', '>= 1.4.0'
   gem.add_runtime_dependency 'nori', '~> 2.4.0'
   gem.add_runtime_dependency 'american_date', '~> 1.1.0'
   gem.add_runtime_dependency 'oj', '~> 2.9.8'
