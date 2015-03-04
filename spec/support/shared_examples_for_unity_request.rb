@@ -73,22 +73,41 @@ shared_examples 'a unity request' do
     end
 
     context 'when given a date string' do
-      it do
-        date = '2013-10-24'
-        expect(subject.send(:process_date, date)).to be_instance_of(Date)
+      it 'returns an ISO8601 string' do
+        date = '10/24/2013'
+        expect(subject.send(:process_date, date)).to eq('2013-10-24')
+      end
+    end
+
+    context 'when given a UTC date time string' do
+      it 'returns an ISO8601 string' do
+        now_iso8601 = DateTime.now.utc.iso8601
+        expect(subject.send(:process_date, now_iso8601)).to eq(now_iso8601)
       end
     end
 
     context 'when given a Date' do
-      it { expect(subject.send(:process_date, Date.today)).to be_instance_of(Date) }
+      it 'returns an ISO8601 string' do
+        today = Date.today
+        today_iso8601 = Date.today.iso8601
+        expect(subject.send(:process_date, today)).to eq(today_iso8601)
+      end
     end
 
-    context 'when given a Time' do
-      it { expect(subject.send(:process_date, Time.now)).to be_instance_of(Time) }
+    context 'when given a UTC Time' do
+      it 'returns an ISO8601 string' do
+        now = Time.now.utc
+        now_iso8601 = now.strftime('%Y-%m-%dT%H:%M:%S+00:00')
+        expect(subject.send(:process_date, now)).to eq(now_iso8601)
+      end
     end
 
-    context 'when given a DateTime' do
-      it { expect(subject.send(:process_date, DateTime.now)).to be_instance_of(DateTime) }
+    context 'when given a UTC DateTime' do
+      it 'returns an ISO8601 string' do
+        now = DateTime.now.utc
+        now_iso8601 = now.iso8601
+        expect(subject.send(:process_date, now)).to eq(now_iso8601)
+      end
     end
   end
 end

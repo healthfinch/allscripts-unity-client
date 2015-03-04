@@ -1,10 +1,26 @@
 module AllscriptsUnityClient
+
+  # Contains various options for Unity configuration.
   class ClientOptions
     attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout, :new_relic
     attr_reader :base_unity_url, :username, :password, :appname, :timezone, :product
 
     PRODUCTS = [:ehr, :pm]
 
+    # Constructor.
+    #
+    # options::
+    #
+    #   - :username - Unity license username __(required)__.
+    #   - :password - Unity license password __(required)__.
+    #   - :appname - Unity license appname __(required)__.
+    #   - :proxy - A string URL pointing to an HTTP proxy (optional, primarily for debugging)
+    #   - :logger - A Ruby object that adheres to the same interface as Logger.
+    #   - :ca_file - A string path for a CA File on the OS (JSON only).
+    #   - :cs_path - A string path for a CA directory (JSON only).
+    #   - :timeout - The number of seconds to set the HTTP response timeout and keepalive timeout (JSON only).
+    #   - :new_relc - If set to true then New Relic mixins will be applied.
+    #   - :base_unity_url - The URL where a Unity server is located (i.e. https://unity.server.com) __(required)__
     def initialize(options = {})
       @username = options[:username]
       @password = options[:password]
@@ -24,6 +40,9 @@ module AllscriptsUnityClient
       validate_options
     end
 
+    # Validates options by ensuring that all required options are present.
+    #
+    # See #initialize.
     def validate_options(options = {})
       base_unity_url = options.has_key?(:base_unity_url) ? options[:base_unity_url] : @base_unity_url
       username = options.has_key?(:username) ? options[:username] : @username
@@ -38,54 +57,75 @@ module AllscriptsUnityClient
       raise ArgumentError, 'product is not available' unless PRODUCTS.include?(product)
     end
 
+    # Mutator for @base_unity_url.
+    #
+    # Strips trailing slash for URL.
     def base_unity_url=(base_unity_url)
       validate_options(base_unity_url: base_unity_url)
       @base_unity_url = base_unity_url.gsub /\/$/, ''
     end
 
+    # Mutator for username.
+    #
+    # Ensures username is not nil,
     def username=(username)
       validate_options(username: username)
       @username = username
     end
 
+    # Mutator for password.
+    #
+    # Ensures password is not nil,
     def password=(password)
       validate_options(password: password)
       @password = password
     end
 
+    # Mutator for appname.
+    #
+    # Ensures appname is not nil,
     def appname=(appname)
       validate_options(appname: appname)
       @appname = appname
     end
 
+    # Mutator for timezone.
+    #
+    # Ensures timezone is not nil,
     def timezone=(timezone)
       if !timezone.nil?
-        @timezone = Timezone.new(timezone)
+        @timezone = ActiveSupport::TimeZone[timezone]
       else
-        @timezone = Timezone.new('UTC')
+        @timezone = ActiveSupport::TimeZone['Etc/UTC']
       end
     end
 
+    # Return true if proxy is set and not empty.
     def proxy?
       !@proxy.to_s.strip.empty?
     end
 
+    # Return true if logger is not nil.
     def logger?
       !@logger.nil?
     end
 
+    # Return true if ca_file is not empty.
     def ca_file?
       !@ca_file.to_s.strip.empty?
     end
 
+    # Return true if ca_path is not empty.
     def ca_path?
       !@ca_path.to_s.strip.empty?
     end
 
+    # Return true if timeout is not empty.
     def timeout?
       !@timeout.to_s.strip.empty?
     end
 
+    # Return true if new_relic is not nil.
     def new_relic?
       !@new_relic.nil?
     end

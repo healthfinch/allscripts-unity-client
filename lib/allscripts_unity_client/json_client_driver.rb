@@ -3,6 +3,8 @@ require 'faraday'
 require 'em-http-request'
 
 module AllscriptsUnityClient
+
+  # A ClientDriver that supports Unity's JSON endpoints.
   class JSONClientDriver < ClientDriver
     attr_accessor :json_base_url, :connection, :json_endpoint
 
@@ -10,6 +12,9 @@ module AllscriptsUnityClient
     UNITY_EHR_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
     UNITY_PM_JSON_ENDPOINT = '/UnityPM/UnityService.svc/json'
 
+    # Constructor.
+    #
+    # options:: See ClientOptions.
     def initialize(options)
       super
       @json_endpoint = case @options.product
@@ -23,10 +28,12 @@ module AllscriptsUnityClient
       end
     end
 
+    # Returns :json.
     def client_type
       :json
     end
 
+    # See Client#magic.
     def magic(parameters = {})
       request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
 
@@ -52,6 +59,7 @@ module AllscriptsUnityClient
       response.to_hash
     end
 
+    # See Client#get_security_token!.
     def get_security_token!(parameters = {})
       username = parameters[:username] || @options.username
       password = parameters[:password] || @options.password
@@ -82,6 +90,7 @@ module AllscriptsUnityClient
       @security_token = response.body
     end
 
+    # See Client#retire_security_token!.
     def retire_security_token!(parameters = {})
       token = parameters[:token] || @security_token
       appname = parameters[:appname] || @options.appname

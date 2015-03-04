@@ -1,11 +1,17 @@
 require 'logger'
 
 module AllscriptsUnityClient
+
+  # An abstract class for ClientDrivers that fully implement
+  # making calls to a Unity server.
   class ClientDriver
     LOG_FILE = 'logs/unity_client.log'
 
     attr_accessor :options, :security_token
 
+    # Constructor.
+    #
+    # options:: See ClientOptions.
     def initialize(options)
       @options = ClientOptions.new(options)
 
@@ -21,22 +27,27 @@ module AllscriptsUnityClient
       end
     end
 
+    # Returns true if security token is not nil.
     def security_token?
       !@security_token.nil?
     end
 
+    # Returns the type of client, usually a symbol.
     def client_type
       :none
     end
 
+    # See Client#magic.
     def magic(parameters = {})
       raise NotImplementedError, 'magic not implemented'
     end
 
+    # See Client#get_security_token!.
     def get_security_token!(parameters = {})
       raise NotImplementedError, 'get_security_token! not implemented'
     end
 
+    # See Client#retire_security_token!.
     def retire_security_token!(parameters = {})
       raise NotImplementedError, 'retire_security_token! not implemented'
     end

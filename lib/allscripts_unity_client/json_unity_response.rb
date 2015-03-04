@@ -1,5 +1,9 @@
 module AllscriptsUnityClient
+
+  # Transform Unity responses from Faraday into Hash objects.
   class JSONUnityResponse < UnityResponse
+
+    # See UnityResponse#to_hash.
     def to_hash
       result = @response
 

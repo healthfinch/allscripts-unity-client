@@ -1,7 +1,31 @@
 module AllscriptsUnityClient
+
+  # Transform a Unity request into a Hash suitable for sending using Savon.
   class UnityRequest
     attr_accessor :parameters, :appname, :security_token, :timezone
 
+    # Constructor.
+    #
+    # parameters:: A Hash of Unity parameters. Takes this form:
+    #
+    #   {
+    #     'Action' => ...,
+    #     'UserID' => ...,
+    #     'Appname' => ...,
+    #     'PatientID' => ...,
+    #     'Token' => ...,
+    #     'Parameter1' => ...,
+    #     'Parameter2' => ...,
+    #     'Parameter3' => ...,
+    #     'Parameter4' => ...,
+    #     'Parameter5' => ...,
+    #     'Parameter6' => ...,
+    #     'data' => ...
+    #   }
+    #
+    # timezone:: An ActiveSupport::TimeZone instance.
+    # appname:: The Unity license appname.
+    # security_token:: A security token from the Unity GetSecurityToken call.
     def initialize(parameters, timezone, appname, security_token)
       raise ArgumentError, 'parameters can not be nil' if parameters.nil?
       raise ArgumentError, 'timezone can not be nil' if timezone.nil?
@@ -14,6 +38,8 @@ module AllscriptsUnityClient
       @timezone = timezone
     end
 
+    # Convert the parameters to a Hash for Savon with all possible dates
+    # converted to the Organization's localtime.
     def to_hash
       action = @parameters[:action]
       userid = @parameters[:userid]
@@ -47,17 +73,19 @@ module AllscriptsUnityClient
     protected
 
     def process_date(value)
-      if value.nil?
-        return nil
+      if value && (value.is_a?(Time) || value.is_a?(DateTime) || value.is_a?(ActiveSupport::TimeWithZone))
+        return value.in_time_zone(@timezone).iso8601
       end
 
-      result = Utilities::try_to_encode_as_date(value)
+      date = Utilities::try_to_encode_as_date(ActiveSupport::TimeZone['Etc/UTC'], value)
 
-      if result.instance_of?(Time) || result.instance_of?(Date) || result.instance_of?(DateTime)
-        return @timezone.utc_to_local(result)
+      if date && date.is_a?(ActiveSupport::TimeWithZone)
+        date.in_time_zone(@timezone).iso8601
+      elsif date && date.is_a?(Date)
+        date.iso8601
+      else
+        value
       end
-
-      value
     end
   end
 end

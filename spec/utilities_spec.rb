@@ -6,7 +6,8 @@ describe AllscriptsUnityClient::Utilities do
   let(:date_string) { '2013-02-15' }
   let(:date) { Date.parse(date_string) }
   let(:datetime_string) { '2013-02-15T00:00:00Z' }
-  let(:datetime) { DateTime.parse(datetime_string) }
+  let(:datetime) { timezone.parse(datetime_string) }
+  let(:timezone) { ActiveSupport::TimeZone['Etc/UTC'] }
 
   let(:string) { 'string' }
   let(:string_array) { ['string'] }
@@ -19,85 +20,86 @@ describe AllscriptsUnityClient::Utilities do
   let(:datetime_string_two) { 'Feb 28 2013  1:34PM' }
   let(:datetime_string_three) { '12/25/2013 12:37 PM' }
   let(:datetime_string_four) { 'Nov  1 2011 11:31AM' }
-  let(:datetime_one) { DateTime.parse(datetime_string_one) }
-  let(:datetime_two) { DateTime.parse(datetime_string_two) }
-  let(:datetime_three) { DateTime.parse(datetime_string_three) }
-  let(:datetime_four) { DateTime.parse(datetime_string_four) }
+  let(:datetime_one) { timezone.parse(datetime_string_one) }
+  let(:datetime_two) { timezone.parse(datetime_string_two) }
+  let(:datetime_three) { timezone.parse(datetime_string_three) }
+  let(:datetime_four) { timezone.parse(datetime_string_four) }
   let(:date_string_one) { '20-Jul-2014' }
   let(:date_string_two) { '12/25/2013' }
   let(:date_string_three) { 'Nov  1 2011' }
+  let(:date_string_four) { '01-25-2012' }
   let(:date_one) { Date.parse(date_string_one) }
   let(:date_two) { Date.parse(date_string_two) }
   let(:date_three) { Date.parse(date_string_three) }
 
   describe '.try_to_encode_as_date' do
     context 'when given nil' do
-      it { expect(subject.try_to_encode_as_date(nil)).to be_nil }
+      it { expect(subject.try_to_encode_as_date(timezone, nil)).to be_nil }
     end
 
     context 'when given date string' do
       it 'returns the string as a Date' do
-        expect(subject.try_to_encode_as_date(date_string)).to eq(date)
+        expect(subject.try_to_encode_as_date(timezone, date_string)).to eq(date)
       end
     end
 
     context 'when given date time string' do
       it 'returns the string as a DateTime' do
-        expect(subject.try_to_encode_as_date(datetime_string)).to eq(datetime)
+        expect(subject.try_to_encode_as_date(timezone, datetime_string)).to eq(datetime)
       end
     end
 
     context 'when given datetime_string_one' do
       it 'returns the string as a DateTime' do
-        expect(subject.try_to_encode_as_date(datetime_string_one)).to eq(datetime_one)
+        expect(subject.try_to_encode_as_date(timezone, datetime_string_one)).to eq(datetime_one)
       end
     end
 
     context 'when given datetime_string_two' do
       it 'returns the string as a DateTime' do
-        expect(subject.try_to_encode_as_date(datetime_string_two)).to eq(datetime_two)
+        expect(subject.try_to_encode_as_date(timezone, datetime_string_two)).to eq(datetime_two)
       end
     end
 
     context 'when given datetime_string_three' do
       it 'returns the string as a DateTime' do
-        expect(subject.try_to_encode_as_date(datetime_string_three)).to eq(datetime_three)
+        expect(subject.try_to_encode_as_date(timezone, datetime_string_three)).to eq(datetime_three)
       end
     end
 
     context 'when given datetime_string_four' do
       it 'returns the string as a DateTime' do
-        expect(subject.try_to_encode_as_date(datetime_string_four)).to eq(datetime_four)
+        expect(subject.try_to_encode_as_date(timezone, datetime_string_four)).to eq(datetime_four)
       end
     end
 
     context 'when given date_string_one' do
       it 'returns the string as a Date' do
-        expect(subject.try_to_encode_as_date(date_string_one)).to eq(date_one)
+        expect(subject.try_to_encode_as_date(timezone, date_string_one)).to eq(date_one)
       end
     end
 
     context 'when given date_string_two' do
       it 'returns the string as a Date' do
-        expect(subject.try_to_encode_as_date(date_string_two)).to eq(date_two)
+        expect(subject.try_to_encode_as_date(timezone, date_string_two)).to eq(date_two)
       end
     end
 
     context 'when given date_string_three' do
       it 'returns the string as a Date' do
-        expect(subject.try_to_encode_as_date(date_string_three)).to eq(date_three)
+        expect(subject.try_to_encode_as_date(timezone, date_string_three)).to eq(date_three)
       end
     end
 
     context 'when given a non-date string' do
       it 'returns that string' do
-        expect(subject.try_to_encode_as_date(string)).to eq(string)
+        expect(subject.try_to_encode_as_date(timezone, string)).to eq(string)
       end
     end
     
-    context 'when given an americanized dash-delimited date string' do
+    context 'when given an americanized (mm-dd-yyyy) dash-delimited date string' do
       it 'returns the valid date' do
-        expect(subject.try_to_encode_as_date('01-25-2012')).to eq(Date.parse('2012-1-25'))
+        expect(subject.try_to_encode_as_date(timezone, date_string_four)).to eq(Date.strptime(date_string_four, '%m-%d-%Y'))
       end
     end
   end

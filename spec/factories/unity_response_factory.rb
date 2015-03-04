@@ -3,7 +3,7 @@ FactoryGirl.define do
     initialize_with { new(response, timezone) }
 
     response Hash.new
-    timezone { build(:timezone) }
+    timezone ActiveSupport::TimeZone['Etc/UTC']
 
     factory :json_unity_response, class: AllscriptsUnityClient::JSONUnityResponse
   end
