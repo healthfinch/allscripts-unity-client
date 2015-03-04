@@ -6,7 +6,9 @@ module AllscriptsUnityClient
   class SOAPClientDriver < ClientDriver
     attr_accessor :savon_client
 
-    UNITY_SOAP_ENDPOINT = '/Unity/UnityService.svc/unityservice'
+    UNITY_EHR_SOAP_ENDPOINT = '/Unity/UnityService.svc/unityservice'
+    UNITY_PM_SOAP_ENDPOINT = '/UnityPM/UnityService.svc/unityservice'
+    
     UNITY_ENDPOINT_NAMESPACE = 'http://www.allscripts.com/Unity/IUnityService'
 
     # Constructor.
@@ -14,9 +16,14 @@ module AllscriptsUnityClient
     # options:: See ClientOptions.
     def initialize(options)
       super
+      @soap_endpoint = case @options.product
+        when :ehr then UNITY_EHR_SOAP_ENDPOINT
+        when :pm then UNITY_PM_JSON_ENDPOINT
+        else raise ArgumentError, 'product not recognized'
+      end
 
       client_proxy = @options.proxy
-      base_unity_url = "#{@options.base_unity_url}#{UNITY_SOAP_ENDPOINT}"
+      base_unity_url = "#{@options.base_unity_url}#{@soap_endpoint}"
 
       @savon_client = Savon.client do
         # Removes the wsdl: namespace from body elements in the SOAP

@@ -23,7 +23,8 @@ module AllscriptsUnityClient
       end
 
       if possible_date.is_a?(String) && possible_date =~ DATE_REGEX
-        return Date.parse(possible_date)
+        # PM returns some date fields (DOB) as 'mm-dd-yyyy'
+        return Date.parse(possible_date) rescue return Date.strptime(possible_date, '%m-%d-%Y') 
       end
 
       if possible_date.is_a?(String) && possible_date =~ DATETIME_REGEX

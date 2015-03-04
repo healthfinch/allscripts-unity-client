@@ -144,6 +144,7 @@ describe AllscriptsUnityClient::Client do
 
   describe '#get_patient'
   describe '#get_patient_activity'
+  describe '#get_patient_demographics'
   describe '#get_patient_by_mrn'
 
   describe '#get_patient_cda' do
@@ -168,16 +169,10 @@ describe AllscriptsUnityClient::Client do
     it { expect { subject.get_patient_locations }.to raise_error(NotImplementedError) }
   end
 
-  describe '#get_patient_pharmacies' do
-    it { expect { subject.get_patient_pharmacies }.to raise_error(NotImplementedError) }
-  end
-
+  describe '#get_patient_pharmacies'
   describe '#get_patient_problems'
   describe '#get_patients_by_icd9'
-
-  describe '#get_patient_sections' do
-    it { expect { subject.get_patient_sections }.to raise_error(NotImplementedError) }
-  end
+  describe '#get_patient_sections'
 
   describe '#get_procedures' do
     it { expect { subject.get_procedures }.to raise_error(NotImplementedError) }

@@ -27,6 +27,7 @@ describe AllscriptsUnityClient::Utilities do
   let(:date_string_one) { '20-Jul-2014' }
   let(:date_string_two) { '12/25/2013' }
   let(:date_string_three) { 'Nov  1 2011' }
+  let(:date_string_four) { '01-25-2012' }
   let(:date_one) { Date.parse(date_string_one) }
   let(:date_two) { Date.parse(date_string_two) }
   let(:date_three) { Date.parse(date_string_three) }
@@ -93,6 +94,12 @@ describe AllscriptsUnityClient::Utilities do
     context 'when given a non-date string' do
       it 'returns that string' do
         expect(subject.try_to_encode_as_date(timezone, string)).to eq(string)
+      end
+    end
+    
+    context 'when given an americanized (mm-dd-yyyy) dash-delimited date string' do
+      it 'returns the valid date' do
+        expect(subject.try_to_encode_as_date(timezone, date_string_four)).to eq(Date.strptime(date_string_four, '%m-%d-%Y'))
       end
     end
   end

@@ -309,6 +309,15 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
+    def get_patient_demographics(userid, patientid)
+      magic_parameters = {
+        action: 'GetPatientDemographics',
+        userid: userid,
+        patientid: patientid
+      }
+      magic(magic_parameters)
+    end
+    
     def get_patient_by_mrn(userid, mrn)
       magic_parameters = {
         action: 'GetPatientByMRN',
@@ -362,10 +371,17 @@ module AllscriptsUnityClient
       raise NotImplementedError, 'GetPatientLocations magic action not implemented'
     end
 
-    def get_patient_pharmacies
-      raise NotImplementedError, 'GetPatientPharmacies magic action not implemented'
+    def get_patient_pharmacies(userid, patientid, show_patient_favorites_only = true)
+      magic_parameters = {
+        action: 'GetPatientPharmacies',
+        userid: userid,
+        patientid: patientid,
+        paramater1: show_patient_favorites_only
+      }
+      response = magic(magic_parameters)
     end
 
+    # not supported by PRO
     def get_patient_problems(patientid, show_by_encounter_flag = nil, assessed = nil, encounter_id = nil, medcin_id = nil)
       magic_parameters = {
         action: 'GetPatientProblems',
@@ -394,8 +410,13 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def get_patient_sections
-      raise NotImplementedError, 'GetPatientSections magic action not implemented'
+    def get_patient_sections(userid, patientid)
+      magic_parameters = {
+        action: 'GetPatientSections',
+        userid: userid,
+        patientid: patientid,
+      }
+      response = magic(magic_parameters)
     end
 
     def get_procedures
@@ -740,9 +761,10 @@ module AllscriptsUnityClient
       response
     end
 
-    def search_patients(search)
+    def search_patients(userid, search)
       magic_parameters = {
         action: 'SearchPatients',
+        userid: userid,
         parameter1: search
       }
       magic(magic_parameters)
