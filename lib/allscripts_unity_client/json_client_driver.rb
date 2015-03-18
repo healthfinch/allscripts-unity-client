@@ -1,5 +1,4 @@
 require 'multi_json'
-require 'faraday'
 require 'httpclient'
 
 module AllscriptsUnityClient
@@ -12,9 +11,36 @@ module AllscriptsUnityClient
 
     def initialize(options)
       super
-      @connection = Faraday.new(build_faraday_options) do |conn|
-        conn.adapter :httpclient
-      end
+
+
+      @connection = HTTPClient.new(
+        proxy: @options.proxy,
+        default_header: {'Content-Type' => 'application/json'}
+      )
+
+      set_http_client_ssl_config
+      set_http_client_timeouts
+    end
+
+    def set_http_client_timeouts
+      @connection.connect_timeout = @options.timeout || 90
+      @connection.send_timeout = @options.timeout || 90
+      @connection.receive_timeout = @options.timeout || 90
+    end
+
+    def set_http_client_ssl_config
+      ssl_options = OpenSSL::SSL::OP_ALL
+      ssl_options &= ~OpenSSL::SSL::OP_DONT_INSERT_EMPTY_FRAGMENTS if defined?(OpenSSL::SSL::OP_DONT_INSERT_EMPTY_FRAGMENTS)
+      ssl_options |= OpenSSL::SSL::OP_NO_COMPRESSION if defined?(OpenSSL::SSL::OP_NO_COMPRESSION)
+      ssl_options |= OpenSSL::SSL::OP_NO_SSLv2 if defined?(OpenSSL::SSL::OP_NO_SSLv2)
+      ssl_options |= OpenSSL::SSL::OP_NO_SSLv3 if defined?(OpenSSL::SSL::OP_NO_SSLv3)
+
+      @connection.ssl_config.options = ssl_options
+      @connection.ssl_config.ciphers = "ALL:!aNULL:!eNULL:!SSLv2"
+    end
+
+    def build_uri(request_location)
+      "#{@options.base_unity_url}#{[UNITY_JSON_ENDPOINT, request_location].join('/')}"
     end
 
     def client_type
@@ -24,13 +50,8 @@ module AllscriptsUnityClient
     def magic(parameters = {})
       request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
 
-      response = @connection.post do |request|
-        request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
-        request.headers['Content-Type'] = 'application/json'
-        request.body = MultiJson.dump(request_data.to_hash)
-        set_request_timeout(request)
-        start_timer
-      end
+      start_timer
+      response = @connection.post(build_uri('MagicJson'), MultiJson.dump(request_data.to_hash))
       end_timer
 
       response = MultiJson.load(response.body)
@@ -54,13 +75,8 @@ module AllscriptsUnityClient
         'Appname' => appname
       }
 
-      response = @connection.post do |request|
-        request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
-        request.headers['Content-Type'] = 'application/json'
-        request.body = MultiJson.dump(request_data)
-        set_request_timeout(request)
-        start_timer
-      end
+      start_timer
+      response = @connection.post(build_uri('GetToken'), MultiJson.dump(request_data.to_hash))
       end_timer
 
       raise_if_response_error(response.body)
@@ -79,13 +95,8 @@ module AllscriptsUnityClient
         'Appname' => appname
       }
 
-      response = @connection.post do |request|
-        request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
-        request.headers['Content-Type'] = 'application/json'
-        request.body = MultiJson.dump(request_data, mode: :compat)
-        set_request_timeout(request)
-        start_timer
-      end
+      start_timer
+      response = @connection.post(build_uri('RetireSecurityToken'), MultiJson.dump(request_data.to_hash))
       end_timer
 
       raise_if_response_error(response.body)
@@ -103,57 +114,6 @@ module AllscriptsUnityClient
         raise APIError, response[0]['Error']
       elsif response.is_a?(String) && response.include?('error:')
         raise APIError, response
-      end
-    end
-
-    def build_faraday_options
-      options = {}
-
-      # Configure Faraday base url
-      options[:url] = @options.base_unity_url
-
-      # Configure root certificates for Faraday using options or via auto-detection
-      if @options.ca_file?
-        options[:ssl] = { ca_file: @options.ca_file }
-      elsif @options.ca_path?
-        options[:ssl] = { ca_path: @options.ca_path }
-      elsif ca_file = JSONClientDriver.find_ca_file
-        options[:ssl] = { ca_file: ca_file }
-      elsif ca_path = JSONClientDriver.find_ca_path
-        options[:ssl] = { ca_path: ca_path }
-      end
-
-      # Configure proxy
-      if @options.proxy?
-        options[:proxy] = @options.proxy
-      end
-
-      options
-    end
-
-    def self.find_ca_path
-      if File.directory?('/usr/lib/ssl/certs')
-        return '/usr/lib/ssl/certs'
-      end
-
-      nil
-    end
-
-    def self.find_ca_file
-      if File.exists?('/usr/lib/ssl/certs/ca-certificates.crt')
-        return '/usr/lib/ssl/certs/ca-certificates.crt'
-      end
-
-      nil
-    end
-
-    def set_request_timeout(request)
-      if @options.timeout?
-        request.options[:timeout] = @options.timeout
-        request.options[:open_timeout] = @options.timeout
-      else
-        request.options[:timeout] = 90
-        request.options[:open_timeout] = 90
       end
     end
   end

@@ -182,20 +182,4 @@ describe AllscriptsUnityClient::ClientOptions do
       end
     end
   end
-
-  describe '#new_relic?' do
-    context 'when new_relic is nil' do
-      it 'returns false' do
-        subject.new_relic = nil
-        expect(subject.new_relic?).to be_falsey
-      end
-    end
-
-    context 'when timeout is not nil' do
-      it 'returns true' do
-        subject.new_relic = true
-        expect(subject.new_relic?).to be_truthy
-      end
-    end
-  end
 end

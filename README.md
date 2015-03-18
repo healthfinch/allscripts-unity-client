@@ -1,7 +1,7 @@
 # Allscripts Unity Client [![Build Status](https://travis-ci.org/healthfinch/allscripts-unity-client.png?branch=master)](https://travis-ci.org/healthfinch/allscripts-unity-client) [![Coverage Status](https://coveralls.io/repos/healthfinch/allscripts-unity-client/badge.png?branch=master)](https://coveralls.io/r/healthfinch/allscripts-unity-client?branch=master)
 
 The `allscripts_unity_client` gem is a Ruby client for the Allscripts Unity API. See http://remotecentral.allscripts.com/UnityAPIReference for more documentation on the API.
- 
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -244,26 +244,6 @@ unity_client = AllscriptsUnityClient.create({
 
 This gem uses the [american_date](http://rubygems.org/gems/american_date) gem to force `Date.parse` to
 accept USA locale dates by default. There are currently no plans to support other locales. Pull requests welcome.
-
-### New Relic support
-
-New Relic is supported for tracing Unity HTTP requests and the overall time processing the reqeusts takes. To enable
-New Relic, simply require the gem in your project and enable it on the client:
-
-```ruby
-require 'newrelic_rpm'
-NewRelic::Agent.manual_start
-
-unity_client = AllscriptsUnityClient.create({
-  base_unity_url: "http://unity.base.url",
-  appname: "appname",
-  username: "username",
-  password: "password",
-  new_relic: true
-})
-```
-
-For more information on the New Relic gem, go here: (https://github.com/newrelic/rpm)
 
 ## Examples
 

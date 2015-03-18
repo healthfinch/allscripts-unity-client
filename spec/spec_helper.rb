@@ -1,15 +1,6 @@
 require 'pathname'
 require 'simplecov'
 
-# Setup coveralls only if running inside Travis-CI
-if ENV['TRAVIS']
-  require 'coveralls'
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
-  ]
-end
-
 # Configure coverage stats.
 SimpleCov.start do
   ignored_files = %w(version.rb allscripts_unity_client.gemspec Gemfile Rakefile)

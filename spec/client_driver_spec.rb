@@ -4,7 +4,6 @@ describe AllscriptsUnityClient::ClientDriver do
   it_behaves_like 'a client driver'
 
   subject { build(:client_driver) }
-  let(:new_relic_client_driver) { build(:client_driver, new_relic: true) }
 
   describe '#client_type' do
     it { expect(subject.client_type).to be(:none) }

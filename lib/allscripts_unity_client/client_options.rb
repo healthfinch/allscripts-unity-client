@@ -2,7 +2,7 @@ module AllscriptsUnityClient
 
   # Contains various options for Unity configuration.
   class ClientOptions
-    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout, :new_relic
+    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout
     attr_reader :base_unity_url, :username, :password, :appname, :timezone
 
     # Constructor.
@@ -17,7 +17,6 @@ module AllscriptsUnityClient
     #   - :ca_file - A string path for a CA File on the OS (JSON only).
     #   - :cs_path - A string path for a CA directory (JSON only).
     #   - :timeout - The number of seconds to set the HTTP response timeout and keepalive timeout (JSON only).
-    #   - :new_relc - If set to true then New Relic mixins will be applied.
     #   - :base_unity_url - The URL where a Unity server is located (i.e. https://unity.server.com) __(required)__
     def initialize(options = {})
       @username = options[:username]
@@ -28,7 +27,6 @@ module AllscriptsUnityClient
       @ca_file = options[:ca_file]
       @ca_path = options[:ca_path]
       @timeout = options[:timeout]
-      @new_relic = options[:new_relic]
 
       self.timezone = options[:timezone]
       self.base_unity_url = options[:base_unity_url]
@@ -117,11 +115,6 @@ module AllscriptsUnityClient
     # Return true if timeout is not empty.
     def timeout?
       !@timeout.to_s.strip.empty?
-    end
-
-    # Return true if new_relic is not nil.
-    def new_relic?
-      !@new_relic.nil?
     end
   end
 end
