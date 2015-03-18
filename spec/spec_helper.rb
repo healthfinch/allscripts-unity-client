@@ -26,7 +26,6 @@ $:.unshift lib unless $:.include?(lib)
 require 'allscripts_unity_client'
 require 'rspec'
 require 'webmock/rspec'
-require 'savon/mock/spec_helper'
 require 'securerandom'
 require 'faker'
 require 'factory_girl'

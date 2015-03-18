@@ -8,29 +8,28 @@ Gem::Specification.new do |gem|
   gem.name                  = 'allscripts_unity_client'
   gem.version               = AllscriptsUnityClient::VERSION
   gem.date                  = Date.today
-  gem.required_ruby_version = '> 1.9.3'
+  gem.required_ruby_version = '> 2.0.0'
   gem.license               = 'MIT'
   gem.homepage              = 'https://github.com/healthfinch/allscripts-unity-client'
 
   gem.summary     = 'Allscripts Unity API client'
-  gem.description = 'Provides a simple interface to the Allscripts Unity API using JSON or SOAP. Developed at healthfinch, Inc. http://healthfinch.com'
+  gem.description = 'Provides a simple interface to the Allscripts Unity API using JSON. Developed at healthfinch http://healthfinch.com'
 
-  gem.authors = ['Ash Gupta', 'Neil Goodman']
-  gem.email   = %w(ash.gupta@healthfinch.com neil@healthfinch.com)
+  gem.authors = ['Lucian Cesca']
+  gem.email   = %w(lucian@healthfinch.com)
 
   gem.require_paths = ['lib']
 
   gem.files = `git ls-files`.split("\n").delete_if { |file| /^\.ruby-version$/.match(file) }
 
-  gem.add_runtime_dependency 'savon', '~> 2.6.0'
-  gem.add_runtime_dependency 'faraday', '~> 0.9.0'
-  gem.add_runtime_dependency 'em-http-request', '~> 1.1.2'
-  gem.add_runtime_dependency 'activesupport', '>= 0'
-  gem.add_runtime_dependency 'nokogiri', '< 1.6', '>= 1.4.0'
-  gem.add_runtime_dependency 'nori', '~> 2.4.0'
-  gem.add_runtime_dependency 'american_date', '~> 1.1.0'
-  gem.add_runtime_dependency 'oj', '~> 2.9.8'
-  gem.add_runtime_dependency 'rubyntlm', '~> 0.4.0'
+  gem.add_dependency 'faraday'
+  gem.add_dependency 'httpclient'
+  gem.add_dependency 'activesupport', '>= 3'
+  gem.add_dependency 'nokogiri', '< 1.6', '>= 1.4.0'
+  gem.add_dependency 'nori', '~> 2.4.0'
+  gem.add_dependency 'american_date', '~> 1.1.0'
+  gem.add_dependency 'multi_json', '~> 1.0'
+  gem.add_dependency 'rubyntlm', '~> 0.4.0'
 
   gem.add_development_dependency 'factory_girl', '~> 4.4.0'
   gem.add_development_dependency 'rake', '~> 10.3.1'

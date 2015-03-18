@@ -193,25 +193,8 @@ describe AllscriptsUnityClient::JSONClientDriver do
   end
 
   describe '.find_ca_file' do
-    context 'when OS X ca-bundle.crt found' do
-      it 'returns the ca-bundle.crt' do
-          allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(true)
-          expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to eq('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt')
-      end
-    end
-
-    context 'when OS X curl-ca-bundle.crt found' do
-      it 'returns the curl-ca-bundle.crt' do
-        allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(false)
-        allow(File).to receive(:exists?).with('/opt/local/share/curl/curl-ca-bundle.crt').and_return(true)
-        expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to eq('/opt/local/share/curl/curl-ca-bundle.crt')
-      end
-    end
-
     context 'when CentOS ca-certificates.crt found' do
       it 'returns the curl-ca-bundle.crt' do
-        allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(false)
-        allow(File).to receive(:exists?).with('/opt/local/share/curl/curl-ca-bundle.crt').and_return(false)
         allow(File).to receive(:exists?).with('/usr/lib/ssl/certs/ca-certificates.crt').and_return(true)
         expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to eq('/usr/lib/ssl/certs/ca-certificates.crt')
       end
@@ -219,8 +202,6 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
     context 'when no certificate file is found' do
       it 'returns nil' do
-        allow(File).to receive(:exists?).with('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt').and_return(false)
-        allow(File).to receive(:exists?).with('/opt/local/share/curl/curl-ca-bundle.crt').and_return(false)
         allow(File).to receive(:exists?).with('/usr/lib/ssl/certs/ca-certificates.crt').and_return(false)
         expect(AllscriptsUnityClient::JSONClientDriver.send(:find_ca_file)).to be_nil
       end

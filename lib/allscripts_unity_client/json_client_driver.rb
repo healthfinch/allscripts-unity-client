@@ -1,6 +1,6 @@
-require 'oj'
+require 'multi_json'
 require 'faraday'
-require 'em-http-request'
+require 'httpclient'
 
 module AllscriptsUnityClient
 
@@ -10,39 +10,30 @@ module AllscriptsUnityClient
 
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
 
-    # Constructor.
-    #
-    # options:: See ClientOptions.
     def initialize(options)
       super
       @connection = Faraday.new(build_faraday_options) do |conn|
-        conn.adapter :em_http
+        conn.adapter :httpclient
       end
     end
 
-    # Returns :json.
     def client_type
       :json
     end
 
-    # See Client#magic.
     def magic(parameters = {})
       request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
 
-      response = nil
-      NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/#{parameters[:action]}"]) do
-        response = @connection.post do |request|
-          request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
-          request.headers['Content-Type'] = 'application/json'
-          request.body = Oj.dump(request_data.to_hash, mode: :compat)
-          set_request_timeout(request)
-
-          start_timer
-        end
-        end_timer
+      response = @connection.post do |request|
+        request.url "#{UNITY_JSON_ENDPOINT}/MagicJson"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = MultiJson.dump(request_data.to_hash)
+        set_request_timeout(request)
+        start_timer
       end
+      end_timer
 
-      response = Oj.load(response.body, mode: :strict)
+      response = MultiJson.load(response.body)
 
       raise_if_response_error(response)
       log_magic(request_data)
@@ -63,18 +54,14 @@ module AllscriptsUnityClient
         'Appname' => appname
       }
 
-      response = nil
-      NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/GetToken"]) do
-        response = @connection.post do |request|
-          request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
-          request.headers['Content-Type'] = 'application/json'
-          request.body = Oj.dump(request_data, mode: :compat)
-          set_request_timeout(request)
-
-          start_timer
-        end
-        end_timer
+      response = @connection.post do |request|
+        request.url "#{UNITY_JSON_ENDPOINT}/GetToken"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = MultiJson.dump(request_data)
+        set_request_timeout(request)
+        start_timer
       end
+      end_timer
 
       raise_if_response_error(response.body)
       log_get_security_token
@@ -92,18 +79,14 @@ module AllscriptsUnityClient
         'Appname' => appname
       }
 
-      response = nil
-      NewRelicSupport.trace_execution_scoped_if_available(self.class, ["Custom/UnityJSON/RetireSecurityToken"]) do
-        response = @connection.post do |request|
-          request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
-          request.headers['Content-Type'] = 'application/json'
-          request.body = Oj.dump(request_data, mode: :compat)
-          set_request_timeout(request)
-
-          start_timer
-        end
-        end_timer
+      response = @connection.post do |request|
+        request.url "#{UNITY_JSON_ENDPOINT}/RetireSecurityToken"
+        request.headers['Content-Type'] = 'application/json'
+        request.body = MultiJson.dump(request_data, mode: :compat)
+        set_request_timeout(request)
+        start_timer
       end
+      end_timer
 
       raise_if_response_error(response.body)
       log_retire_security_token
@@ -157,14 +140,6 @@ module AllscriptsUnityClient
     end
 
     def self.find_ca_file
-      if File.exists?('/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt')
-        return '/opt/boxen/homebrew/opt/curl-ca-bundle/share/ca-bundle.crt'
-      end
-
-      if File.exists?('/opt/local/share/curl/curl-ca-bundle.crt')
-        return '/opt/local/share/curl/curl-ca-bundle.crt'
-      end
-
       if File.exists?('/usr/lib/ssl/certs/ca-certificates.crt')
         return '/usr/lib/ssl/certs/ca-certificates.crt'
       end

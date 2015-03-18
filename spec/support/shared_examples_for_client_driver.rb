@@ -1,18 +1,4 @@
 shared_examples 'a client driver' do
-  describe '#initialize' do
-    context 'when options.new_relic is true' do
-      it 'enables NewRelic tracing' do
-        allow(AllscriptsUnityClient::NewRelicSupport).to receive(:enable_method_tracer)
-        allow(described_class).to receive(:add_method_tracer)
-        new_relic_client_driver
-        expect(AllscriptsUnityClient::NewRelicSupport).to have_received(:enable_method_tracer).with(new_relic_client_driver)
-        expect(described_class).to have_received(:add_method_tracer).with(:magic)
-        expect(described_class).to have_received(:add_method_tracer).with(:get_security_token!)
-        expect(described_class).to have_received(:add_method_tracer).with(:retire_security_token!)
-      end
-    end
-  end
-
   describe '#security_token?' do
     context 'when @security_token is nil' do
       it do
