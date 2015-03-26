@@ -210,8 +210,8 @@ describe AllscriptsUnityClient::Client do
   describe '#get_task'
   describe '#get_task_list'
 
-  describe '#get_user_authentication' do
-    it { expect { subject.get_user_authentication }.to raise_error(NotImplementedError) }
+  describe '#get_user_authentication!' do
+    # it { expect { subject.get_user_authentication }.to raise_error(NotImplementedError) }
   end
 
   describe '#get_user_id' do

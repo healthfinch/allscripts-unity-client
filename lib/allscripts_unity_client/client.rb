@@ -507,8 +507,23 @@ module AllscriptsUnityClient
       response
     end
 
-    def get_user_authentication
-      raise NotImplementedError, 'GetUserAuthentication magic action not implemented'
+    def get_user_authentication!(userid, password)
+      magic_parameters = {
+        action: 'GetUserAuthentication',
+        userid: userid,
+        parameter1: password,
+        # parameter2: client_id
+        # parameter3: app_version
+      }
+
+      response = magic(magic_parameters)
+      valid = response[:valid_user]
+
+      if valid == 'YES'
+        return true
+      else
+        raise APIError, "Authentication denied for user '#{userid}'"
+      end
     end
 
     def get_user_id
