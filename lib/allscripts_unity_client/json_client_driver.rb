@@ -126,7 +126,7 @@ module AllscriptsUnityClient
         raise APIError, 'Response was empty'
       elsif response.is_a?(Array) && !response[0].nil? && !response[0]['Error'].nil?
         raise APIError, response[0]['Error']
-      elsif response.is_a?(String) && response.include?('error:')
+      elsif response.is_a?(String) && response.match(/error/i)
         raise APIError, response
       end
     end

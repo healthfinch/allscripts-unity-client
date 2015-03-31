@@ -15,6 +15,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
   let(:retire_security_token) { FixtureLoader.load_file('retire_security_token.json') }
   let(:error) { FixtureLoader.load_json('error.json') }
   let(:error_string) { 'error: Username and Password not valid for any licenses on this server' }
+  let(:error_string_2) { 'Error: Your.App is not supported on PM version 10.4.2' }
   let(:url) { Faker::Internet.url }
 
   let(:hash) do
@@ -163,6 +164,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
     context 'when given error string' do
       it { expect { subject.send(:raise_if_response_error, error_string) }.to raise_error(AllscriptsUnityClient::APIError) }
+      it { expect { subject.send(:raise_if_response_error, error_string_2) }.to raise_error(AllscriptsUnityClient::APIError) }
     end
   end
 
