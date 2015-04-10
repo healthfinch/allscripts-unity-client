@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'httpclient', '~> 2.6'
   gem.add_dependency 'activesupport', '>= 3'
-  gem.add_dependency 'nokogiri', '< 1.6', '>= 1.4.0'
+  gem.add_dependency 'nokogiri', '>= 1.4.0'
   gem.add_dependency 'nori', '~> 2.4.0'
   gem.add_dependency 'american_date', '~> 1.1.0'
   gem.add_dependency 'multi_json', '~> 1.0'
