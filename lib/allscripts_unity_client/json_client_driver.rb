@@ -50,9 +50,10 @@ module AllscriptsUnityClient
         end_timer
       end
 
+      status = response.status
       response = Oj.load(response.body, mode: :strict)
 
-      raise_if_response_error(response)
+      raise_if_response_error(response, status)
       log_magic(request_data)
 
       response = JSONUnityResponse.new(response, @options.timezone)
@@ -84,7 +85,7 @@ module AllscriptsUnityClient
         end_timer
       end
 
-      raise_if_response_error(response.body)
+      raise_if_response_error(response.body, response.status)
       log_get_security_token
 
       @security_token = response.body
@@ -113,7 +114,7 @@ module AllscriptsUnityClient
         end_timer
       end
 
-      raise_if_response_error(response.body)
+      raise_if_response_error(response.body, response.status)
       log_retire_security_token
 
       @security_token = nil
@@ -121,8 +122,10 @@ module AllscriptsUnityClient
 
     private
 
-    def raise_if_response_error(response)
-      if response.blank?
+    def raise_if_response_error(response, status=nil)
+      if status.present? && status != 200
+        raise APIError, "Response status was #{status}"
+      elsif response.blank?
         raise APIError, 'Response was empty'
       elsif response.is_a?(Array) && !response[0].nil? && !response[0]['Error'].nil?
         raise APIError, response[0]['Error']

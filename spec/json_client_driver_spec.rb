@@ -154,6 +154,11 @@ describe AllscriptsUnityClient::JSONClientDriver do
   end
 
   describe '#raise_if_response_error' do
+    context 'when response status is not 200' do
+      it { expect { subject.send(:raise_if_response_error, "some_stuff", 404) }.to raise_error(AllscriptsUnityClient::APIError) }
+      it { expect { subject.send(:raise_if_response_error, "some_stuff", 200) }.not_to raise_error }
+    end
+
     context 'when given nil for response' do
       it { expect { subject.send(:raise_if_response_error, nil) }.to raise_error(AllscriptsUnityClient::APIError) }
     end
