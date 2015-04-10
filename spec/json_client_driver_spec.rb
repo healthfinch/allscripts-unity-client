@@ -158,6 +158,10 @@ describe AllscriptsUnityClient::JSONClientDriver do
       it { expect { subject.send(:raise_if_response_error, nil) }.to raise_error(AllscriptsUnityClient::APIError) }
     end
 
+    context 'when given blank for response' do
+      it { expect { subject.send(:raise_if_response_error, '') }.to raise_error(AllscriptsUnityClient::APIError) }
+    end
+
     context 'when given error JSON' do
       it { expect { subject.send(:raise_if_response_error, error) }.to raise_error(AllscriptsUnityClient::APIError) }
     end

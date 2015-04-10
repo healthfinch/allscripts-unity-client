@@ -122,7 +122,7 @@ module AllscriptsUnityClient
     private
 
     def raise_if_response_error(response)
-      if response.nil?
+      if response.blank?
         raise APIError, 'Response was empty'
       elsif response.is_a?(Array) && !response[0].nil? && !response[0]['Error'].nil?
         raise APIError, response[0]['Error']
