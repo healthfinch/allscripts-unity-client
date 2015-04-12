@@ -8,20 +8,16 @@ module AllscriptsUnityClient
   class JSONClientDriver < ClientDriver
     attr_accessor :json_base_url, :connection, :json_endpoint
 
-    # this is the endpoint path for EHR
-    UNITY_EHR_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
-    UNITY_PM_JSON_ENDPOINT = '/UnityPM/UnityService.svc/json'
+    # NOTE: @options.base_unity_url need to be specified in the form of
+    # http(s)://server-name/Unity/UnityService.svc
+    # https://srt-unity-pro2.allscripts.com/unity_adppro13SSL/unityservice.svc
 
     # Constructor.
     #
     # options:: See ClientOptions.
     def initialize(options)
       super
-      @json_endpoint = case @options.product
-        when :ehr then UNITY_EHR_JSON_ENDPOINT
-        when :pm then UNITY_PM_JSON_ENDPOINT
-        else raise ArgumentError, 'product not recognized'
-      end
+      @json_endpoint = @options.base_unity_url + '/json'
 
       @connection = Faraday.new(build_faraday_options) do |conn|
         conn.adapter :em_http
@@ -51,6 +47,7 @@ module AllscriptsUnityClient
       end
 
       status = response.status
+      
       response = Oj.load(response.body, mode: :strict)
 
       raise_if_response_error(response, status)
@@ -136,9 +133,6 @@ module AllscriptsUnityClient
 
     def build_faraday_options
       options = {}
-
-      # Configure Faraday base url
-      options[:url] = @options.base_unity_url
 
       # Configure root certificates for Faraday using options or via auto-detection
       if @options.ca_file?

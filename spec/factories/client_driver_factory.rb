@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :client_driver, class: AllscriptsUnityClient::ClientDriver do
     initialize_with { new(attributes) }
 
-    base_unity_url 'http://www.example.com'
+    base_unity_url 'http://www.example.com/Unity/UnityService.svc'
     username Faker::Name.name
     password Faker::Internet.password
     appname Faker::Name.name

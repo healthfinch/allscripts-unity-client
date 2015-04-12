@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :allscripts_unity_client_parameters, class: Hash do
     initialize_with { attributes }
 
-    base_unity_url 'http://www.example.com'
+    base_unity_url 'http://www.example.com/Unity/UnityService.svc'
     username Faker::Name.name
     password Faker::Internet.password
     appname Faker::Name.name
