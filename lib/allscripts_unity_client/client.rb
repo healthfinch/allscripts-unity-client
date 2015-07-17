@@ -4,7 +4,7 @@ module AllscriptsUnityClient
 
   # Providers an interface to access Unity endpoints.
   #
-  # Build using a dependcy injection pattern. A Client instances takes an instance of
+  # Build using a dependency injection pattern. A Client instances takes an instance of
   # ClientDriver and delegates Unity endpoint methods to the ClientDriver.
   class Client
     attr_accessor :client_driver

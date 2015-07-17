@@ -24,7 +24,7 @@ module AllscriptsUnityClient
   # Returns an instance of Client.
   def self.create(options = {})
     options[:mode] ||= :json
-    if options[:log] != false # explictly
+    if options[:log] != false # explicitly
       options[:log] = true
     end
 
