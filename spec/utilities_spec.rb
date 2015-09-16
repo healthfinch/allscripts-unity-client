@@ -31,6 +31,8 @@ describe AllscriptsUnityClient::Utilities do
   let(:date_two) { Date.parse(date_string_two) }
   let(:date_three) { Date.parse(date_string_three) }
 
+  let(:invalid_date_string_one) { "32-13-2014\n02/21/2014"}
+
   describe '.try_to_encode_as_date' do
     context 'when given nil' do
       it { expect(subject.try_to_encode_as_date(timezone, nil)).to be_nil }
@@ -93,6 +95,12 @@ describe AllscriptsUnityClient::Utilities do
     context 'when given a non-date string' do
       it 'returns that string' do
         expect(subject.try_to_encode_as_date(timezone, string)).to eq(string)
+      end
+    end
+
+    context 'when given an invalid date string' do
+      it 'returns that string' do
+        expect(subject.try_to_encode_as_date(timezone, invalid_date_string_one)).to eq(invalid_date_string_one)
       end
     end
   end
