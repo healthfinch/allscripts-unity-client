@@ -211,7 +211,31 @@ module AllscriptsUnityClient
       raise NotImplementedError, 'GetEncounterDate magic action not implemented'
     end
 
-    def get_encounter_list(userid, patientid, encounter_type, when_param = nil, nostradamus = nil, show_past_flag = nil, billing_provider_user_name = nil, show_all = false)
+    # GetEncounterList helper method.
+    # @param [Object] userid
+    # @param [Object] patientid
+    # @param [String, nil] encounter_type encounter type to filter
+    #   on. A value of `nil` filters nothing. Defaults to `nil`.
+    # @param [Object] when_param
+    # @param [Fixnum, nil] nostradamus how many days to look into the
+    #   future. Defaults to `0`.
+    # @param [Object] show_past_flag whether to show previous
+    #   encounters. All truthy values aside from the string `"N"` are
+    #   considered to be true (or `"Y"`) all other values are
+    #   considered to be false (or `"N"`). Defaults to `true`.  
+    # @param [Object] billing_provider_user_name filter by user
+    #   name. Defaults to `nil`.
+    # @param [Object] show_all
+    # @return [Array<Hash>] the filtered encounter list.
+    def get_encounter_list(
+        userid,
+        patientid,
+        encounter_type = nil,
+        when_param = nil,
+        nostradamus = 0,
+        show_past_flag = true,
+        billing_provider_user_name = nil,
+        show_all = false)
       magic_parameters = {
         action: 'GetEncounterList',
         userid: userid,
@@ -219,10 +243,13 @@ module AllscriptsUnityClient
         parameter1: encounter_type,
         parameter2: when_param,
         parameter3: nostradamus,
-        parameter4: show_past_flag,
+        parameter4: show_past_flag && show_past_flag != 'N' ? 'Y' : 'N',
         parameter5: billing_provider_user_name,
+        # According to the developer guide this parameter is no longer
+        # used.
         parameter6: show_all ? 'all' : nil
       }
+
       response = magic(magic_parameters)
 
       unless response.is_a?(Array)
