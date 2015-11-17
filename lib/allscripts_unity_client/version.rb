@@ -1,3 +1,3 @@
 module AllscriptsUnityClient
-  VERSION = '3.1.2'
+  VERSION = '3.1.3'
 end

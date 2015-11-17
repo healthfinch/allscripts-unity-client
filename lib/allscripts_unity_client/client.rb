@@ -704,6 +704,7 @@ module AllscriptsUnityClient
           xml.delegated('value' => taskchanges[:delegated]) unless taskchanges.nil? || taskchanges[:delegated].nil?
           xml.taskstatus('value' => taskchanges[:taskstatus]) unless taskchanges.nil? || taskchanges[:taskstatus].nil?
           xml.removereason('value' => taskchanges[:removereason]) unless taskchanges.nil? || taskchanges[:removereason].nil?
+          xml.denyreason('value' => taskchanges[:denyreason]) unless taskchanges.nil? || taskchanges[:denyreason].nil?
         }
       end
 
