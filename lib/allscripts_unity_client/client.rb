@@ -690,8 +690,8 @@ module AllscriptsUnityClient
     end
 
     def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil)
-      if transaction_id.nil? && param.nil? && delegate_id.nil? && comment.nil?
-        raise ArugmentError, 'task_type, target_user, work_object_id, and comments can not all be nil'
+      if transaction_id.nil? && delegate_id.nil? && comment.nil?
+        raise ArugmentError, 'transaction_id, delegate_id, and comment can not all be nil'
       end
 
       # Generate XML structure for rxxml
