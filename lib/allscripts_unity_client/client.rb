@@ -110,7 +110,10 @@ module AllscriptsUnityClient
     end
 
     def get_account
-      raise NotImplementedError, 'GetAccount magic action not implemented'
+      magic_parameters = {
+          action: 'GetAccount'
+      }
+      magic(magic_parameters)
     end
 
     def get_changed_patients(since = nil)

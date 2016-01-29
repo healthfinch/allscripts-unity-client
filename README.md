@@ -152,6 +152,7 @@ about which API calls are supported
 
 A number of helper methods exist that abstract away the details of the Magic operation:
 
+ - `get_account`
  - `get_changed_patients(since = nil)`
  - `get_chart_item_details(userid, patientid, section)`
  - `get_clinical_summary(userid, patientid)`

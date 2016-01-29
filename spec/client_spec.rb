@@ -55,9 +55,7 @@ describe AllscriptsUnityClient::Client do
 
   describe '#echo'
 
-  describe '#get_account' do
-    it { expect { subject.get_account }.to raise_error(NotImplementedError) }
-  end
+  describe '#get_account'
 
   describe '#get_changed_patients'
 
