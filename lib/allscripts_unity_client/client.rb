@@ -694,10 +694,6 @@ module AllscriptsUnityClient
         raise ArugmentError, 'transaction_id, delegate_id, and comment can not all be nil'
       end
 
-      if patient_id.nil?
-        warn 'patient_id is required in Unity APIs born after 2015-12-09'
-      end
-
       # Generate XML structure for rxxml
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.taskchanges {
