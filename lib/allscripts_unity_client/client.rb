@@ -689,9 +689,13 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil)
+    def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil, patient_id = nil)
       if transaction_id.nil? && delegate_id.nil? && comment.nil?
         raise ArugmentError, 'transaction_id, delegate_id, and comment can not all be nil'
+      end
+
+      if patient_id.nil?
+        warn 'patient_id is required in Unity APIs born after 2015-12-09'
       end
 
       # Generate XML structure for rxxml
@@ -711,6 +715,7 @@ module AllscriptsUnityClient
       magic_parameters = {
         action: 'SaveTaskStatus',
         userid: userid,
+        patientid: patient_id,
         parameter1: transaction_id,
         parameter2: status,
         parameter3: delegate_id,
