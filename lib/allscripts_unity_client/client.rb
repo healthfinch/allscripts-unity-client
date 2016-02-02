@@ -222,7 +222,7 @@ module AllscriptsUnityClient
     # @param [Object] show_past_flag whether to show previous
     #   encounters. All truthy values aside from the string `"N"` are
     #   considered to be true (or `"Y"`) all other values are
-    #   considered to be false (or `"N"`). Defaults to `true`.  
+    #   considered to be false (or `"N"`). Defaults to `true`.
     # @param [Object] billing_provider_user_name filter by user
     #   name. Defaults to `nil`.
     # @param [Object] show_all
@@ -711,13 +711,17 @@ module AllscriptsUnityClient
       magic_parameters = {
         action: 'SaveTaskStatus',
         userid: userid,
-        patientid: patient_id,
         parameter1: transaction_id,
         parameter2: status,
         parameter3: delegate_id,
         parameter4: comment,
         parameter6: nokogiri_to_string(builder)
       }
+
+      if patient_id
+        magic_parameters.update(patientid: patient_id)
+      end
+
       magic(magic_parameters)
     end
 
