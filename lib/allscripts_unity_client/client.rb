@@ -225,7 +225,7 @@ module AllscriptsUnityClient
     # @param [Object] show_past_flag whether to show previous
     #   encounters. All truthy values aside from the string `"N"` are
     #   considered to be true (or `"Y"`) all other values are
-    #   considered to be false (or `"N"`). Defaults to `true`.  
+    #   considered to be false (or `"N"`). Defaults to `true`.
     # @param [Object] billing_provider_user_name filter by user
     #   name. Defaults to `nil`.
     # @param [Object] show_all
@@ -692,9 +692,9 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
-    def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil)
-      if transaction_id.nil? && param.nil? && delegate_id.nil? && comment.nil?
-        raise ArugmentError, 'task_type, target_user, work_object_id, and comments can not all be nil'
+    def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil, patient_id = nil)
+      if transaction_id.nil? && delegate_id.nil? && comment.nil?
+        raise ArugmentError, 'transaction_id, delegate_id, and comment can not all be nil'
       end
 
       # Generate XML structure for rxxml
@@ -720,6 +720,11 @@ module AllscriptsUnityClient
         parameter4: comment,
         parameter6: nokogiri_to_string(builder)
       }
+
+      if patient_id
+        magic_parameters.update(patientid: patient_id)
+      end
+
       magic(magic_parameters)
     end
 
