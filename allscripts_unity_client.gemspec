@@ -15,8 +15,8 @@ Gem::Specification.new do |gem|
   gem.summary     = 'Allscripts Unity API client'
   gem.description = 'Provides a simple interface to the Allscripts Unity API using JSON. Developed at healthfinch http://healthfinch.com'
 
-  gem.authors = ['Lucian Cesca']
-  gem.email   = %w(lucian@healthfinch.com)
+  gem.authors = ['healthfinch']
+  gem.email   = %w(darkarts@healthfinch.com)
 
   gem.require_paths = ['lib']
 
