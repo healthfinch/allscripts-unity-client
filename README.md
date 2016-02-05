@@ -155,7 +155,7 @@ A number of helper methods exist that abstract away the details of the Magic ope
  - `get_account`
  - `get_changed_patients(since = nil)`
  - `get_chart_item_details(userid, patientid, section)`
- - `get_clinical_summary(userid, patientid)`
+ - `get_clinical_summary(userid, patientid, extra_med_data = false)`
  - `get_dictionary(dictionary_name, userid = nil, site = nil)`
  - `get_encounter_list(userid, patientid, encounter_type, when_param = nil, nostradamus = nil, show_past_flag = nil, billing_provider_user_name = nil)`
  - `get_medication_by_trans_id(userid, patientid, transaction_id)`
