@@ -48,16 +48,20 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
-      request_data = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
+      request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
+      log_magic(request)
+
+      request_hash = request.to_hash
+      log_info("Request Data: #{request_hash}")
+      request_data = MultiJson.dump(request_hash)
 
       start_timer
-      response = @connection.post(build_uri('MagicJson'), MultiJson.dump(request_data.to_hash))
+      response = @connection.post(build_uri('MagicJson'), request_data)
+      log_info("Response Status: #{response.status}")
       end_timer
 
       response = MultiJson.load(response.body)
-
       raise_if_response_error(response)
-      log_magic(request_data)
 
       response = JSONUnityResponse.new(response, @options.timezone)
       response.to_hash

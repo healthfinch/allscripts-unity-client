@@ -46,6 +46,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
       allow(subject).to receive(:start_timer)
       allow(subject).to receive(:end_timer)
       allow(subject).to receive(:log_magic)
+      allow(subject).to receive(:log_info).twice
     end
 
     it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
@@ -77,6 +78,11 @@ describe AllscriptsUnityClient::JSONClientDriver do
     it 'should call log_magic' do
       subject.magic
       expect(subject).to have_received(:log_magic)
+    end
+
+    it 'should call log_info for recording request data and response status' do
+      subject.magic
+      expect(subject).to have_received(:log_info).twice
     end
   end
 

@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   gem.files = `git ls-files`.split("\n").delete_if { |file| /^\.ruby-version$/.match(file) }
 
   gem.add_dependency 'httpclient', '~> 2.6'
-  gem.add_dependency 'activesupport', '>= 3'
+  gem.add_dependency 'activesupport', '>=3', '< 5'
   gem.add_dependency 'nokogiri', '>= 1.4.0'
   gem.add_dependency 'nori', '~> 2.4.0'
   gem.add_dependency 'american_date', '~> 1.1.0'
