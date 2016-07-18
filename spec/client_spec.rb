@@ -184,7 +184,67 @@ describe AllscriptsUnityClient::Client do
   end
 
   describe '#get_patient_pharmacies' do
-    it { expect { subject.get_patient_pharmacies }.to raise_error(NotImplementedError) }
+    let(:patient_pharmacy) do
+      {
+        :phone => "(608) 555-5555",
+        :supports_epcs => "N",
+        :city => "MADISON",
+        :pharm_id => "1234",
+        :address2 => " ",
+        :fax => "(608) 555-5556",
+        :description => "1234 STATE ST, MADISON, WI 537061234, \nPh: 608-555-5555",
+        :type => "R",
+        :state => "WI",
+        :zip => "537041234 ",
+        :name => "WALGREENS-1234 STATE ST",
+        :address1 => "1234 STATE ST"
+      }
+    end
+
+    let(:patient_id) { '1234' }
+
+    let(:driver) { double('Driver') }
+    let(:client) { AllscriptsUnityClient::Client.new(driver) }
+
+    it 'returns an Array when Unity returns a Hash' do
+      allow(driver).
+        to receive(:magic).
+            with(action: 'GetPatientPharmacies',
+                 patientid: patient_id,
+                 parameter1: 'N') { patient_pharmacy }
+
+      expect(client.get_patient_pharmacies(patient_id)).to eq([patient_pharmacy])
+    end
+
+    it 'preserves Arrays returned by Unity' do
+      allow(driver).
+        to receive(:magic).
+            with(action: 'GetPatientPharmacies',
+                 patientid: patient_id,
+                 parameter1: 'N') { [patient_pharmacy] }
+
+      expect(client.get_patient_pharmacies(patient_id)).to eq([patient_pharmacy])
+    end
+
+    it 'coerces truthy values in the second parameter to Unity true' do
+      expect(driver).
+        to receive(:magic).
+            with(action: 'GetPatientPharmacies',
+                 patientid: patient_id,
+                 parameter1: 'Y')
+
+      client.get_patient_pharmacies(patient_id, true)
+    end
+
+    it 'preserves Unity false values in the second parameter' do
+      expect(driver).
+        to receive(:magic).
+            with(action: 'GetPatientPharmacies',
+                 patientid: patient_id,
+                 parameter1: 'N')
+
+      client.get_patient_pharmacies(patient_id, 'N')
+    end
   end
 
   describe '#get_patient_problems'

@@ -147,7 +147,7 @@ module AllscriptsUnityClient
         action: 'GetClinicalSummary',
         userid: userid,
         patientid: patientid,
-        parameter3: extra_med_data ? 'Y' : nil
+        parameter3: unity_true_or_blank_parameter(extra_med_data)
       }
       response = magic(magic_parameters)
 
@@ -246,7 +246,7 @@ module AllscriptsUnityClient
         parameter1: encounter_type,
         parameter2: when_param,
         parameter3: nostradamus,
-        parameter4: show_past_flag && show_past_flag != 'N' ? 'Y' : 'N',
+        parameter4: unity_boolean_parameter(show_past_flag),
         parameter5: billing_provider_user_name,
         # According to the developer guide this parameter is no longer
         # used.
@@ -393,8 +393,21 @@ module AllscriptsUnityClient
       raise NotImplementedError, 'GetPatientLocations magic action not implemented'
     end
 
-    def get_patient_pharmacies
-      raise NotImplementedError, 'GetPatientPharmacies magic action not implemented'
+    def get_patient_pharmacies(patient_id, limit_to_favorites = false)
+      response = magic(
+        action: 'GetPatientPharmacies',
+        patientid: patient_id,
+        parameter1: unity_boolean_parameter(limit_to_favorites)
+      )
+
+      # When the patient has only ever used one pharmacy, Unity does
+      # not return a collection of one. Rather, it returns the sole
+      # pharmacy as a Hash.
+      if response.is_a?(Array)
+        response
+      else
+        [response]
+      end
     end
 
     def get_patient_problems(patientid, show_by_encounter_flag = nil, assessed = nil, encounter_id = nil, medcin_id = nil)
@@ -817,6 +830,23 @@ module AllscriptsUnityClient
     end
 
     private
+
+    # Truthy values, with the exception to the string "N", will be
+    # converted to the string "Y". Falsy values and the string "N"
+    # will be converted to the string "N".
+    def unity_boolean_parameter(native_value)
+      if native_value && native_value != 'N'
+        'Y'
+      else
+        'N'
+      end
+    end
+
+    # Truthy values will converted to the string "Y". Falsy values
+    # will be converted to nil.
+    def unity_true_or_blank_parameter(native_value)
+      native_value ? 'Y' : nil
+    end
 
     def nokogiri_to_string(builder)
       builder.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML | Nokogiri::XML::Node::SaveOptions::NO_DECLARATION).strip
