@@ -87,8 +87,8 @@ module AllscriptsUnityClient
       response = @connection.post(build_uri('GetToken'), MultiJson.dump(request_data.to_hash))
       end_timer
 
-      raise_if_response_error(response.body)
       log_get_security_token
+      raise_if_response_error(response.body)
 
       @security_token = response.body
     end
