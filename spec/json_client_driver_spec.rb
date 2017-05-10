@@ -96,6 +96,12 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
       subject.get_security_token!
     end
+
+    it 'logs the response code from getting a security token' do
+      expect(fake_logger).to receive(:info).with(/Response Status: 200/)
+
+      subject.get_security_token!
+    end
   end
 
   describe '#retire_security_token!' do

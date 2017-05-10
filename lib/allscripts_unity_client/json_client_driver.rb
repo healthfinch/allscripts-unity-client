@@ -88,6 +88,8 @@ module AllscriptsUnityClient
       end_timer
 
       log_get_security_token
+      log_info("Response Status: #{response.status}")
+
       raise_if_response_error(response.body)
 
       @security_token = response.body
