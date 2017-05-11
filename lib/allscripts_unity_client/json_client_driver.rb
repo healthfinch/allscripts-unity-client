@@ -49,16 +49,20 @@ module AllscriptsUnityClient
 
     def magic(parameters = {})
       request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
-      log_magic(request)
-
       request_hash = request.to_hash
-      log_info("Request Data: #{request_hash}")
       request_data = MultiJson.dump(request_hash)
 
       start_timer
       response = @connection.post(build_uri('MagicJson'), request_data)
-      log_info("Response Status: #{response.status}")
       end_timer
+
+      # NOTE: ClientDriver#log_magic uses ClientDriver#log_info, which
+      # appends timing info (if end_timer has been called previously),
+      # and then resets the timer.
+      #
+      # It would be nice if future work made this less stateful.
+      log_magic(request)
+      log_info("Response Status: #{response.status}")
 
       response = MultiJson.load(response.body)
       raise_if_response_error(response)
@@ -83,8 +87,10 @@ module AllscriptsUnityClient
       response = @connection.post(build_uri('GetToken'), MultiJson.dump(request_data.to_hash))
       end_timer
 
-      raise_if_response_error(response.body)
       log_get_security_token
+      log_info("Response Status: #{response.status}")
+
+      raise_if_response_error(response.body)
 
       @security_token = response.body
     end

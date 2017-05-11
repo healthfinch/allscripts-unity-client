@@ -81,7 +81,8 @@ shared_examples 'a unity request' do
 
     context 'when given a UTC date time string' do
       it 'returns an ISO8601 string' do
-        now_iso8601 = DateTime.now.utc.iso8601
+        now = DateTime.now.utc
+        now_iso8601 = now.strftime('%Y-%m-%dT%H:%M:%S%:z')
         expect(subject.send(:process_date, now_iso8601)).to eq(now_iso8601)
       end
     end
@@ -97,7 +98,7 @@ shared_examples 'a unity request' do
     context 'when given a UTC Time' do
       it 'returns an ISO8601 string' do
         now = Time.now.utc
-        now_iso8601 = now.strftime('%Y-%m-%dT%H:%M:%S+00:00')
+        now_iso8601 = now.strftime('%Y-%m-%dT%H:%M:%S%:z')
         expect(subject.send(:process_date, now)).to eq(now_iso8601)
       end
     end
@@ -105,7 +106,7 @@ shared_examples 'a unity request' do
     context 'when given a UTC DateTime' do
       it 'returns an ISO8601 string' do
         now = DateTime.now.utc
-        now_iso8601 = now.iso8601
+        now_iso8601 = now.strftime('%Y-%m-%dT%H:%M:%S%:z')
         expect(subject.send(:process_date, now)).to eq(now_iso8601)
       end
     end
