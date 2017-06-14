@@ -17,6 +17,10 @@ module AllscriptsUnityClient
   class APIError < RuntimeError
   end
 
+  # Raised whenever the security token could not be retrieved Unity.
+  class GetSecurityTokenError < RuntimeError
+  end
+
   # Create an instance of the Unity client.
   #
   # options:: See ClientOptions.

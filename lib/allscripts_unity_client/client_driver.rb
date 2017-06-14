@@ -75,5 +75,15 @@ module AllscriptsUnityClient
       @end_time = Time.now.utc
       @timer = @end_time - @start_time
     end
+
+    # Initializes a `GetSecurityTokenError` with a default message.
+    #
+    # @return [GetSecurityTokenError]
+    def make_get_security_token_error
+      base_unity_url = self.options.base_unity_url.inspect
+      error_message = "Could not retrieve security token from #{base_unity_url}"
+
+      GetSecurityTokenError.new(error_message)
+    end
   end
 end
