@@ -102,6 +102,21 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
       subject.get_security_token!
     end
+
+    it 'should fail when there is a problem retrieving the security token' do
+      stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken')
+        .to_return(
+          {
+            body: "",
+            headers: {},
+            status: 503,
+          }
+        )
+
+      expect do
+        subject.get_security_token!
+      end.to raise_error(AllscriptsUnityClient::GetSecurityTokenError)
+    end
   end
 
   describe '#retire_security_token!' do

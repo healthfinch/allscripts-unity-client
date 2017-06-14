@@ -12,7 +12,6 @@ module AllscriptsUnityClient
     def initialize(options)
       super
 
-
       @connection = HTTPClient.new(
         proxy: @options.proxy,
         default_header: {'Content-Type' => 'application/json'}
@@ -90,9 +89,13 @@ module AllscriptsUnityClient
       log_get_security_token
       log_info("Response Status: #{response.status}")
 
-      raise_if_response_error(response.body)
+      if response.status != 200
+        raise make_get_security_token_error
+      else
+        raise_if_response_error(response)
 
-      @security_token = response.body
+        @security_token = response.body
+      end
     end
 
     # See Client#retire_security_token!.
@@ -117,6 +120,14 @@ module AllscriptsUnityClient
 
     private
 
+    # @param [Array,String,nil] response
+    #
+    # @return [nil]
+    #
+    # @todo This method should be responsible creating an `APIError` not
+    # raising it. The sender should be responsible for raising the
+    # error so the stack trace starts in the method where the failure
+    # occured.
     def raise_if_response_error(response)
       if response.nil?
         raise APIError, 'Response was empty'
