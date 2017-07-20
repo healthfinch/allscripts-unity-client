@@ -277,6 +277,17 @@ module AllscriptsUnityClient
       raise NotImplementedError, 'GetListOfDictionaries magic action not implemented'
     end
 
+    # @param [String] userid the Allscripts EHR username.
+    #
+    # @param [Numeric,String] patient_id the Allscripts internal patient ID.
+    #
+    # @param [Numeric,String] transaction_id the transaction ID of the
+    #   RX in question. M prefix=medication, H prefix=historic
+    #   medication.
+    #
+    # @return [Array] if {transaction_id} is either 0 or "0".
+    #
+    # @return [Hash] if {transaction_id} is not 0 or "0".
     def get_medication_by_trans_id(userid, patientid, transaction_id)
       magic_parameters = {
         action: 'GetMedicationByTransID',
@@ -299,6 +310,13 @@ module AllscriptsUnityClient
       result
     end
 
+    # @param [String] userid the Allscripts EHR username.
+    #
+    # @param [String] ddid the numeric drug identifier.
+    #
+    # @param [String] patientid the Allscripts internal patient ID.
+    #
+    # @return [Object]
     def get_medication_info(userid, ddid, patientid = nil)
       magic_parameters = {
         action: 'GetMedicationInfo',
