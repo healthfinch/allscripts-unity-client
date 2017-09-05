@@ -18,18 +18,19 @@ module AllscriptsUnityClient
     #
     # Returns Date or ActiveSupport::TimeWithZone, or the string if it did not contain a date.
     def self.try_to_encode_as_date(timezone, possible_date)
-      if possible_date.nil?
-        return nil
+      case possible_date
+      when DATE_REGEX
+        Date.parse(possible_date)
+      when DATETIME_REGEX
+        timezone.parse(possible_date)
+      else
+        possible_date
       end
-
-      if possible_date.is_a?(String) && possible_date =~ DATE_REGEX
-        return Date.parse(possible_date)
-      end
-
-      if possible_date.is_a?(String) && possible_date =~ DATETIME_REGEX
-        return timezone.parse(possible_date)
-      end
-
+    # Since we know in either of the cases above we only attempt to
+    # parse a string this is either an "invalid date" from
+    # `Date.parse` or an "argument out of range" from
+    # `ActiveSupport::TimeZone#parse`.
+    rescue ArgumentError
       possible_date
     end
 

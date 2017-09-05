@@ -103,6 +103,15 @@ describe AllscriptsUnityClient::Utilities do
         expect(subject.try_to_encode_as_date(timezone, invalid_date_string_one)).to eq(invalid_date_string_one)
       end
     end
+
+    context 'when givn an valid date string that represents an invalid date' do
+      it 'it returns the string' do
+        date = "10/00/1999"
+        date_time = "10/00/1999 01:01:01"
+        expect(subject.try_to_encode_as_date(timezone, date)).to be(date)
+        expect(subject.try_to_encode_as_date(timezone, date_time)).to be(date_time)
+      end
+    end
   end
 
   describe '.encode_data' do
