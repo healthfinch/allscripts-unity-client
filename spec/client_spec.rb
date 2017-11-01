@@ -51,18 +51,18 @@ describe AllscriptsUnityClient::Client do
 
   describe '#get_task_list' do
     it 'does stuff' do
-    subject.client_driver = double(magic: 'magic')
-    subject.get_task_list(123, Date.yesterday.strftime("%m/%d/%Y"),
-                          'Y', 'Something|okj', 'Ready|go')
-    magicified_parameters = {
-      action: 'GetTaskList',
-      userid: 123,
-      parameter1: Date.yesterday.strftime("%m/%d/%Y"),
-      parameter2: 'Something|okj',
-      parameter3: 'Ready|go',
-      parameter4: 'Y'
-    }
-    expect(subject.client_driver).to have_received(:magic).with(magicified_parameters)
+      subject.client_driver = double(magic: 'magic')
+      subject.get_task_list(123, Date.yesterday.strftime("%m/%d/%Y"),
+                            'Y', 'Something|okj', 'Ready|go')
+      magicified_parameters = {
+        action: 'GetTaskList',
+        userid: 123,
+        parameter1: Date.yesterday.strftime("%m/%d/%Y"),
+        parameter2: 'Something|okj',
+        parameter3: 'Ready|go',
+        parameter4: 'Y'
+      }
+      expect(subject.client_driver).to have_received(:magic).with(magicified_parameters)
     end
   end
 

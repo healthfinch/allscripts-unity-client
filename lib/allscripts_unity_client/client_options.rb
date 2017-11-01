@@ -38,10 +38,10 @@ module AllscriptsUnityClient
     #
     # See #initialize.
     def validate_options(options = {})
-      base_unity_url = options.has_key?(:base_unity_url) ? options[:base_unity_url] : @base_unity_url
-      username = options.has_key?(:username) ? options[:username] : @username
-      password = options.has_key?(:password) ? options[:password] : @password
-      appname = options.has_key?(:appname) ? options[:appname] : @appname
+      base_unity_url = options.key?(:base_unity_url) ? options[:base_unity_url] : @base_unity_url
+      username = options.key?(:username) ? options[:username] : @username
+      password = options.key?(:password) ? options[:password] : @password
+      appname = options.key?(:appname) ? options[:appname] : @appname
 
       raise ArgumentError, 'base_unity_url can not be nil' if base_unity_url.nil?
       raise ArgumentError, 'username can not be nil' if username.nil?
@@ -54,7 +54,7 @@ module AllscriptsUnityClient
     # Strips trailing slash for URL.
     def base_unity_url=(base_unity_url)
       validate_options(base_unity_url: base_unity_url)
-      @base_unity_url = base_unity_url.gsub /\/$/, ''
+      @base_unity_url = base_unity_url.gsub(/\/$/, '')
     end
 
     # Mutator for username.
