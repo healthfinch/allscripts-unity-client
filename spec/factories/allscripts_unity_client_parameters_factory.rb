@@ -12,5 +12,7 @@ FactoryGirl.define do
     ca_file nil
     ca_path nil
     timeout nil
+
+    skip_create
   end
 end

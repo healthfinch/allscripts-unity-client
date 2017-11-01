@@ -14,5 +14,7 @@ FactoryGirl.define do
     timeout nil
 
     factory :json_client_driver, class: AllscriptsUnityClient::JSONClientDriver
+
+    skip_create
   end
 end

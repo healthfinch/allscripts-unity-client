@@ -7,5 +7,7 @@ FactoryGirl.define do
     appname Faker::Name.name
     security_token SecureRandom.uuid
     factory :json_unity_request, class: AllscriptsUnityClient::JSONUnityRequest
+
+    skip_create
   end
 end
