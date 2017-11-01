@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client, class: AllscriptsUnityClient::Client do
     initialize_with { new(client_driver) }
 

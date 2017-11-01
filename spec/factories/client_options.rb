@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_options, class: AllscriptsUnityClient::ClientOptions do
     initialize_with { new(attributes) }
 

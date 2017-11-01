@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :magic_request, class: Hash do
     initialize_with { attributes }
 

@@ -30,7 +30,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'multi_json', '~> 1.12'
   gem.add_dependency 'rubyntlm', '~> 0.6.2'
 
-  gem.add_development_dependency 'factory_girl', '~> 4.8.0'
+  gem.add_development_dependency 'factory_bot', '~> 4.8.0'
   gem.add_development_dependency 'rake', '~> 12.2.1'
   gem.add_development_dependency 'faker', '~> 1.8.4'
   gem.add_development_dependency 'rspec', '~> 3.7.0'

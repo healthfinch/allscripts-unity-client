@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :unity_response, class: AllscriptsUnityClient::UnityResponse do
     initialize_with { new(response, timezone) }
 
