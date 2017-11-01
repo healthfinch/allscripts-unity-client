@@ -1,3 +1,3 @@
 module AllscriptsUnityClient
-  VERSION = '3.4.1'.freeze
+  VERSION = '4.0.0'.freeze
 end
