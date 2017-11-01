@@ -38,10 +38,10 @@ module AllscriptsUnityClient
     #
     # See #initialize.
     def validate_options(options = {})
-      base_unity_url = options.key?(:base_unity_url) ? options[:base_unity_url] : @base_unity_url
-      username = options.key?(:username) ? options[:username] : @username
-      password = options.key?(:password) ? options[:password] : @password
-      appname = options.key?(:appname) ? options[:appname] : @appname
+      base_unity_url = options.fetch(:base_unity_url, @base_unity_url)
+      username = options.fetch(:username, @username)
+      password = options.fetch(:password, @password)
+      appname = options.fetch(:appname, @appname)
 
       raise ArgumentError, 'base_unity_url can not be nil' if base_unity_url.nil?
       raise ArgumentError, 'username can not be nil' if username.nil?
