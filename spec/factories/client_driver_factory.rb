@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_driver, class: AllscriptsUnityClient::ClientDriver do
     initialize_with { new(attributes) }
 
@@ -14,5 +14,7 @@ FactoryGirl.define do
     timeout nil
 
     factory :json_client_driver, class: AllscriptsUnityClient::JSONClientDriver
+
+    skip_create
   end
 end

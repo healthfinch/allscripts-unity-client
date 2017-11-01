@@ -27,17 +27,17 @@ module AllscriptsUnityClient
     end
 
     # See Client#magic.
-    def magic(parameters = {})
+    def magic(_parameters = {})
       raise NotImplementedError, 'magic not implemented'
     end
 
     # See Client#get_security_token!.
-    def get_security_token!(parameters = {})
+    def get_security_token!(_parameters = {})
       raise NotImplementedError, 'get_security_token! not implemented'
     end
 
     # See Client#retire_security_token!.
-    def retire_security_token!(parameters = {})
+    def retire_security_token!(_parameters = {})
       raise NotImplementedError, 'retire_security_token! not implemented'
     end
 

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :allscripts_unity_client_parameters, class: Hash do
     initialize_with { attributes }
 
@@ -12,5 +12,7 @@ FactoryGirl.define do
     ca_file nil
     ca_path nil
     timeout nil
+
+    skip_create
   end
 end

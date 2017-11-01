@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_options, class: AllscriptsUnityClient::ClientOptions do
     initialize_with { new(attributes) }
 
@@ -12,5 +12,7 @@ FactoryGirl.define do
     ca_file nil
     ca_path nil
     timeout nil
+
+    skip_create
   end
 end

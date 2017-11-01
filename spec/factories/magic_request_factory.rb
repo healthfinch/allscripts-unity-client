@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :magic_request, class: Hash do
     initialize_with { attributes }
 
@@ -14,6 +14,8 @@ FactoryGirl.define do
     parameter5 nil
     parameter6 nil
     data nil
+
+    skip_create
   end
 
   factory :populated_magic_request, parent: :magic_request do
@@ -29,5 +31,7 @@ FactoryGirl.define do
     parameter5 Faker::Internet.domain_word
     parameter6 Faker::Internet.domain_word
     data Faker::Internet.domain_word
+
+    skip_create
   end
 end

@@ -14,8 +14,6 @@ class FixtureLoader
     read(filename)
   end
 
-  private
-
   def self.read(filename)
     File.read(File.expand_path("../../fixtures/#{filename}", __FILE__))
   end

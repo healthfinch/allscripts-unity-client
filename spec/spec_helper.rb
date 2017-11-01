@@ -19,7 +19,7 @@ require 'rspec'
 require 'webmock/rspec'
 require 'securerandom'
 require 'faker'
-require 'factory_girl'
+require 'factory_bot'
 require 'json'
 
 # Include all support files
