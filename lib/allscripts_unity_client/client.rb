@@ -711,7 +711,7 @@ module AllscriptsUnityClient
 
     def save_task(userid, patientid, task_type = nil, target_user = nil, work_object_id = nil, comments = nil)
       if task_type.nil? && target_user.nil? && work_object_id.nil? && comments.nil?
-        raise ArugmentError, 'task_type, target_user, work_object_id, and comments can not all be nil'
+        raise ArgumentError, 'task_type, target_user, work_object_id, and comments can not all be nil'
       end
 
       magic_parameters = {
@@ -728,7 +728,7 @@ module AllscriptsUnityClient
 
     def save_task_status(userid, transaction_id = nil, status = nil, delegate_id = nil, comment = nil, taskchanges = nil, patient_id = nil)
       if transaction_id.nil? && delegate_id.nil? && comment.nil?
-        raise ArugmentError, 'transaction_id, delegate_id, and comment can not all be nil'
+        raise ArgumentError, 'transaction_id, delegate_id, and comment can not all be nil'
       end
 
       # Generate XML structure for rxxml
@@ -745,6 +745,13 @@ module AllscriptsUnityClient
         }
       end
 
+      new_status =
+        if taskchanges.nil?
+          nil
+        else
+          nokogiri_to_string(builder)
+        end
+
       magic_parameters = {
         action: 'SaveTaskStatus',
         userid: userid,
@@ -752,7 +759,7 @@ module AllscriptsUnityClient
         parameter2: status,
         parameter3: delegate_id,
         parameter4: comment,
-        parameter6: nokogiri_to_string(builder)
+        parameter6: new_status
       }
 
       if patient_id
