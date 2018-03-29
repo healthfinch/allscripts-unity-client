@@ -60,7 +60,7 @@ describe AllscriptsUnityClient do
 
       result = client.save_task_status(1, 1, :status, 1, :comment, nil, 1)
 
-      expect(result[:parameter6]).to be_nil
+      expect(result[:parameter6]).to eq("")
     end
   end
 end

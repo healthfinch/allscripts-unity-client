@@ -747,7 +747,7 @@ module AllscriptsUnityClient
 
       new_status =
         if taskchanges.nil?
-          nil
+          ""
         else
           nokogiri_to_string(builder)
         end
