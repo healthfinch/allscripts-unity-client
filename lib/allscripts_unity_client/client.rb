@@ -697,6 +697,33 @@ module AllscriptsUnityClient
       magic(magic_parameters)
     end
 
+    def save_orders
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.saveorderxml {
+          xml.field('id' => 'orderlocation', 'value' =>'7')
+          xml.field('id' => 'orderpriority', 'value' =>'2')
+          xml.field('id' => 'orderschedulestarting', 'value' =>'06-May-2018')
+          xml.field('id' => 'orderscheduleending', 'value' =>'06-Nov-2018')
+          xml.field('id' => 'orderstatus', 'value' =>'Active')
+          xml.field('id' => 'orderstatusdate', 'value' =>'27-Aug-2018')
+          xml.orderlinkedproblem('id' => 'problemcode', 'value' =>'1000770023')
+          xml.orderlinkedproblem('id' => 'problemsource', 'value' =>'2000345781')
+          xml.orderlinkedproblem('id' => 'problemtitle', 'value' =>'Hyperlipidemia (272.4)')
+         }
+      end
+
+      magic_parameters = {
+        action: 'SaveOrders',
+        userid: 'jmedici',
+        patientid: 19,
+        parameter1: nokogiri_to_string(builder),
+        parameter2: 'ProcedureOrder',
+        parameter3: '1540'
+      }
+
+      magic(magic_parameters)
+    end
+
     def save_simple_encounter
       raise NotImplementedError, 'SaveSimpleEncounter magic action not implemented'
     end
