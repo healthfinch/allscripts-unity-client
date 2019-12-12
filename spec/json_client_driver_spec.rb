@@ -149,4 +149,47 @@ describe AllscriptsUnityClient::JSONClientDriver do
       it { expect { subject.send(:raise_if_response_error, error_string) }.to raise_error(AllscriptsUnityClient::APIError) }
     end
   end
+
+  context 'user authentication' do
+    context 'when the user is attempting to authenticate' do
+      let(:userid) { 'user1' }
+      let(:password) { 'password' }
+
+      before do
+        # Only return a 'success' response when the right userid,
+        # password, and endpoint are used.
+        allow(subject).to receive(:magic)
+                            .and_return({ valid_user: 'NO' })
+        allow(subject).to receive(:magic)
+                            .with({action: 'GetUserAuthentication', userid: userid, parameter1: password})
+                            .and_return({ valid_user: 'YES' })
+        subject.options.ehr_userid = credentials[:ehr_userid]
+        subject.options.ehr_password = credentials[:ehr_password]
+      end
+
+      context 'with valid credentials' do
+        let(:credentials) { { ehr_password: password, ehr_userid: userid } }
+
+        it 'returns a truthy value' do
+          expect(subject.get_user_authentication).to be_truthy
+        end
+      end
+
+      context 'with invalid credentials' do
+        let(:credentials) { { ehr_password: 'bad', ehr_userid: 'not me' } }
+
+        it 'returns a falsey value' do
+          expect(subject.get_user_authentication).to be_falsey
+        end
+      end
+    end
+
+    context 'when the user has previously authenticated' do
+      it 'allows `magic` calls'
+    end
+
+    context 'when the user has not previously authenticated' do
+      it 'raises a NotAuthenticated error on any `magic` calls'
+    end
+  end
 end

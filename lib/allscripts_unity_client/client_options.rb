@@ -2,7 +2,7 @@ module AllscriptsUnityClient
 
   # Contains various options for Unity configuration.
   class ClientOptions
-    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout
+    attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout, :ehr_userid, :ehr_password
     attr_reader :base_unity_url, :username, :password, :appname, :timezone
 
     # Constructor.
@@ -18,6 +18,8 @@ module AllscriptsUnityClient
     #   - :cs_path - A string path for a CA directory (JSON only).
     #   - :timeout - The number of seconds to set the HTTP response timeout and keepalive timeout (JSON only).
     #   - :base_unity_url - The URL where a Unity server is located (i.e. https://unity.server.com) __(required)__
+    #   - :ehr_userid - Allscripts EHR Username
+    #   - :ehr_password - EHR Password
     def initialize(options = {})
       @username = options[:username]
       @password = options[:password]
@@ -27,6 +29,8 @@ module AllscriptsUnityClient
       @ca_file = options[:ca_file]
       @ca_path = options[:ca_path]
       @timeout = options[:timeout]
+      @ehr_userid = options[:ehr_userid]
+      @ehr_password = options[:ehr_password]
 
       self.timezone = options[:timezone]
       self.base_unity_url = options[:base_unity_url]

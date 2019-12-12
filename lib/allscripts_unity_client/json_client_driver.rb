@@ -70,6 +70,24 @@ module AllscriptsUnityClient
       response.to_hash
     end
 
+    # See Client#get_user_authentication.
+    def get_user_authentication(parameters = {})
+      response = magic({
+                         action: 'GetUserAuthentication',
+                         userid: parameters[:ehr_userid] || @options.ehr_userid,
+                         parameter1: parameters[:ehr_password] || @options.ehr_password
+                       })
+
+      if response[:valid_user] == 'YES'
+        @user_authentication = response
+        return true
+      elsif response[:valid_user] == 'NO'
+        return false
+      else
+        raise StandardError.new('Unexpected response from the server')
+      end
+    end
+
     # See Client#get_security_token!.
     def get_security_token!(parameters = {})
       username = parameters[:username] || @options.username
