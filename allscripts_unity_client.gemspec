@@ -16,11 +16,11 @@ Gem::Specification.new do |gem|
   gem.description = 'Provides a simple interface to the Allscripts Unity API using JSON. Developed at healthfinch http://healthfinch.com'
 
   gem.authors = ['healthfinch']
-  gem.email   = %w(darkarts@healthfinch.com)
+  gem.email   = %w(engineering@healthfinch.com)
 
   gem.require_paths = ['lib']
 
-  gem.files = `git ls-files`.split("\n").delete_if { |file| /^\.ruby-version$/.match(file) }
+  gem.files = Dir['lib/**/*']
 
   gem.add_dependency 'httpclient', '~> 2.8'
   gem.add_dependency 'activesupport', '>= 4', '< 5.0'
@@ -37,4 +37,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'webmock', '~> 3.1.0'
   gem.add_development_dependency 'simplecov', '~> 0.15.1'
   gem.add_development_dependency 'rubocop', '~> 0.51'
+  gem.add_development_dependency 'pry', '~> 0.11.3'
 end
