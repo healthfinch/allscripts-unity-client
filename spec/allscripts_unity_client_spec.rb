@@ -44,6 +44,8 @@ describe AllscriptsUnityClient do
     it 'raises when each of transaction_id, delegate_id, and comment are nil' do
       parameters = build(:allscripts_unity_client_parameters, mode: :json)
       client = subject.create(parameters)
+      allow_any_instance_of(AllscriptsUnityClient::JSONClientDriver)
+        .to receive(:user_authenticated?).and_return(true)
 
       expect do
         client.save_task_status(:user_id, :patient_id)

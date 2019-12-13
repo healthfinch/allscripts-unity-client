@@ -552,7 +552,7 @@ module AllscriptsUnityClient
     end
 
     def get_user_authentication
-      raise NotImplementedError, 'GetUserAuthentication magic action not implemented'
+      @client_driver.get_user_authentication
     end
 
     def get_user_id

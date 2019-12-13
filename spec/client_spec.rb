@@ -41,6 +41,14 @@ describe AllscriptsUnityClient::Client do
     end
   end
 
+  describe '#get_user_authentication' do
+    it 'calls #get_user_authentication on @client_driver' do
+      subject.client_driver = double(get_user_authentication: true)
+      subject.get_user_authentication
+      expect(subject.client_driver).to have_received(:get_user_authentication)
+    end
+  end
+
   describe '#client_type' do
     it 'calls client_type on @client_driver' do
       subject.client_driver = double(client_type: 'client_type?')
@@ -289,10 +297,6 @@ describe AllscriptsUnityClient::Client do
 
   describe '#get_task'
   describe '#get_task_list'
-
-  describe '#get_user_authentication' do
-    it { expect { subject.get_user_authentication }.to raise_error(NotImplementedError) }
-  end
 
   describe '#get_user_id' do
     it { expect { subject.get_user_id }.to raise_error(NotImplementedError) }
