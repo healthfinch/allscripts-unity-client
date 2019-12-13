@@ -49,7 +49,7 @@ module AllscriptsUnityClient
     def magic(parameters = {})
       unless user_authenticated? || parameters[:action] == 'GetUserAuthentication'
         raise AllscriptsUnityClient::UnauthenticatedError.new(
-          "Must authenticate via `#get_user_authentication` before proceeding.")
+          'Must authenticate via `#get_user_authentication` before proceeding.')
       end
 
       request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
