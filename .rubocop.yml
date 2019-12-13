@@ -4,6 +4,131 @@ AllCops:
   Exclude:
     - 'bin/**/*'
 
+#################### Layout ################################
+
+Layout/ElseAlignment:
+  Description: 'Align elses and elsifs correctly.'
+  Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Description: 'Use empty lines between defs.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#empty-lines-between-methods'
+  Enabled: true
+
+Layout/EmptyLines:
+  Description: "Don't use several empty lines in a row."
+  Enabled: true
+
+Layout/EndOfLine:
+  Description: 'Use Unix-style line endings.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#crlf'
+  Enabled: true
+
+Layout/ExtraSpacing:
+  Description: 'Do not use unnecessary spacing.'
+  Enabled: true
+
+Layout/IndentationConsistency:
+  Description: 'Keep indentation straight.'
+  Enabled: true
+
+Layout/IndentationWidth:
+  Description: 'Use 2 spaces for indentation.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#spaces-indentation'
+  Enabled: true
+
+Layout/SpaceAroundKeyword:
+  Description: 'Put a space before the modifier keyword.'
+  Enabled: true
+
+Layout/Tab:
+  Description: 'No hard tabs.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#spaces-indentation'
+  Enabled: true
+
+Layout/TrailingEmptyLines:
+  Description: 'Checks trailing blank lines and final newline.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#newline-eof'
+  Enabled: true
+
+Layout/TrailingWhitespace:
+  Description: 'Avoid trailing whitespace.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-trailing-whitespace'
+  Enabled: true
+
+Layout/BlockAlignment:
+  Description: 'Align block ends correctly.'
+  Enabled: true
+
+Layout/ConditionPosition:
+  Description: >-
+                 Checks for condition placed in a confusing position relative to
+                 the keyword.
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#same-line-condition'
+  Enabled: true
+
+Layout/EndAlignment:
+  Description: 'Align ends correctly.'
+  Enabled: true
+
+Layout/SpaceBeforeFirstArg:
+  Description: >-
+                 Put a space between a method name and the first argument
+                 in a method call without parentheses.
+  Enabled: true
+
+#################### Naming ################################
+
+Naming/FileName:
+  Description: 'Use snake_case for source file names.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-files'
+  Enabled: true
+
+Naming/MethodName:
+  Description: 'Use the configured style when naming methods.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-symbols-methods-vars'
+  Enabled: true
+
+Naming/VariableName:
+  Description: 'Use the configured style when naming variables.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-symbols-methods-vars'
+  Enabled: true
+
+#################### Style ################################
+
+Style/MethodCallWithoutArgsParentheses:
+  Description: 'Do not use parentheses for method calls with no arguments.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-args-no-parens'
+  Enabled: true
+
+Style/MethodDefParentheses:
+  Description: >-
+                 Checks if the method definitions have or don't have
+                 parentheses.
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#method-parens'
+  Enabled: true
+
+Style/NestedTernaryOperator:
+  Description: 'Use one expression per branch in a ternary operator.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-nested-ternary'
+  Enabled: true
+
+Style/NilComparison:
+  Description: 'Prefer x.nil? to x == nil.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#predicate-methods'
+  Enabled: true
+
+Style/NonNilCheck:
+  Description: 'Checks for redundant nil checks.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-non-nil-checks'
+  Enabled: true
+
+Style/UnlessElse:
+  Description: >-
+                 Do not use unless with else. Rewrite these with the positive
+                 case first.
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-else-with-unless'
+  Enabled: true
 
 Style/AndOr:
   Description: 'Use &&/|| instead of and/or.'
@@ -29,107 +154,8 @@ Style/DoubleNegation:
   Exclude:
     - 'lib/healthfinch/service/rspec/process_service_acceptance.rb'
 
-Layout/ElseAlignment:
-  Description: 'Align elses and elsifs correctly.'
-  Enabled: true
-
 Style/EmptyElse:
   Description: 'Avoid empty else-clauses.'
-  Enabled: true
-
-Layout/EmptyLineBetweenDefs:
-  Description: 'Use empty lines between defs.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#empty-lines-between-methods'
-  Enabled: true
-
-Layout/EmptyLines:
-  Description: "Don't use several empty lines in a row."
-  Enabled: true
-
-Layout/EndOfLine:
-  Description: 'Use Unix-style line endings.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#crlf'
-  Enabled: true
-
-Layout/ExtraSpacing:
-  Description: 'Do not use unnecessary spacing.'
-  Enabled: true
-
-Naming/FileName:
-  Description: 'Use snake_case for source file names.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-files'
-  Enabled: true
-
-Layout/IndentationConsistency:
-  Description: 'Keep indentation straight.'
-  Enabled: true
-
-Layout/IndentationWidth:
-  Description: 'Use 2 spaces for indentation.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#spaces-indentation'
-  Enabled: true
-
-Style/MethodCallWithoutArgsParentheses:
-  Description: 'Do not use parentheses for method calls with no arguments.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-args-no-parens'
-  Enabled: true
-
-Style/MethodDefParentheses:
-  Description: >-
-                 Checks if the method definitions have or don't have
-                 parentheses.
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#method-parens'
-  Enabled: true
-
-Naming/MethodName:
-  Description: 'Use the configured style when naming methods.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-symbols-methods-vars'
-  Enabled: true
-
-Style/NestedTernaryOperator:
-  Description: 'Use one expression per branch in a ternary operator.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-nested-ternary'
-  Enabled: true
-
-Style/NilComparison:
-  Description: 'Prefer x.nil? to x == nil.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#predicate-methods'
-  Enabled: true
-
-Style/NonNilCheck:
-  Description: 'Checks for redundant nil checks.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-non-nil-checks'
-  Enabled: true
-
-Layout/SpaceAroundKeyword:
-  Description: 'Put a space before the modifier keyword.'
-  Enabled: true
-
-Layout/Tab:
-  Description: 'No hard tabs.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#spaces-indentation'
-  Enabled: true
-
-Layout/TrailingEmptyLines:
-  Description: 'Checks trailing blank lines and final newline.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#newline-eof'
-  Enabled: true
-
-Layout/TrailingWhitespace:
-  Description: 'Avoid trailing whitespace.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-trailing-whitespace'
-  Enabled: true
-
-Style/UnlessElse:
-  Description: >-
-                 Do not use unless with else. Rewrite these with the positive
-                 case first.
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-else-with-unless'
-  Enabled: true
-
-Naming/VariableName:
-  Description: 'Use the configured style when naming variables.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#snake-case-symbols-methods-vars'
   Enabled: true
 
 #################### Lint ################################
@@ -153,19 +179,8 @@ Lint/AssignmentInCondition:
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#safe-assignment-in-condition'
   Enabled: true
 
-Layout/BlockAlignment:
-  Description: 'Align block ends correctly.'
-  Enabled: true
-
 Lint/CircularArgumentReference:
   Description: "Don't refer to the keyword argument in the default value."
-  Enabled: true
-
-Layout/ConditionPosition:
-  Description: >-
-                 Checks for condition placed in a confusing position relative to
-                 the keyword.
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#same-line-condition'
   Enabled: true
 
 Lint/Debugger:
@@ -202,10 +217,6 @@ Lint/EmptyEnsure:
 
 Lint/EmptyInterpolation:
   Description: 'Checks for empty string interpolation.'
-  Enabled: true
-
-Layout/EndAlignment:
-  Description: 'Align ends correctly.'
   Enabled: true
 
 Lint/EndInMethod:
@@ -272,12 +283,6 @@ Lint/ShadowingOuterLocalVariable:
   Description: >-
                  Do not use the same name as outer local variable
                  for block arguments or block local variables.
-  Enabled: true
-
-Layout/SpaceBeforeFirstArg:
-  Description: >-
-                 Put a space between a method name and the first argument
-                 in a method call without parentheses.
   Enabled: true
 
 Lint/RedundantStringCoercion:
