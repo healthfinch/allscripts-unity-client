@@ -28,7 +28,9 @@ unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
   username: "username",
-  password: "password"
+  password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password"
 })
 ```
 
@@ -41,7 +43,9 @@ unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
   username: "username",
-  password: "password"
+  password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password"
 })
 ```
 
@@ -59,6 +63,8 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   ca_file: "/usr/lib/ssl/certs/ca-certificates.crt"
 })
 ```
@@ -73,6 +79,8 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   ca_path: "/usr/lib/ssl/certs"
 })
 ```
@@ -89,6 +97,8 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   timeout: 30
 })
 ```
@@ -123,6 +133,18 @@ Existence of a security token can also be checked:
 ```ruby
 unity_client.security_token?
 ```
+
+### User authentication
+
+After a security token has been obtained and before executing Magic calls, a client must get user authentication. This is done via the `get_user_authentication` method:
+
+```ruby
+unity_client.get_user_authentication
+```
+
+Note that the `ehr_userid` and `ehr_password` passed to `AllscriptsUnityClient.create` are the credentials used for this call.
+
+Also note that any attempts to make Magic calls before authenticating will result in an `AllscriptsUnityClient::UnauthenticatedError` error.
 
 ### Executing Magic calls
 
@@ -192,7 +214,9 @@ unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
   username: "username",
-  password: "password"
+  password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password"
 })
 ```
 
@@ -209,6 +233,8 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   logger: Rails.logger
 })
 ```
@@ -221,6 +247,8 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   logger: nil
 })
 ```
@@ -237,6 +265,8 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   proxy: "http://localhost:8888"
 })
 ```
@@ -256,10 +286,13 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   timezone: "America/New_York"
 })
 
 unity_client.get_security_token!
+unity_client.get_user_authentication
 
 # API call made using a helper
 unity_client.get_server_info
@@ -287,10 +320,13 @@ unity_client = AllscriptsUnityClient.create({
   appname: "appname",
   username: "username",
   password: "password",
+  ehr_userid: "userid",
+  ehr_password: "password",
   timezone: "America/New_York"
 })
 
 unity_client.get_security_token!
+unity_client.get_user_authentication
 
 # API call made using a helper
 unity_client.get_server_info
