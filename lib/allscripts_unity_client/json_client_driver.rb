@@ -47,6 +47,11 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
+      unless user_authenticated? || parameters[:action] == 'GetUserAuthentication'
+        raise AllscriptsUnityClient::UnauthenticatedError.new(
+          "Must authenticate via `#get_user_authentication` before proceeding.")
+      end
+
       request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
       request_hash = request.to_hash
       request_data = MultiJson.dump(request_hash)
@@ -134,6 +139,10 @@ module AllscriptsUnityClient
       log_retire_security_token
 
       @security_token = nil
+    end
+
+    def user_authenticated?
+      @user_authentication.present?
     end
 
     private
