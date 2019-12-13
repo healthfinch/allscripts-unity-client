@@ -9,8 +9,8 @@ module AllscriptsUnityClient
     #
     # options::
     #
-    #   - :username - Unity license username __(required)__.
-    #   - :password - Unity license password __(required)__.
+    #   - :username - Unity license username for security token __(required)__.
+    #   - :password - Unity license password for security token __(required)__.
     #   - :appname - Unity license appname __(required)__.
     #   - :proxy - A string URL pointing to an HTTP proxy (optional, primarily for debugging)
     #   - :logger - A Ruby object that adheres to the same interface as Logger.
@@ -18,8 +18,8 @@ module AllscriptsUnityClient
     #   - :cs_path - A string path for a CA directory (JSON only).
     #   - :timeout - The number of seconds to set the HTTP response timeout and keepalive timeout (JSON only).
     #   - :base_unity_url - The URL where a Unity server is located (i.e. https://unity.server.com) __(required)__
-    #   - :ehr_userid - Allscripts EHR Username
-    #   - :ehr_password - EHR Password
+    #   - :ehr_userid - Allscripts EHR Username for user authentication __(required)__.
+    #   - :ehr_password - EHR Password for user authentication __(required)__.
     def initialize(options = {})
       @username = options[:username]
       @password = options[:password]
