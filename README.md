@@ -27,8 +27,8 @@ A Unity API client can be created using the `AllscriptsUnityClient.create` facto
 unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password"
 })
@@ -42,8 +42,8 @@ unity_client = AllscriptsUnityClient.create({
   mode: :json,
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password"
 })
@@ -61,8 +61,8 @@ unity_client = AllscriptsUnityClient.create({
   mode: :json,
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   ca_file: "/usr/lib/ssl/certs/ca-certificates.crt"
@@ -77,8 +77,8 @@ unity_client = AllscriptsUnityClient.create({
   mode: :json,
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   ca_path: "/usr/lib/ssl/certs"
@@ -95,8 +95,8 @@ unity_client = AllscriptsUnityClient.create({
   mode: :json,
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   timeout: 30
@@ -213,8 +213,8 @@ unity_client = AllscriptsUnityClient.create({
   timezone: "America/New_York",
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password"
 })
@@ -231,8 +231,8 @@ By default Ruby's `Logger` is used and logs to `STDOUT` with a level of `Logger:
 unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   logger: Rails.logger
@@ -245,8 +245,8 @@ Logging can be disabled by setting the `:logger` option to nil (this is the defa
 unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   logger: nil
@@ -263,8 +263,8 @@ An HTTP proxy can be configured using the `:proxy` option:
 unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   proxy: "http://localhost:8888"
@@ -284,8 +284,8 @@ accept USA locale dates by default. There are currently no plans to support othe
 unity_client = AllscriptsUnityClient.create({
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   timezone: "America/New_York"
@@ -318,8 +318,8 @@ unity_client = AllscriptsUnityClient.create({
   mode: :json
   base_unity_url: "http://unity.base.url",
   appname: "appname",
-  username: "username",
-  password: "password",
+  username: "unity license username",
+  password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
   timezone: "America/New_York"
