@@ -47,6 +47,11 @@ module AllscriptsUnityClient
     end
 
     def magic(parameters = {})
+      unless user_authenticated? || parameters[:action] == 'GetUserAuthentication'
+        raise AllscriptsUnityClient::UnauthenticatedError.new(
+          'Must authenticate via `#get_user_authentication` before proceeding.')
+      end
+
       request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
       request_hash = request.to_hash
       request_data = MultiJson.dump(request_hash)
@@ -68,6 +73,24 @@ module AllscriptsUnityClient
 
       response = JSONUnityResponse.new(response, @options.timezone)
       response.to_hash
+    end
+
+    # See Client#get_user_authentication.
+    def get_user_authentication(parameters = {})
+      response = magic({
+                         action: 'GetUserAuthentication',
+                         userid: parameters[:ehr_userid] || @options.ehr_userid,
+                         parameter1: parameters[:ehr_password] || @options.ehr_password
+                       })
+
+      if response[:valid_user] == 'YES'
+        @user_authentication = response
+        return true
+      elsif response[:valid_user] == 'NO'
+        return false
+      else
+        raise StandardError.new('Unexpected response from the server')
+      end
     end
 
     # See Client#get_security_token!.
@@ -116,6 +139,15 @@ module AllscriptsUnityClient
       log_retire_security_token
 
       @security_token = nil
+      revoke_authentication
+    end
+
+    def user_authenticated?
+      @user_authentication.present?
+    end
+
+    def revoke_authentication
+      @user_authentication = nil
     end
 
     private

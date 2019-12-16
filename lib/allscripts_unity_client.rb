@@ -21,6 +21,9 @@ module AllscriptsUnityClient
   class GetSecurityTokenError < RuntimeError
   end
 
+  # Raised when user attempts to make unauthenticated calls.
+  class UnauthenticatedError < StandardError; end
+
   # Create an instance of the Unity client.
   #
   # options:: See ClientOptions.

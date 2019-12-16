@@ -47,37 +47,50 @@ describe AllscriptsUnityClient::JSONClientDriver do
   end
 
   describe '#magic' do
-    before do
-      stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").
-               to_return(status: 200, body: get_server_info, headers: {})
+    context 'when the user is authenticated' do
+      before do
+        stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").
+          to_return(status: 200, body: get_server_info, headers: {})
+        allow(subject).to receive(:user_authenticated?).and_return(true)
+      end
+
+      it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
+        subject.magic
+        expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
+          with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
+               headers: {'Content-Type' => 'application/json'}
+              )
+      end
+
+      it 'should serialize DateTime to iso8601 when given' do
+        subject.magic(parameter1: DateTime.now)
+        expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
+          with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
+               headers: { 'Content-Type' => 'application/json' }
+              )
+      end
+
+      it 'should log the request duration' do
+        expect(fake_logger).to receive(:info).with(/Unity API Magic request to [^ ]+ \[SomeRequest\] [0-9.]+ seconds/)
+
+        subject.magic(action: 'SomeRequest')
+      end
+
+      it 'should log the response code' do
+        expect(fake_logger).to receive(:info).with(/Response Status: 200/)
+
+        subject.magic(action: 'SomeRequest')
+      end
     end
 
-    it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
-      subject.magic
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
-        with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
-             headers: {'Content-Type' => 'application/json'}
-            )
-    end
+    context 'when the user is not authenticated' do
+      before do
+        allow(subject).to receive(:user_authenticated?).and_return(false)
+      end
 
-    it 'should serialize DateTime to iso8601 when given' do
-      subject.magic(parameter1: DateTime.now)
-      expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
-        with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
-             headers: { 'Content-Type' => 'application/json' }
-            )
-    end
-
-    it 'should log the request duration' do
-      expect(fake_logger).to receive(:info).with(/Unity API Magic request to [^ ]+ \[SomeRequest\] [0-9.]+ seconds/)
-
-      subject.magic(action: 'SomeRequest')
-    end
-
-    it 'should log the response code' do
-      expect(fake_logger).to receive(:info).with(/Response Status: 200/)
-
-      subject.magic(action: 'SomeRequest')
+      it 'raises an UnauthenticatedError' do
+        expect { subject.magic(action: 'SomeRequest') }.to raise_error(AllscriptsUnityClient::UnauthenticatedError)
+      end
     end
   end
 
@@ -123,6 +136,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
     before(:each) {
       stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken').to_return(body: retire_security_token)
       allow(subject).to receive(:log_retire_security_token)
+      allow(subject).to receive(:revoke_authentication)
     }
 
     it 'should POST to /Unity/UnityService.svc/json/RetireSecurityToken with token and appname' do
@@ -133,6 +147,11 @@ describe AllscriptsUnityClient::JSONClientDriver do
     it 'should call log_retire_security_token' do
       subject.retire_security_token!
       expect(subject).to have_received(:log_retire_security_token)
+    end
+
+    it 'marks the user as unauthenticated' do
+      subject.retire_security_token!
+      expect(subject).to have_received(:revoke_authentication)
     end
   end
 
@@ -147,6 +166,51 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
     context 'when given error string' do
       it { expect { subject.send(:raise_if_response_error, error_string) }.to raise_error(AllscriptsUnityClient::APIError) }
+    end
+  end
+
+  context 'user authentication' do
+    context 'when the user is attempting to authenticate' do
+      let(:userid) { 'user1' }
+      let(:password) { 'password' }
+
+      before do
+        # Only return a 'success' response when the right userid,
+        # password, and endpoint are used.
+        allow(subject).to receive(:magic)
+                            .and_return({ valid_user: 'NO' })
+        allow(subject).to receive(:magic)
+                            .with({action: 'GetUserAuthentication', userid: userid, parameter1: password})
+                            .and_return({ valid_user: 'YES' })
+        subject.options.ehr_userid = credentials[:ehr_userid]
+        subject.options.ehr_password = credentials[:ehr_password]
+      end
+
+      context 'with valid credentials' do
+        let(:credentials) { { ehr_password: password, ehr_userid: userid } }
+
+        it 'returns a truthy value' do
+          expect(subject.get_user_authentication).to be_truthy
+        end
+
+        it 'results in the client knowing it is authenticated' do
+          subject.get_user_authentication
+          expect(subject.user_authenticated?).to be_truthy
+        end
+      end
+
+      context 'with invalid credentials' do
+        let(:credentials) { { ehr_password: 'bad', ehr_userid: 'not me' } }
+
+        it 'returns a falsey value' do
+          expect(subject.get_user_authentication).to be_falsey
+        end
+
+        it 'results in the client knowing it is not authenticated' do
+          subject.get_user_authentication
+          expect(subject.user_authenticated?).to be_falsey
+        end
+      end
     end
   end
 end
