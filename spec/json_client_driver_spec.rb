@@ -136,6 +136,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
     before(:each) {
       stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/RetireSecurityToken').to_return(body: retire_security_token)
       allow(subject).to receive(:log_retire_security_token)
+      allow(subject).to receive(:revoke_authentication)
     }
 
     it 'should POST to /Unity/UnityService.svc/json/RetireSecurityToken with token and appname' do
@@ -146,6 +147,11 @@ describe AllscriptsUnityClient::JSONClientDriver do
     it 'should call log_retire_security_token' do
       subject.retire_security_token!
       expect(subject).to have_received(:log_retire_security_token)
+    end
+
+    it 'marks the user as unauthenticated' do
+      subject.retire_security_token!
+      expect(subject).to have_received(:revoke_authentication)
     end
   end
 

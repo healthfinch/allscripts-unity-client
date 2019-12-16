@@ -139,10 +139,15 @@ module AllscriptsUnityClient
       log_retire_security_token
 
       @security_token = nil
+      revoke_authentication
     end
 
     def user_authenticated?
       @user_authentication.present?
+    end
+
+    def revoke_authentication
+      @user_authentication = nil
     end
 
     private
