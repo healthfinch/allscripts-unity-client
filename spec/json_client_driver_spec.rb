@@ -47,7 +47,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
   end
 
   describe '#magic' do
-    context 'when the user has authenticated' do
+    context 'when the user is authenticated' do
       before do
         stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").
           to_return(status: 200, body: get_server_info, headers: {})
@@ -83,7 +83,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
       end
     end
 
-    context 'when the user has not authenticated' do
+    context 'when the user is not authenticated' do
       before do
         allow(subject).to receive(:user_authenticated?).and_return(false)
       end
