@@ -1,0 +1,35 @@
+version: 2
+jobs:
+
+  test:
+    docker:
+      - image: circleci/ruby:2.4.4-browsers
+        environment:
+          BUNDLE_JOBS: 2
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+    steps:
+      - checkout
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - restore_cache:
+          key: allscripts-unity-client-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundle install
+          command: bundle check --path vendor/bundle || bundle install
+      - save_cache:
+          key: allscripts-unity-client-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run rspec in parallel
+          command: |
+            bundle exec rspec --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress
+      # Save test results for timing analysis
+      - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: test_results
+      - run: bundle exec rubocop
