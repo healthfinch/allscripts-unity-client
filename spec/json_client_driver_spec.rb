@@ -85,11 +85,17 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
     context 'when the user is not authenticated' do
       before do
+        stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").
+          to_return(status: 200, body: get_server_info, headers: {})
         allow(subject).to receive(:user_authenticated?).and_return(false)
+        subject.options.logger = fake_logger
       end
 
-      it 'raises an UnauthenticatedError' do
-        expect { subject.magic(action: 'SomeRequest') }.to raise_error(AllscriptsUnityClient::UnauthenticatedError)
+      it 'logs our unauthenticated request' do
+        subject.magic(action: 'SomeRequest')
+        expect(fake_logger).to have_received(:info)
+                                 .at_least(:once)
+                                 .with("Unauthenticated access of SomeRequest for http://www.example.com")
       end
     end
   end
