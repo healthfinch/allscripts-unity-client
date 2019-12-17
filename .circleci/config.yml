@@ -14,12 +14,12 @@ jobs:
           name: Which bundler?
           command: bundle -v
       - restore_cache:
-          key: allscripts-unity-client-{{ checksum "Gemfile.lock" }}
+          key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
       - run:
           name: Bundle install
           command: bundle check --path vendor/bundle || bundle install --deployment
       - save_cache:
-          key: allscripts-unity-client-{{ checksum "Gemfile.lock" }}
+          key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
           paths:
             - vendor/bundle
       - run:
