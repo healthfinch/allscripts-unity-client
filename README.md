@@ -2,6 +2,16 @@
 
 The `allscripts_unity_client` gem is a Ruby client for the Allscripts Unity API. See http://remotecentral.allscripts.com/UnityAPIReference for more documentation on the API.
 
+## Upgrading to 5.0.0
+
+As of January 1, 2020, all users must authenticate via
+`AllscriptsUnityClient::Client.get_user_authentication` before calling
+Magic API endpoints. In version `5.0.0` of this gem we will raise an
+error when users attempt to call said endpoints without authenticating
+first. In order to test your application, you can upgrade to
+`5.0.0-alpha` first, which will only log when you make such
+unauthenticated calls.
+
 ## Installation
 
 Add this line to your application's Gemfile:
