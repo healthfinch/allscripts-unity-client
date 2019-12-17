@@ -34,7 +34,7 @@ jobs:
       - checkout
       - run:
           name: Build Gem
-          command: gem build allscripts_unity_clientgemspec
+          command: gem build allscripts_unity_client.gemspec
       - run:
           name: Upload Gem to Rubygems
           command: |
