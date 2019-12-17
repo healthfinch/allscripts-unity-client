@@ -17,7 +17,7 @@ jobs:
           key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
       - run:
           name: Bundle install
-          command: bundle check --path vendor/bundle || bundle install --deployment
+          command: bundle check --path vendor/bundle || bundle install
       - save_cache:
           key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
           paths:
