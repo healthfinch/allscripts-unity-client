@@ -40,7 +40,7 @@ jobs:
           command: |
             echo "gem `gem --version`"
             mkdir ~/.gem
-            cat .circleci/gem_credentials | sed -e "s/__RUBYGEMS_API_KEY__/${RubygemsKey}/" > ~/.gem/credentials
+            sed -e "s/__RUBYGEMS_API_KEY__/${RubygemsKey}/" .circleci/gem_credentials > ~/.gem/credentials
             chmod 0600 ~/.gem/credentials
             bundle exec rake release
             shred -u ~/.gem/credentials
