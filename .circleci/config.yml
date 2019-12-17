@@ -1,0 +1,59 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.4.9-browsers
+        environment:
+          BUNDLE_JOBS: 2
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+    steps:
+      - checkout
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - restore_cache:
+          key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
+      - run:
+          name: Bundle install
+          command: bundle check --path vendor/bundle || bundle install
+      - save_cache:
+          key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run rspec
+          command: bundle exec rspec --format progress
+
+
+  deployment:
+    docker:
+      - image: circleci/ruby:2.4.9
+    steps:
+      - checkout
+      - run:
+          name: Build Gem
+          command: gem build allscripts_unity_clientgemspec
+      - run:
+          name: Upload Gem to Rubygems
+          command: |
+            echo "gem `gem --version`"
+            mkdir ~/.gem
+            sed -e "s/__RUBYGEMS_API_KEY__/${RubygemsKey}/" .circleci/gem_credentials > ~/.gem/credentials
+            chmod 0600 ~/.gem/credentials
+            bundle exec rake release
+            shred -u ~/.gem/credentials
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - test
+      - deployment:
+           requires:
+             - test
+           filters:
+             branches:
+               only:
+                 - master
