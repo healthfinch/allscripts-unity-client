@@ -33,10 +33,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build Gem
-          command: gem build allscripts_unity_client.gemspec
+          name: Bundle install
+          command: bundle install
       - run:
-          name: Upload Gem to Rubygems
+          name: Release Gem to Rubygems
           command: |
             echo "gem `gem --version`"
             mkdir ~/.gem
