@@ -39,6 +39,8 @@ jobs:
           name: Release Gem to Rubygems
           command: |
             echo "gem `gem --version`"
+            git config --global user.email "engineering@healthfinch.com"
+            git config --global user.name "CircleCI Gem Builder"
             mkdir ~/.gem
             sed -e "s/__RUBYGEMS_API_KEY__/${RubygemsKey}/" .circleci/gem_credentials > ~/.gem/credentials
             chmod 0600 ~/.gem/credentials
