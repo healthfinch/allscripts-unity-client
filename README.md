@@ -1,4 +1,4 @@
-# Allscripts Unity Client [![Build Status](https://travis-ci.org/healthfinch/allscripts-unity-client.png?branch=master)](https://travis-ci.org/healthfinch/allscripts-unity-client) [![Coverage Status](https://coveralls.io/repos/healthfinch/allscripts-unity-client/badge.png?branch=master)](https://coveralls.io/r/healthfinch/allscripts-unity-client?branch=master)
+# Allscripts Unity Client [![CircleCI](https://circleci.com/gh/healthfinch/allscripts-unity-client.svg?style=svg)](https://circleci.com/gh/healthfinch/allscripts-unity-client) [![Coverage Status](https://coveralls.io/repos/healthfinch/allscripts-unity-client/badge.png?branch=master)](https://coveralls.io/r/healthfinch/allscripts-unity-client?branch=master)
 
 The `allscripts_unity_client` gem is a Ruby client for the Allscripts Unity API. See http://remotecentral.allscripts.com/UnityAPIReference for more documentation on the API.
 
