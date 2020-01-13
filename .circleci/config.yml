@@ -32,6 +32,9 @@ jobs:
       - image: circleci/ruby:2.4.9
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "5a:d3:92:32:b0:46:28:75:56:e9:ac:51:cc:44:31:82"
       - run:
           name: Bundle install
           command: bundle install
@@ -40,7 +43,7 @@ jobs:
           command: |
             echo "gem `gem --version`"
             git config --global user.email "engineering@healthfinch.com"
-            git config --global user.name "CircleCI Gem Builder"
+            git config --global user.name "healthfinch CircleCI Gem Builder"
             mkdir ~/.gem
             sed -e "s/__RUBYGEMS_API_KEY__/${RubygemsKey}/" .circleci/gem_credentials > ~/.gem/credentials
             chmod 0600 ~/.gem/credentials
