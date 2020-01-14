@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Determine if gem build is needed
           command: |
-            git log -m -1 --name-only --pretty="format:%d" -n 1 | grep -q "version.rb" \
+            git diff --name-only HEAD^..HEAD | grep -q version.rb \
             && circleci-agent step halt
       - add_ssh_keys:
           fingerprints:
