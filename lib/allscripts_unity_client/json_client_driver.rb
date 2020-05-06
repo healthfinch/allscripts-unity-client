@@ -48,7 +48,7 @@ module AllscriptsUnityClient
 
     def magic(parameters = {})
       unless user_authenticated? || parameters[:action] == 'GetUserAuthentication'
-        log_info("Unauthenticated access of #{parameters[:action]} for #{@options.base_unity_url}")
+        raise UnauthenticatedError, "#{parameters[:action]} for #{@options.base_unity_url}"
       end
 
       request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)

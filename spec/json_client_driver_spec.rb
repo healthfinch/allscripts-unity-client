@@ -91,11 +91,8 @@ describe AllscriptsUnityClient::JSONClientDriver do
         subject.options.logger = fake_logger
       end
 
-      it 'logs our unauthenticated request' do
-        subject.magic(action: 'SomeRequest')
-        expect(fake_logger).to have_received(:info)
-                                 .at_least(:once)
-                                 .with("Unauthenticated access of SomeRequest for http://www.example.com")
+      it 'raises an UnauthenticatedError' do
+        expect{ subject.magic(action: 'SomeRequest') }.to raise_error(AllscriptsUnityClient::UnauthenticatedError)
       end
     end
   end
