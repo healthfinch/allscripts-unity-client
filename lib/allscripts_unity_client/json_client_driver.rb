@@ -113,7 +113,7 @@ module AllscriptsUnityClient
       log_get_security_token
       log_info("Response Status: #{response.status}")
 
-      if response.status != 200
+      if response.status != 200 || /^(\w|-)+$/.match(response.body).nil?
         raise make_get_security_token_error
       else
         raise_if_response_error(response)
