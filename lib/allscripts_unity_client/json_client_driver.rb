@@ -88,7 +88,7 @@ module AllscriptsUnityClient
         log_info("allscripts_unity_client authentication attempt: success #{@options.base_unity_url}")
         return true
       elsif response[:valid_user] == 'NO'
-        log_info("allscripts_unity_client authentication attempt: failure #{@options.base_unity_url}")
+        log_warn("allscripts_unity_client authentication attempt: failure #{@options.base_unity_url}")
         return false
       else
         raise StandardError.new('Unexpected response from the server')
