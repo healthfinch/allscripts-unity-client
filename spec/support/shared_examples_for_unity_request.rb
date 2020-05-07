@@ -54,9 +54,8 @@ shared_examples 'a unity request' do
 
     it 'calls process_date on parameters' do
       subject.parameters = build(:populated_magic_request)
-      allow(subject).to receive(:process_date)
+      expect(subject).to receive(:process_date).exactly(6).times
       subject.to_hash
-      expect(subject).to have_received(:process_date).exactly(6).times
     end
   end
 
