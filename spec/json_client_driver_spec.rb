@@ -143,7 +143,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
       context 'with a 200 response but an error body' do
         let(:return_value) {
           {
-            body: "error: <!D",
+            body: 'error: <!D',
             headers: {},
             status: 200,
           }
