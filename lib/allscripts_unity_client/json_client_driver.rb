@@ -8,6 +8,7 @@ module AllscriptsUnityClient
     attr_accessor :json_base_url, :connection
 
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    TOKEN_REGEX = /^"?(\w|-)+"?$/
 
     def initialize(options)
       super
@@ -113,7 +114,7 @@ module AllscriptsUnityClient
       log_get_security_token
       log_info("Response Status: #{response.status}")
 
-      if response.status != 200 || /^(\w|-)+$/.match(response.body).nil?
+      if response.status != 200 || TOKEN_REGEX.match(response.body).nil?
         raise make_get_security_token_error
       else
         raise_if_response_error(response.body)
