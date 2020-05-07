@@ -128,7 +128,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
       context 'with a non-200 response' do
         let(:return_value) {
           {
-            body: "G827E7A8-EJB3-3759-E836-3718765432PZ",
+            body: '12345678-90AB-CDEF-1234-567890ABCDEF',
             headers: {},
             status: 503,
           }
