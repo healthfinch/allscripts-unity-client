@@ -116,7 +116,7 @@ module AllscriptsUnityClient
       if response.status != 200 || /^(\w|-)+$/.match(response.body).nil?
         raise make_get_security_token_error
       else
-        raise_if_response_error(response)
+        raise_if_response_error(response.body)
 
         @security_token = response.body
       end
