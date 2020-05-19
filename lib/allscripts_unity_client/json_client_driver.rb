@@ -8,6 +8,7 @@ module AllscriptsUnityClient
     attr_accessor :json_base_url, :connection
 
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    TOKEN_REGEX = /^"?(\w|-)+"?$/
 
     def initialize(options)
       super
@@ -48,7 +49,7 @@ module AllscriptsUnityClient
 
     def magic(parameters = {})
       unless user_authenticated? || parameters[:action] == 'GetUserAuthentication'
-        log_info("Unauthenticated access of #{parameters[:action]} for #{@options.base_unity_url}")
+        raise UnauthenticatedError, "#{parameters[:action]} for #{@options.base_unity_url}"
       end
 
       request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
@@ -84,10 +85,10 @@ module AllscriptsUnityClient
 
       if response[:valid_user] == 'YES'
         @user_authentication = response
-        log_info("Successful authentication attempt for #{@options.base_unity_url}")
+        log_info("allscripts_unity_client authentication attempt: success #{@options.base_unity_url}")
         return true
       elsif response[:valid_user] == 'NO'
-        log_info("Unsuccessful authentication attempt for #{@options.base_unity_url}")
+        log_warn("allscripts_unity_client authentication attempt: failure #{@options.base_unity_url}")
         return false
       else
         raise StandardError.new('Unexpected response from the server')
@@ -113,10 +114,10 @@ module AllscriptsUnityClient
       log_get_security_token
       log_info("Response Status: #{response.status}")
 
-      if response.status != 200
+      if response.status != 200 || TOKEN_REGEX.match(response.body).nil?
         raise make_get_security_token_error
       else
-        raise_if_response_error(response)
+        raise_if_response_error(response.body)
 
         @security_token = response.body
       end

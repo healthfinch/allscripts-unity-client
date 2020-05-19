@@ -91,11 +91,8 @@ describe AllscriptsUnityClient::JSONClientDriver do
         subject.options.logger = fake_logger
       end
 
-      it 'logs our unauthenticated request' do
-        subject.magic(action: 'SomeRequest')
-        expect(fake_logger).to have_received(:info)
-                                 .at_least(:once)
-                                 .with("Unauthenticated access of SomeRequest for http://www.example.com")
+      it 'raises an UnauthenticatedError' do
+        expect{ subject.magic(action: 'SomeRequest') }.to raise_error(AllscriptsUnityClient::UnauthenticatedError)
       end
     end
   end
@@ -122,19 +119,42 @@ describe AllscriptsUnityClient::JSONClientDriver do
       subject.get_security_token!
     end
 
-    it 'should fail when there is a problem retrieving the security token' do
-      stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken')
-        .to_return(
+    describe 'when the request fails' do
+      before do
+        stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/GetToken')
+          .to_return(return_value)
+      end
+
+      context 'with a non-200 response' do
+        let(:return_value) {
           {
-            body: "",
+            body: '12345678-90AB-CDEF-1234-567890ABCDEF',
             headers: {},
             status: 503,
           }
-        )
+        }
+        it 'should raise an AllscriptsUnityClient::GetSecurityTokenError' do
+          expect {
+            subject.get_security_token!
+          }.to raise_error(AllscriptsUnityClient::GetSecurityTokenError)
+        end
+      end
 
-      expect do
-        subject.get_security_token!
-      end.to raise_error(AllscriptsUnityClient::GetSecurityTokenError)
+      context 'with a 200 response but an error body' do
+        let(:return_value) {
+          {
+            body: 'error: <!D',
+            headers: {},
+            status: 200,
+          }
+        }
+
+        it 'should raise an AllscriptsUnityClient::GetSecurityTokenError' do
+          expect {
+            subject.get_security_token!
+          }.to raise_error(AllscriptsUnityClient::GetSecurityTokenError)
+        end
+      end
     end
   end
 

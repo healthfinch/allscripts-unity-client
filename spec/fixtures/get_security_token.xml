@@ -1,7 +1,7 @@
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
     <GetSecurityTokenResponse xmlns="http://www.allscripts.com/Unity">
-      <GetSecurityTokenResult>581EE97E-8C3E-49D8-B2DA-05A80AD48C46</GetSecurityTokenResult>
+      <GetSecurityTokenResult>12345678-90AB-CDEF-1234-567890ABCDEF</GetSecurityTokenResult>
     </GetSecurityTokenResponse>
   </s:Body>
 </s:Envelope>

@@ -60,11 +60,11 @@ module AllscriptsUnityClient
     end
 
     def log_info(message)
-      if @options.logger? && !message.nil?
-        message += " #{@timer} seconds" unless @timer.nil?
-        @timer = nil
-        @options.logger.info(message)
-      end
+      log(:info, message)
+    end
+
+    def log_warn(message)
+      log(:warn, message)
     end
 
     def start_timer
@@ -84,6 +84,16 @@ module AllscriptsUnityClient
       error_message = "Could not retrieve security token from #{base_unity_url}"
 
       GetSecurityTokenError.new(error_message)
+    end
+
+    private
+
+    def log(level, message)
+      if @options.logger? && !message.nil?
+        message += " #{@timer} seconds" unless @timer.nil?
+        @timer = nil
+        @options.logger.send(level, message)
+      end
     end
   end
 end

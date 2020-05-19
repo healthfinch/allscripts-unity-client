@@ -17,25 +17,22 @@ shared_examples 'a client driver' do
 
   describe '#log_get_security_token' do
     it 'should call log_info' do
-      allow(subject).to receive(:log_info)
+      expect(subject).to receive(:log_info)
       subject.send(:log_get_security_token)
-      expect(subject).to have_received(:log_info)
     end
   end
 
   describe '#log_retire_security_token' do
     it 'should call log_info' do
-      allow(subject).to receive(:log_info)
+      expect(subject).to receive(:log_info)
       subject.send(:log_retire_security_token)
-      expect(subject).to have_received(:log_info)
     end
   end
 
   describe '#log_magic' do
     it 'should call log_info' do
-      allow(subject).to receive(:log_info)
+      expect(subject).to receive(:log_info)
       subject.send(:log_magic, double(parameters: { action: 'action'}))
-      expect(subject).to have_received(:log_info)
     end
 
     context 'when given nil for request' do
