@@ -37,13 +37,22 @@ If any of the above boxes were not checked please explain why:
 
 ## Security
 
-- [ ] This Pull Request does not introduce a new break of any of our [Informational Security Policies](https://healthfinch.atlassian.net/wiki/spaces/COM/pages/33423408/Information+Security+Policies)
+[Secure Coding Guidelines](https://healthfinch.atlassian.net/wiki/spaces/EN/pages/1271824607/Secure+Coding+Guidelines)
+[Informational Security Policies](https://healthfinch.atlassian.net/wiki/spaces/COM/pages/33423408/Information+Security+Policies)
 
-- [ ] This Pull Request does not create new ingress or egress rules, including opening any new ports
+This Pull Request:
 
-- [ ] This Pull Request has been evaluated by all [OWASP principles](https://www.owasp.org/index.php/Category:Principle) and does not introduce any gaps in security
+- [ ] DOES / [ ] DOES NOT change any external input or output
 
-If any of the above boxes were not checked please explain why:
+- [ ] DOES / [ ] DOES NOT change authentication, access control or password management
+
+- [ ] DOES / [ ] DOES NOT change transmission or storage of secure data
+
+- [ ] DOES / [ ] DOES NOT change error handling or logging
+
+- [ ] DOES / [ ] DOES NOT contain any database or data file changes
+
+If DOES was answered for any of the above security questions, use the [Secure Coding Guidelines](https://healthfinch.atlassian.net/wiki/spaces/EN/pages/1271824607/Secure+Coding+Guidelines) checklist and detail the results here:
 
 
 ### Other Comments
