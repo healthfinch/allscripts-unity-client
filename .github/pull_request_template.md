@@ -53,8 +53,3 @@ This Pull Request:
 - [ ] DOES / [ ] DOES NOT contain any database or data file changes
 
 If DOES was answered for any of the above security questions, use the [Secure Coding Guidelines](https://healthfinch.atlassian.net/wiki/spaces/EN/pages/1271824607/Secure+Coding+Guidelines) checklist and detail the results here:
-
-
-### Other Comments
-
-** If all checkbox answers are yes above this change is pre-approved by manager of the application and can be merged with a Pull Request approval. If any of the boxes are unchecked the manager responsible for the application has the ability to approve the change and take on the risk.
