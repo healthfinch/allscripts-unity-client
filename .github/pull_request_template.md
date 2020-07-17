@@ -42,19 +42,20 @@ If any of the above boxes were not checked please explain why:
 
 This Pull Request:
 
-- [ ] DOES / [ ] DOES NOT change any external input or output
-
-- [ ] DOES / [ ] DOES NOT change authentication, access control or password management
-
-- [ ] DOES / [ ] DOES NOT change transmission or storage of secure data
-
-- [ ] DOES / [ ] DOES NOT change error handling or logging
-
-- [ ] DOES / [ ] DOES NOT contain any database or data file changes
+- Changes any external input or output
+    - [ ] DOES
+    - [ ] DOES NOT
+- Changes authentication, access control or password management
+    - [ ] DOES
+    - [ ] DOES NOT
+- Changes transmission or storage of secure data
+    - [ ] DOES
+    - [ ] DOES NOT
+- Changes error handling or logging
+    - [ ] DOES
+    - [ ] DOES NOT
+- Contains any database or data file changes
+    - [ ] DOES
+    - [ ] DOES NOT
 
 If DOES was answered for any of the above security questions, use the [Secure Coding Guidelines](https://healthfinch.atlassian.net/wiki/spaces/EN/pages/1271824607/Secure+Coding+Guidelines) checklist and detail the results here:
-
-
-### Other Comments
-
-** If all checkbox answers are yes above this change is pre-approved by manager of the application and can be merged with a Pull Request approval. If any of the boxes are unchecked the manager responsible for the application has the ability to approve the change and take on the risk.
