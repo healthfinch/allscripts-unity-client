@@ -52,7 +52,7 @@ module AllscriptsUnityClient
         raise UnauthenticatedError, "#{parameters[:action]} for #{@options.base_unity_url}"
       end
 
-      request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token)
+      request = JSONUnityRequest.new(parameters, @options.timezone, @options.appname, @security_token, @options.raw_dates)
       request_hash = request.to_hash
       request_data = MultiJson.dump(request_hash)
 

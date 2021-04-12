@@ -109,5 +109,14 @@ shared_examples 'a unity request' do
         expect(subject.send(:process_date, now)).to eq(now_iso8601)
       end
     end
+
+    context 'when using raw_dates option' do
+      let!(:magic_request2) { build(:magic_request, raw_dates: true) }
+
+      it 'returns the date that was supplied' do
+        now = '03-29-2021 23:59:59.999'
+        expect(subject.send(:process_date, now)).to eq(now)
+      end
+    end
   end
 end

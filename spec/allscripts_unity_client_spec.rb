@@ -26,6 +26,31 @@ describe AllscriptsUnityClient do
         expect { subject.create(parameters) }.to raise_error(ArgumentError, ':mode must be :json')
       end
     end
+
+    context 'when given raw_dates true' do
+      it 'returns a client with client_type :json' do
+        parameters = build(:allscripts_unity_client_parameters, mode: :json, raw_dates: true)
+        client = subject.create(parameters)
+        expect(client.client_type).to be(:json)
+      end
+    end
+
+    context 'when given raw_dates false' do
+      it 'returns a client with client_type :json' do
+        parameters = build(:allscripts_unity_client_parameters, mode: :json, raw_dates: false)
+        client = subject.create(parameters)
+        expect(client.client_type).to be(:json)
+      end
+    end
+
+    context 'when not given raw_dates' do
+      it 'returns a json client with raw_dates option defaulted to false' do
+        parameters = build(:allscripts_unity_client_parameters, mode: :json)
+        client = subject.create(parameters)
+        expect(client.options.raw_dates).to be_falsy
+        expect(client.client_type).to be(:json)
+      end
+    end
   end
 
   describe '#save_task' do
