@@ -2,7 +2,7 @@ module AllscriptsUnityClient
 
   # Transform a Unity request into a Hash suitable for sending using Savon.
   class UnityRequest
-    attr_accessor :parameters, :appname, :security_token, :timezone
+    attr_accessor :parameters, :appname, :security_token, :timezone, :raw_dates
 
     # Constructor.
     #
@@ -26,7 +26,7 @@ module AllscriptsUnityClient
     # timezone:: An ActiveSupport::TimeZone instance.
     # appname:: The Unity license appname.
     # security_token:: A security token from the Unity GetSecurityToken call.
-    def initialize(parameters, timezone, appname, security_token)
+    def initialize(parameters, timezone, appname, security_token, raw_dates=false)
       raise ArgumentError, 'parameters can not be nil' if parameters.nil?
       raise ArgumentError, 'timezone can not be nil' if timezone.nil?
       raise ArgumentError, 'appname can not be nil' if appname.nil?
@@ -36,6 +36,7 @@ module AllscriptsUnityClient
       @security_token = security_token
       @parameters = parameters
       @timezone = timezone
+      @raw_dates = raw_dates
     end
 
     # Convert the parameters to a Hash for Savon with all possible dates
@@ -72,10 +73,16 @@ module AllscriptsUnityClient
 
     protected
 
+    def use_raw_dates?
+      @raw_dates || false
+    end
+
     def process_date(value)
       if value && (value.is_a?(Time) || value.is_a?(DateTime) || value.is_a?(ActiveSupport::TimeWithZone))
         return value.in_time_zone(@timezone).iso8601
       end
+
+      return value if use_raw_dates?
 
       date = Utilities::try_to_encode_as_date(ActiveSupport::TimeZone['Etc/UTC'], value)
 

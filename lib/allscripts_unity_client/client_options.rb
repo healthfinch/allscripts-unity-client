@@ -3,7 +3,7 @@ module AllscriptsUnityClient
   # Contains various options for Unity configuration.
   class ClientOptions
     attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout, :ehr_userid, :ehr_password
-    attr_reader :base_unity_url, :username, :password, :appname, :timezone
+    attr_reader :base_unity_url, :username, :password, :appname, :timezone, :raw_dates
 
     # Constructor.
     #
@@ -34,6 +34,7 @@ module AllscriptsUnityClient
 
       self.timezone = options[:timezone]
       self.base_unity_url = options[:base_unity_url]
+      self.raw_dates = options[:raw_dates]
 
       validate_options
     end
@@ -94,6 +95,10 @@ module AllscriptsUnityClient
       else
         @timezone = ActiveSupport::TimeZone['Etc/UTC']
       end
+    end
+
+    def raw_dates=(raw_dates)
+      @raw_dates = raw_dates || false
     end
 
     # Return true if proxy is set and not empty.
