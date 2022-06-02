@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/ruby:2.4.9-browsers
+      - image: circleci/ruby:2.5.9-browsers
         environment:
           BUNDLE_JOBS: 2
           BUNDLE_RETRY: 3
@@ -22,6 +22,9 @@ jobs:
           key: allscripts-unity-client-{{ checksum "allscripts_unity_client.gemspec" }}
           paths:
             - vendor/bundle
+      - run:
+          name: Run bundler-integrity
+          command: gem install bundler-integrity && bundler-integrity
       - run:
           name: Run rspec
           command: bundle exec rspec --format progress
