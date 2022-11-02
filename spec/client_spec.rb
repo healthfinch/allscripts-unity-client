@@ -58,7 +58,7 @@ describe AllscriptsUnityClient::Client do
   end
 
   describe '#get_task_list' do
-    it 'does stuff' do
+    it 'sends with proper parameters' do
       subject.client_driver = double(magic: 'magic')
       subject.get_task_list(123, Date.yesterday.strftime("%m/%d/%Y"),
                             'Y', 'Something|okj', 'Ready|go')
@@ -68,7 +68,8 @@ describe AllscriptsUnityClient::Client do
         parameter1: Date.yesterday.strftime("%m/%d/%Y"),
         parameter2: 'Something|okj',
         parameter3: 'Ready|go',
-        parameter4: 'Y'
+        parameter4: 'Y',
+        parameter5: 0
       }
       expect(subject.client_driver).to have_received(:magic).with(magicified_parameters)
     end

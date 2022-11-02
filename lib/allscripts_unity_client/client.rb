@@ -540,7 +540,8 @@ module AllscriptsUnityClient
         parameter1: since,
         parameter2: task_types,
         parameter3: task_statuses,
-        parameter4: delegated
+        parameter4: delegated,
+        parameter5: 0
       }
       response = magic(magic_parameters)
 
