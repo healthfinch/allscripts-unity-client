@@ -68,7 +68,7 @@ workflows:
            requires:
              - test
            context:
-             - rubygems-access
+             - rubygems-deploy
            filters:
              branches:
                only:
