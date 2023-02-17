@@ -43,7 +43,7 @@ jobs:
             fi
       - add_ssh_keys:
           fingerprints:
-            - "5a:d3:92:32:b0:46:28:75:56:e9:ac:51:cc:44:31:82"
+            - "38:2a:c3:ec:03:84:bd:b0:75:93:9d:76:80:1f:c4:1c"
       - run:
           name: Bundle install
           command: bundle install
@@ -67,6 +67,8 @@ workflows:
       - deployment:
            requires:
              - test
+           context:
+             - rubygems-deploy
            filters:
              branches:
                only:
