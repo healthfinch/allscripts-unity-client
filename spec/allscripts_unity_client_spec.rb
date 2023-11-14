@@ -90,4 +90,13 @@ describe AllscriptsUnityClient do
       expect(result[:parameter6]).to eq("")
     end
   end
+
+  describe 'security_token' do
+    it 'sets the security token in the driver properly' do
+      parameters = build(:allscripts_unity_client_parameters, mode: :json)
+      client = subject.create(parameters)
+      client.set_security_token('TOKEN')
+      expect(client.security_token?).to be(true)
+    end
+  end
 end
