@@ -65,6 +65,10 @@ module AllscriptsUnityClient
       @client_driver.get_security_token!(parameters)
     end
 
+    def set_security_token(token)
+      @client_driver.security_token = token
+    end
+
     # Implement Unity's RetireSecurityToken endpoint using Savon.
     #
     # parameters:: A hash of Unity parameters for RetireSecurityToken. If not given then defaults to

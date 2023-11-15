@@ -5,7 +5,7 @@ module AllscriptsUnityClient
 
   # A ClientDriver that supports Unity's JSON endpoints.
   class JSONClientDriver < ClientDriver
-    attr_accessor :json_base_url, :connection
+    attr_accessor :json_base_url, :connection, :security_token
 
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
     TOKEN_REGEX = /^"?(\w|-)+"?$/
