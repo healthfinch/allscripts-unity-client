@@ -45,6 +45,15 @@ describe AllscriptsUnityClient::JSONClientDriver do
   describe '#client_type' do
     it { expect(subject.client_type).to be(:json) }
   end
+  
+  describe '#build_uri' do
+    UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    context 'when is_ubiquity is not set' do
+      it 'the build_uri should contain UNITY_JSON_ENDPOINT' do
+        expect(subject.build_uri('test').include?(UNITY_JSON_ENDPOINT))
+      end
+    end
+  end
 
   describe '#magic' do
     context 'when the user is authenticated' do

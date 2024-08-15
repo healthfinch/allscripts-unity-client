@@ -8,6 +8,7 @@ module AllscriptsUnityClient
     attr_accessor :json_base_url, :connection, :security_token
 
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    UBIQUITY_JSON_ENDPOINT = 'UnityService.svc/json'
     TOKEN_REGEX = /^"?(\w|-)+"?$/
 
     def initialize(options)
@@ -40,7 +41,8 @@ module AllscriptsUnityClient
     end
 
     def build_uri(request_location)
-      "#{@options.base_unity_url}#{[UNITY_JSON_ENDPOINT, request_location].join('/')}"
+      endpoint = @options.is_ubiquity_url ? UBIQUITY_JSON_ENDPOINT : UNITY_JSON_ENDPOINT
+      "#{@options.base_unity_url}#{[endpoint, request_location].join('/')}"
     end
 
     def client_type
