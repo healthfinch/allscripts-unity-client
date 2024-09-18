@@ -67,9 +67,7 @@ module AllscriptsUnityClient
     #
     # defaults value to false if nil
     def is_ubiquity_url=(is_ubiquity_url)
-      if is_ubiquity_url.nil?
-        @is_ubiquity_url=false
-      end
+      @is_ubiquity_url = is_ubiquity_url || false
     end
 
     # Mutator for username.
