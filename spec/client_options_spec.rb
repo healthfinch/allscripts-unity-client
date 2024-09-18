@@ -40,7 +40,7 @@ describe AllscriptsUnityClient::ClientOptions do
       it { expect { subject.base_unity_url = nil }.to raise_error(ArgumentError) }
     end
   end
-  
+
   describe '#is_ubiquity_url=' do
     context 'when is_ubiquity_url is passed' do
       it 'nothing, it should return false' do
