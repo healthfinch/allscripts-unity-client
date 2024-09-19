@@ -32,7 +32,7 @@ jobs:
 
   deployment:
     docker:
-      - image: circleci/ruby:2.4.9
+      - image: circleci/ruby:2.5.9
     steps:
       - checkout
       - run:
