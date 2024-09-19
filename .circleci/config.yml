@@ -65,11 +65,13 @@ workflows:
     jobs:
       - test
       - deployment:
-           requires:
-             - test
-           context:
-             - rubygems-deploy
-           filters:
-             branches:
-               only:
-                 - master
+          requires:
+            - test
+          context:
+            - rubygems-access
+            - rubygems-deploy
+          filters:
+            branches:
+              only:
+                - master
+
