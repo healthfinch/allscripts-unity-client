@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage              = 'https://github.com/healthfinch/allscripts-unity-client'
 
   gem.summary     = 'Allscripts Unity API client'
-  gem.description = 'Provides a simple interface to the Allscripts Unity API using JSON. Developed at healthfinch http://healthfinch.com'
+  gem.description = 'Provides a simple interface to the Allscripts Unity API using JSON. Developed at healthfinch by Health Catalyst https://healthcatalyst.com'
 
   gem.authors = ['healthfinch']
   gem.email   = %w(engineering@healthfinch.com)
