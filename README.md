@@ -40,9 +40,14 @@ unity_client = AllscriptsUnityClient.create({
   username: "unity license username",
   password: "unity license password",
   ehr_userid: "userid",
-  ehr_password: "password"
+  ehr_password: "password",
+  is_ubiquity_url: false
 })
 ```
+
+Support for Ubiquity is now included, to use Ubiquity, set the `:is_ubiqutiy_url` option to `true`:
+
+```ruby
 
 A JSON client can also be created using the `:mode` option:
 
@@ -55,7 +60,8 @@ unity_client = AllscriptsUnityClient.create({
   username: "unity license username",
   password: "unity license password",
   ehr_userid: "userid",
-  ehr_password: "password"
+  ehr_password: "password",
+  is_ubiquity_url: false
 })
 ```
 
@@ -75,7 +81,8 @@ unity_client = AllscriptsUnityClient.create({
   password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
-  ca_file: "/usr/lib/ssl/certs/ca-certificates.crt"
+  ca_file: "/usr/lib/ssl/certs/ca-certificates.crt",
+  is_ubiquity_url: false
 })
 ```
 
@@ -91,7 +98,8 @@ unity_client = AllscriptsUnityClient.create({
   password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
-  ca_path: "/usr/lib/ssl/certs"
+  ca_path: "/usr/lib/ssl/certs",
+  is_ubiquity_url: false
 })
 ```
 
@@ -109,7 +117,8 @@ unity_client = AllscriptsUnityClient.create({
   password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
-  timeout: 30
+  timeout: 30,
+  is_ubiquity_url: false
 })
 ```
 
@@ -363,13 +372,9 @@ The above example would output the following `Hash`:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Additional Information
-
-Maintainer(s): Neil Goodman (https://github.com/posco2k8)
-
 ## License
 
-Copyright (c) 2014 healthfinch, Inc
+Copyright (c) 2024 Health Catalyst
 
 MIT License
 

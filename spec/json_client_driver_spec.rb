@@ -46,17 +46,39 @@ describe AllscriptsUnityClient::JSONClientDriver do
     it { expect(subject.client_type).to be(:json) }
   end
 
+  describe '#build_uri' do
+    UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
+    UBIQUITY_JSON_ENDPOINT = '/UnityService.svc/json'
+
+    context 'when is_ubiquity is not set' do
+      it 'the build_uri should contain UNITY_JSON_ENDPOINT' do
+        expect(subject.build_uri('test').include?(UNITY_JSON_ENDPOINT))
+      end
+    end
+
+    context 'when is_ubiquity is set' do
+      it 'the build_uri should contain UBIQUITY_JSON_ENDPOINT' do
+        subject.options.is_ubiquity_url = true
+        uri = subject.build_uri('test')
+        expect(!uri.include?(UNITY_JSON_ENDPOINT))
+        expect(uri.include?(UBIQUITY_JSON_ENDPOINT))
+      end
+    end
+  end
+
   describe '#magic' do
-    context 'when the user is authenticated' do
+    context 'when the user is authenticated and not ubiquity end point' do
+      end_point = 'http://www.example.com/Unity/UnityService.svc/json/MagicJson'
       before do
-        stub_request(:post, "http://www.example.com/Unity/UnityService.svc/json/MagicJson").
+        subject.options.is_ubiquity_url = false
+        stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
           to_return(status: 200, body: get_server_info, headers: {})
         allow(subject).to receive(:user_authenticated?).and_return(true)
       end
 
       it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
         subject.magic
-        expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
+        expect(WebMock).to have_requested(:post, end_point).
           with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
                headers: {'Content-Type' => 'application/json'}
               )
@@ -64,10 +86,48 @@ describe AllscriptsUnityClient::JSONClientDriver do
 
       it 'should serialize DateTime to iso8601 when given' do
         subject.magic(parameter1: DateTime.now)
-        expect(WebMock).to have_requested(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
+        expect(WebMock).to have_requested(:post, end_point).
           with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
                headers: { 'Content-Type' => 'application/json' }
               )
+      end
+
+      it 'should log the request duration' do
+        expect(fake_logger).to receive(:info).with(/Unity API Magic request to [^ ]+ \[SomeRequest\] [0-9.]+ seconds/)
+
+        subject.magic(action: 'SomeRequest')
+      end
+
+      it 'should log the response code' do
+        expect(fake_logger).to receive(:info).with(/Response Status: 200/)
+
+        subject.magic(action: 'SomeRequest')
+      end
+    end
+
+    context 'when the user is authenticated and ubiquity end point' do
+      end_point = 'http://www.example.com/UnityService.svc/json/MagicJson'
+      before do
+        subject.options.is_ubiquity_url = true
+        stub_request(:post, 'http://www.example.com/UnityService.svc/json/MagicJson').
+          to_return(status: 200, body: get_server_info, headers: {})
+        allow(subject).to receive(:user_authenticated?).and_return(true)
+      end
+
+      it 'should POST to /Unity/UnityService.svc/json/MagicJson' do
+        subject.magic
+        expect(WebMock).to have_requested(:post, end_point).
+          with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":(null|"[^"]*"),"Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
+               headers: {'Content-Type' => 'application/json'}
+          )
+      end
+
+      it 'should serialize DateTime to iso8601 when given' do
+        subject.magic(parameter1: DateTime.now)
+        expect(WebMock).to have_requested(:post, end_point).
+          with(body: /\{"Action":(null|"[^"]*"),"AppUserID":(null|"[^"]*"),"Appname":(null|"[^"]*"),"PatientID":(null|"[^"]*"),"Token":(null|"[^"]*"),"Parameter1":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(-|\+)\d{2}:\d{2}","Parameter2":(null|"[^"]*"),"Parameter3":(null|"[^"]*"),"Parameter4":(null|"[^"]*"),"Parameter5":(null|"[^"]*"),"Parameter6":(null|"[^"]*"),"Data":(null|"[^"]*")\}/,
+               headers: { 'Content-Type' => 'application/json' }
+          )
       end
 
       it 'should log the request duration' do
