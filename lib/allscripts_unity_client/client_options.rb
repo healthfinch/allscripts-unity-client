@@ -3,7 +3,7 @@ module AllscriptsUnityClient
   # Contains various options for Unity configuration.
   class ClientOptions
     attr_accessor :proxy, :logger, :ca_file, :ca_path, :timeout, :ehr_userid, :ehr_password
-    attr_reader :base_unity_url, :username, :password, :appname, :timezone, :raw_dates, :is_ubiquity_url
+    attr_reader :base_unity_url, :username, :password, :appname, :timezone, :raw_dates, :use_ubiquity
 
     # Constructor.
     #
@@ -20,7 +20,7 @@ module AllscriptsUnityClient
     #   - :base_unity_url - The URL where a Unity server is located (i.e. https://unity.server.com) __(required)__
     #   - :ehr_userid - Allscripts EHR Username for user authentication __(required)__.
     #   - :ehr_password - EHR Password for user authentication __(required)__.
-    #   - :is_ubiquity_url - Specifies whether the base_unity_url is a ubiquity endpoint
+    #   - :use_ubiquity - Specifies whether the base_unity_url is a ubiquity endpoint
     def initialize(options = {})
       @username = options[:username]
       @password = options[:password]
@@ -63,11 +63,11 @@ module AllscriptsUnityClient
       @base_unity_url = base_unity_url.gsub(/\/$/, '')
     end
 
-    # Mutator for @is_ubiquity_url.
+    # Mutator for @use_ubiquity.
     #
     # defaults value to false if nil
-    def is_ubiquity_url=(is_ubiquity_url)
-      @is_ubiquity_url = is_ubiquity_url || false
+    def use_ubiquity=(use_ubiquity)
+      @use_ubiquity = use_ubiquity || false
     end
 
     # Mutator for username.

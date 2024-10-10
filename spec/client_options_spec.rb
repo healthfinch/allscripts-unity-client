@@ -41,10 +41,10 @@ describe AllscriptsUnityClient::ClientOptions do
     end
   end
 
-  describe '#is_ubiquity_url=' do
-    context 'when is_ubiquity_url is passed' do
+  describe '#use_ubiquity=' do
+    context 'when use_ubiquity is passed' do
       it 'nothing, it should return false' do
-        expect(subject.is_ubiquity_url).to be_falsey
+        expect(subject.use_ubiquity).to be_falsey
       end
     end
   end

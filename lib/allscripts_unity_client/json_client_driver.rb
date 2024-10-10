@@ -41,7 +41,7 @@ module AllscriptsUnityClient
     end
 
     def build_uri(request_location)
-      endpoint = @options.is_ubiquity_url ? UBIQUITY_JSON_ENDPOINT : UNITY_JSON_ENDPOINT
+      endpoint = @options.use_ubiquity ? UBIQUITY_JSON_ENDPOINT : UNITY_JSON_ENDPOINT
       "#{@options.base_unity_url}#{[endpoint, request_location].join('/')}"
     end
 

@@ -41,7 +41,7 @@ unity_client = AllscriptsUnityClient.create({
   password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
-  is_ubiquity_url: false
+  use_ubiquity: false
 })
 ```
 
@@ -61,7 +61,7 @@ unity_client = AllscriptsUnityClient.create({
   password: "unity license password",
   ehr_userid: "userid",
   ehr_password: "password",
-  is_ubiquity_url: false
+  use_ubiquity: false
 })
 ```
 
@@ -82,7 +82,7 @@ unity_client = AllscriptsUnityClient.create({
   ehr_userid: "userid",
   ehr_password: "password",
   ca_file: "/usr/lib/ssl/certs/ca-certificates.crt",
-  is_ubiquity_url: false
+  use_ubiquity: false
 })
 ```
 
@@ -99,7 +99,7 @@ unity_client = AllscriptsUnityClient.create({
   ehr_userid: "userid",
   ehr_password: "password",
   ca_path: "/usr/lib/ssl/certs",
-  is_ubiquity_url: false
+  use_ubiquity: false
 })
 ```
 
@@ -118,7 +118,7 @@ unity_client = AllscriptsUnityClient.create({
   ehr_userid: "userid",
   ehr_password: "password",
   timeout: 30,
-  is_ubiquity_url: false
+  use_ubiquity: false
 })
 ```
 
