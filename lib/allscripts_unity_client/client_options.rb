@@ -32,6 +32,7 @@ module AllscriptsUnityClient
       @timeout = options[:timeout]
       @ehr_userid = options[:ehr_userid]
       @ehr_password = options[:ehr_password]
+      @use_ubiquity = options[:use_ubiquity] || false
 
       self.timezone = options[:timezone]
       self.base_unity_url = options[:base_unity_url]
