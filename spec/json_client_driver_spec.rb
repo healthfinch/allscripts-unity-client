@@ -50,15 +50,15 @@ describe AllscriptsUnityClient::JSONClientDriver do
     UNITY_JSON_ENDPOINT = '/Unity/UnityService.svc/json'
     UBIQUITY_JSON_ENDPOINT = '/UnityService.svc/json'
 
-    context 'when is_ubiquity is not set' do
+    context 'when use_ubiquity is not set' do
       it 'the build_uri should contain UNITY_JSON_ENDPOINT' do
         expect(subject.build_uri('test').include?(UNITY_JSON_ENDPOINT))
       end
     end
 
-    context 'when is_ubiquity is set' do
+    context 'when use_ubiquity is set' do
       it 'the build_uri should contain UBIQUITY_JSON_ENDPOINT' do
-        subject.options.is_ubiquity_url = true
+        subject.options.use_ubiquity = true
         uri = subject.build_uri('test')
         expect(!uri.include?(UNITY_JSON_ENDPOINT))
         expect(uri.include?(UBIQUITY_JSON_ENDPOINT))
@@ -70,7 +70,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
     context 'when the user is authenticated and not ubiquity end point' do
       end_point = 'http://www.example.com/Unity/UnityService.svc/json/MagicJson'
       before do
-        subject.options.is_ubiquity_url = false
+        subject.options.use_ubiquity = false
         stub_request(:post, 'http://www.example.com/Unity/UnityService.svc/json/MagicJson').
           to_return(status: 200, body: get_server_info, headers: {})
         allow(subject).to receive(:user_authenticated?).and_return(true)
@@ -108,7 +108,7 @@ describe AllscriptsUnityClient::JSONClientDriver do
     context 'when the user is authenticated and ubiquity end point' do
       end_point = 'http://www.example.com/UnityService.svc/json/MagicJson'
       before do
-        subject.options.is_ubiquity_url = true
+        subject.options.use_ubiquity = true
         stub_request(:post, 'http://www.example.com/UnityService.svc/json/MagicJson').
           to_return(status: 200, body: get_server_info, headers: {})
         allow(subject).to receive(:user_authenticated?).and_return(true)
