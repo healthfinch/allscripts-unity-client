@@ -26,6 +26,13 @@ describe AllscriptsUnityClient::ClientOptions do
     context 'when not given appname' do
       it { expect { build(:client_options, appname: nil) }.to raise_error(ArgumentError) }
     end
+
+    context 'when not given use_ubiquity' do
+      it 'sets use_ubiquity to false' do
+        client_options = build(:client_options, use_ubiquity: nil)
+        expect(client_options.use_ubiquity).to be_falsey
+      end
+    end
   end
 
   describe '#base_unity_url=' do
